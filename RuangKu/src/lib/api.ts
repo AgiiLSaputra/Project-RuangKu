@@ -1,0 +1,70 @@
+const BASE_URL = import.meta.env.VITE_API_URL ?? 'http://localhost:3000/api'
+
+/** Acara window bila akun yang sedang bersesi ternyata sudah dinonaktifkan (403). */
+export const ACARA_AKUN_NONAKTIF = 'ruangku:akun-nonaktif'
+
+/** Lontarkan acara global supaya popup "Log Out / Ajukan Banding" bisa muncul di mana pun (FR-H1). */
+function lontarkanAkunNonaktif(detail: unknown) {
+  if ((detail as { status?: string } | null)?.status !== 'nonaktif') return
+  window.dispatchEvent(new CustomEvent(ACARA_AKUN_NONAKTIF, { detail }))
+}
+
+export class ApiError extends Error {
+  status: number
+  kode: string
+  detail?: unknown
+  constructor(status: number, kode: string, pesan: string, detail?: unknown) {
+    super(pesan)
+    this.name = 'ApiError'
+    this.status = status
+    this.kode = kode
+    this.detail = detail
+  }
+}
+
+export async function api<T>(
+  path: string,
+  opsi: { method?: string; body?: unknown } = {},
+): Promise<T> {
+  let res: Response
+  try {
+    res = await fetch(`${BASE_URL}${path}`, {
+      method: opsi.method ?? 'GET',
+      credentials: 'include', // wajib: agar cookie login dikirim dan diterima
+      headers: opsi.body !== undefined ? { 'Content-Type': 'application/json' } : undefined,
+      body: opsi.body !== undefined ? JSON.stringify(opsi.body) : undefined,
+    })
+  } catch (err) {
+    console.error(`[api] gagal fetch ${BASE_URL}${path}`, err)
+    throw new ApiError(0, 'JARINGAN', 'Tidak dapat terhubung ke server. Pastikan backend sudah berjalan.')
+  }
+  const json = await res.json().catch(() => null)
+  if (!json || json.ok !== true) {
+    const e = json?.error
+    if (res.status === 403 && e?.kode === 'AKUN_TIDAK_AKTIF') lontarkanAkunNonaktif(e.detail)
+    throw new ApiError(res.status, e?.kode ?? 'KESALAHAN', e?.pesan ?? 'Terjadi kesalahan', e?.detail)
+  }
+  return json.data as T
+}
+
+/** Kirim FormData (mis. unggah foto) tanpa header JSON. */
+export async function apiForm<T>(path: string, form: FormData): Promise<T> {
+  let res: Response
+  try {
+    res = await fetch(`${BASE_URL}${path}`, {
+      method: 'POST',
+      credentials: 'include',
+      body: form,
+    })
+  } catch (err) {
+    console.error(`[api] gagal unggah ${BASE_URL}${path}`, err)
+    throw new ApiError(0, 'JARINGAN', 'Tidak dapat terhubung ke server. Cek koneksi lalu coba lagi.')
+  }
+  const json = await res.json().catch(() => null)
+  if (!json || json.ok !== true) {
+    const e = json?.error
+    if (res.status === 403 && e?.kode === 'AKUN_TIDAK_AKTIF') lontarkanAkunNonaktif(e.detail)
+    throw new ApiError(res.status, e?.kode ?? 'KESALAHAN', e?.pesan ?? 'Terjadi kesalahan', e?.detail)
+  }
+  return json.data as T
+}

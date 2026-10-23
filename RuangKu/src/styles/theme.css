@@ -1,0 +1,282 @@
+/* =====================================================================
+   THEME RuangKu — SATU SUMBER KEBENARAN (RENCANA-IMPLEMENTASI.md §4A)
+   Di-port 1:1 dari tailwind.config mayoritas file mockup (gaya M3).
+   Jangan mendefinisikan warna/radius/font di tempat lain.
+   ===================================================================== */
+
+@theme {
+  /* ---------- WARNA ---------- */
+  --color-primary: #5341cd;
+  --color-primary-container: #6c5ce7;
+  --color-on-primary: #ffffff;
+  --color-on-primary-container: #faf6ff;
+  --color-inverse-primary: #c6bfff;
+  --color-primary-fixed: #e4dfff;
+  --color-primary-fixed-dim: #c6bfff;
+  --color-on-primary-fixed: #160066;
+  --color-on-primary-fixed-variant: #4029ba;
+
+  --color-secondary: #93369c;
+  --color-secondary-container: #fa92fe;
+  --color-on-secondary: #ffffff;
+  --color-on-secondary-container: #7a1c84;
+  --color-secondary-fixed: #ffd6fb;
+  --color-secondary-fixed-dim: #ffa9ff;
+  --color-on-secondary-fixed: #36003d;
+  --color-on-secondary-fixed-variant: #781981;
+
+  --color-tertiary: #884800;
+  --color-tertiary-container: #ac5d00;
+  --color-on-tertiary: #ffffff;
+  --color-on-tertiary-container: #fff5f1;
+  --color-tertiary-fixed: #ffdcc3;
+  --color-tertiary-fixed-dim: #ffb77d;
+  --color-on-tertiary-fixed: #2f1500;
+  --color-on-tertiary-fixed-variant: #6e3900;
+  --color-tertiary-fixed-dim-alt: #ffb77d;
+
+  --color-error: #ba1a1a;
+  --color-error-container: #ffdad6;
+  --color-on-error: #ffffff;
+  --color-on-error-container: #93000a;
+
+  /* Ungu & pink (sesuai DesainProject.md) */
+  --color-purple-700: #4f3fc4;
+  --color-purple-500: #8177e8;
+  --color-purple-300: #c9c3f5;
+  --color-purple-100: #f4f2fe;
+  --color-purple-50: #faf9ff;
+  --color-pink-300: #f3aef5;
+  --color-pink-100: #fce8fc;
+
+  /* Ink / teks */
+  --color-on-surface: #1a1930;
+  --color-on-surface-variant: #474554;
+  --color-on-background: #1a1930;
+  --color-outline: #787586;
+  --color-outline-variant: #c8c4d7;
+
+  /* Surface */
+  --color-surface: #fcf8ff;
+  --color-background: #fcf8ff;
+  --color-surface-bright: #fcf8ff;
+  --color-surface-dim: #dad7f7;
+  --color-surface-variant: #e3dfff;
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-container-low: #f6f2ff;
+  --color-surface-container: #efebff;
+  --color-surface-container-high: #e9e5ff;
+  --color-surface-container-highest: #e3dfff;
+  --color-surface-tint: #5847d2;
+  --color-inverse-surface: #2f2e46;
+  --color-inverse-on-surface: #f2eeff;
+
+  /* Netral (tailwind slate — di-override agar sesuai mockup) */
+  --color-slate-500: #6e6b80;
+  --color-slate-300: #d8d6e3;
+
+  /* Status fungsional (kalender & badge reservasi) */
+  --color-status-available: #22c55e;
+  --color-status-available-bg: #e9fbf0;
+  --color-status-occupied: #f59e0b;
+  --color-status-occupied-bg: #fff6e5;
+  --color-status-full: #ef4444;
+  --color-status-full-bg: #fdeded;
+  --color-status-blocked: #94a3b8;
+  --color-status-blocked-bg: #f1f2f5;
+
+  /* ---------- RADIUS (override v3: DEFAULT/lg/xl) ---------- */
+  --radius: 1rem;
+  --radius-md: 1rem;
+  --radius-lg: 2rem;
+  --radius-xl: 3rem;
+  --radius-2xl: 1rem;
+
+  /* ---------- SPACING (token custom mockup) ---------- */
+  --spacing-space-xs: 0.25rem;
+  --spacing-space-sm: 0.5rem;
+  --spacing-space-md: 1rem;
+  --spacing-space-lg: 1.5rem;
+  --spacing-space-xl: 2.5rem;
+  --spacing-gutter: 1.5rem;
+  --spacing-margin: 1.5rem;
+  --spacing-gutter-desktop: 2rem;
+  --spacing-margin-desktop: 3rem;
+
+  /* ---------- FONT ---------- */
+  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-body: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-heading: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+  --font-display: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
+  --font-body-lg: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-body-md: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-body-sm: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-title-md: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
+  --font-headline-lg: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
+  --font-headline-md: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
+  --font-headline-sm: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
+  --font-headline-lg-mobile: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
+  --font-display-mobile: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
+  --font-label-sm: 'JetBrains Mono', ui-monospace, monospace;
+  --font-label-md: 'JetBrains Mono', ui-monospace, monospace;
+
+  /* ---------- TIPOGRAFI (ukuran + line-height + weight) ---------- */
+  --text-display: 48px;
+  --text-display--line-height: 56px;
+  --text-display--font-weight: 800;
+  --text-display-mobile: 32px;
+  --text-display-mobile--line-height: 40px;
+  --text-display-mobile--font-weight: 800;
+  --text-headline-lg: 36px;
+  --text-headline-lg--line-height: 44px;
+  --text-headline-lg--font-weight: 700;
+  --text-headline-lg-mobile: 28px;
+  --text-headline-lg-mobile--line-height: 36px;
+  --text-headline-lg-mobile--font-weight: 700;
+  --text-headline-md: 24px;
+  --text-headline-md--line-height: 32px;
+  --text-headline-md--font-weight: 700;
+  --text-headline-sm: 20px;
+  --text-headline-sm--line-height: 28px;
+  --text-headline-sm--font-weight: 600;
+  --text-title-md: 16px;
+  --text-title-md--line-height: 24px;
+  --text-title-md--font-weight: 600;
+  --text-body-lg: 16px;
+  --text-body-lg--line-height: 24px;
+  --text-body-lg--font-weight: 400;
+  --text-body-md: 14px;
+  --text-body-md--line-height: 20px;
+  --text-body-md--font-weight: 400;
+  --text-body-sm: 12px;
+  --text-body-sm--line-height: 16px;
+  --text-body-sm--font-weight: 400;
+  --text-label-md: 13px;
+  --text-label-md--line-height: 18px;
+  --text-label-md--font-weight: 500;
+  --text-label-sm: 11px;
+  --text-label-sm--line-height: 14px;
+  --text-label-sm--font-weight: 500;
+
+  /* ---------- SHADOW (semua token — lihat §4A6, tanpa arbitrary) ---------- */
+  --shadow-soft-purple: 0 20px 45px -12px rgb(108 92 231 / 0.28);
+  --shadow-card: 0 8px 24px rgb(20 19 42 / 0.06);
+  --shadow-card-elevated: 0 10px 30px rgb(20 19 42 / 0.05);
+  --shadow-card-highlight: 0 12px 32px -8px rgb(108 92 231 / 0.15);
+  --shadow-header: 0 1px 8px rgb(83 65 205 / 0.06);
+  --shadow-cta: 0 8px 20px -6px rgb(83 65 205 / 0.45);
+  --shadow-focus: 0 0 0 3px rgb(83 65 205 / 0.18);
+  --shadow-overlay: 0 20px 45px -12px rgb(20 19 42 / 0.35);
+
+  /* ---------- GRADASI CTA TUNGGAL (§4A4) ---------- */
+  --gradient-cta: linear-gradient(135deg, #5341cd 0%, #d874dd 100%);
+  --gradient-cta-soft: linear-gradient(135deg, #6c5ce7 0%, #d874dd 100%);
+
+  /* ---------- ANIMASI ---------- */
+  --animate-fadein: fadein 0.2s ease-out;
+  /* Masuk halaman tiap ganti rute (komponen IsiHalaman) — diisi `both`
+     supaya konten mulai dari transparan saat pertama mount. */
+  --animate-masuk-halaman: masuk-halaman 0.42s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes fadein {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes masuk-halaman {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Unit masuk bertahap (IsiHalaman + IntersectionObserver):
+   .unit-tunggu = menunggu masuk viewport (hanya opacity — tata letak &
+   posisi gulir tetap utuh), .unit-masuk = animasi masuk dengan jeda per
+   unit lewat --jeda. Dikunci media reduced-motion. */
+@media (prefers-reduced-motion: no-preference) {
+  .unit-tunggu {
+    opacity: 0;
+  }
+
+  .unit-masuk {
+    animation: var(--animate-masuk-halaman);
+    animation-delay: var(--jeda, 0ms);
+  }
+}
+
+/* ---------- IKON MATERIAL ---------- */
+.material-symbols-outlined {
+  font-family: 'Material Symbols Outlined';
+  font-weight: normal;
+  font-style: normal;
+  font-variation-settings: 'FILL' 0, 'wght' 450, 'GRAD' 0, 'opsz' 24;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-feature-settings: 'liga';
+  font-feature-settings: 'liga';
+}
+
+.material-symbols-outlined.filled {
+  font-variation-settings: 'FILL' 1;
+}
+
+/* ---------- UTIL KUSTOM ---------- */
+/** Gradasi CTA tunggal (RENCANA §4A4) — pakai ini, jangan tulis gradient manual. */
+@utility bg-cta {
+  background-image: var(--gradient-cta);
+}
+
+@utility bg-cta-soft {
+  background-image: var(--gradient-cta-soft);
+}
+
+@utility no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* ---------- BASE ---------- */
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-purple-50);
+    color: var(--color-on-surface);
+    font-family: var(--font-body-md);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  * {
+    border-color: var(--color-outline-variant);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+}

@@ -1,0 +1,491 @@
+/**
+ * Data mock halaman Proses Banding — mockup `ProsesBanding.html` (SOP FR-H4,
+ * FR-H5, FR-H6) + slide-over konfirmasi `SidebarAcc.html`. 4 pengajuan aktif
+ * mengikuti mockup; sisanya riwayat putusan supaya tab & paginasi berfungsi.
+ * PT Sentosa Venue Nusantara juga muncul di seksi banding Manajemen Akun.
+ */
+
+import type { PeranAkun } from './manajemenAkun'
+
+export type StatusBanding = 'menunggu' | 'disetujui' | 'ditolak'
+
+export interface Banding {
+  id: string
+  nama: string
+  /** ID publik pemohon (tampil sebagai #VN-… / #TN-…). */
+  ref: string
+  peran: PeranAkun
+  /** Tanggal eksekusi penonaktifan untuk tabel. */
+  dinonaktifkan: string
+  alasanPenonaktifan: string
+  /** Tanggal & jam eksekusi lengkap untuk panel konfirmasi. */
+  eksekusi: string
+  alasanSistem: string
+  diajukan: string
+  jam: string
+  /** Sisa hari keputusan — hanya bermakna saat masih menunggu. */
+  sisaHari?: number
+  sisaLabel?: string
+  nadaSisa?: 'kritis' | 'wasit' | 'aman'
+  status: StatusBanding
+  /** Pernyataan tertulis pemohon. */
+  alasan: string
+  /** Banding masuk pada 24 jam pertama (notice hijau FR-H5). */
+  diajukan24Jam?: boolean
+  lampiran?: { nama: string; ukuran: string; jenis: string; meta: string }
+  /** Catatan sistem: konten tidak otomatis pulih bila disetujui (FR-H3). */
+  perluUnggahUlang?: boolean
+  sha: string
+  putusan?: { waktu: string; oleh: string; catatan: string }
+}
+
+/** Label & warna chip status banding. */
+export const NADA_BANDING: Record<StatusBanding, { label: string; chip: string }> = {
+  menunggu: { label: 'Menunggu Keputusan', chip: 'bg-status-occupied-bg text-status-occupied' },
+  disetujui: { label: 'Disetujui', chip: 'bg-status-available-bg text-status-available' },
+  ditolak: { label: 'Ditolak', chip: 'bg-status-full-bg text-status-full' },
+}
+
+/** Opsi tab filter banding. */
+export const TAB_BANDING: Array<{ id: StatusBanding | 'semua'; label: string }> = [
+  { id: 'menunggu', label: 'Menunggu Keputusan' },
+  { id: 'disetujui', label: 'Disetujui' },
+  { id: 'ditolak', label: 'Ditolak' },
+  { id: 'semua', label: 'Semua' },
+]
+
+export const BANDING_AWAL: Banding[] = [
+  {
+    id: 'banding-vn-88219',
+    nama: 'PT Sentosa Venue Nusantara',
+    ref: '#VN-88219',
+    peran: 'penyedia',
+    dinonaktifkan: '12 Okt 2026',
+    alasanPenonaktifan: 'Otomatisasi Sistem',
+    eksekusi: '12 Okt 2026 (08:14 WIB)',
+    alasanSistem:
+      'Indikasi inkonsistensi dokumen izin NIB dan pembatalan sewa sepihak berulang (SOP FR-G2).',
+    diajukan: '13 Okt 2026',
+    jam: '09:30 WIB',
+    sisaHari: 1,
+    sisaLabel: '1 Hari Tersisa',
+    nadaSisa: 'kritis',
+    status: 'menunggu',
+    alasan:
+      'Kami telah memperbarui dokumen legalitas izin NIB terbaru dari OSS dan menyelesaikan kendala teknis jadwal dengan pihak penyewa terdahulu secara damai. Bukti kelengkapan terlampir.',
+    diajukan24Jam: true,
+    lampiran: {
+      nama: 'NIB_OSS_Sentosa_2026.pdf',
+      ukuran: '2.4 MB',
+      jenis: 'Nomor Induk Berusaha (OSS RBA)',
+      meta: 'Diunggah 13 Okt 2026 • PDF-A',
+    },
+    perluUnggahUlang: true,
+    sha: '9e2f…c01a',
+  },
+  {
+    id: 'banding-tn-33410',
+    nama: 'Budi Santoso',
+    ref: '#TN-33410',
+    peran: 'penyewa',
+    dinonaktifkan: '11 Okt 2026',
+    alasanPenonaktifan: 'Keterlambatan Pembayaran',
+    eksekusi: '11 Okt 2026 (19:02 WIB)',
+    alasanSistem: 'Tunggakan biaya reservasi melewati tenggat 7 hari otomatis (SOP FR-G2).',
+    diajukan: '12 Okt 2026',
+    jam: '14:15 WIB',
+    sisaHari: 3,
+    sisaLabel: '3 Hari Tersisa',
+    nadaSisa: 'wasit',
+    status: 'menunggu',
+    alasan:
+      'Pembayaran saya telat karena transfer dari rekening kantor tertahan verifikasi bank. Bukti transfer sudah saya unggah dan tunggakan sudah saya lunasi.',
+    sha: '7b41…9d2e',
+  },
+  {
+    id: 'banding-vn-10294',
+    nama: 'Cowork Space Senayan',
+    ref: '#VN-10294',
+    peran: 'penyedia',
+    dinonaktifkan: '06 Okt 2026',
+    alasanPenonaktifan: 'Laporan Pengguna',
+    eksekusi: '06 Okt 2026 (13:47 WIB)',
+    alasanSistem: 'Tiga laporan pengguna tentang fasilitas rusak terkonfirmasi tim lapangan (SOP FR-G2).',
+    diajukan: '08 Okt 2026',
+    jam: '11:00 WIB',
+    sisaHari: 8,
+    sisaLabel: '8 Hari Tersisa',
+    nadaSisa: 'aman',
+    status: 'menunggu',
+    alasan:
+      'Kerusakan fasilitas sudah diperbaiki penuh pekan lalu. Kami lampirkan foto perbaikan dan surat kontraktor sebagai bukti.',
+    lampiran: {
+      nama: 'Perbaikan_Fasilitas_Senayan.pdf',
+      ukuran: '1.1 MB',
+      jenis: 'Bukti Perbaikan Fasilitas',
+      meta: 'Diunggah 08 Okt 2026 • PDF-A',
+    },
+    sha: 'c58a…3f70',
+  },
+  {
+    id: 'banding-tn-99120',
+    nama: 'Dimas Arya Putra',
+    ref: '#TN-99120',
+    peran: 'penyewa',
+    dinonaktifkan: '04 Okt 2026',
+    alasanPenonaktifan: 'Pelanggaran T&C',
+    eksekusi: '04 Okt 2026 (22:10 WIB)',
+    alasanSistem:
+      'Akun terdeteksi membagikan tautan pemesanan pihak ketiga berulang (SOP FR-G2 & FR-I2).',
+    diajukan: '06 Okt 2026',
+    jam: '18:40 WIB',
+    sisaHari: 10,
+    sisaLabel: '10 Hari Tersisa',
+    nadaSisa: 'aman',
+    status: 'menunggu',
+    alasan:
+      'Tautan yang saya bagikan adalah milik ruangan rekanan yang saya kelola sendiri, bukan transaksi di luar platform. Saya mohon peninjauan ulang.',
+    sha: 'a13d…5b88',
+  },
+  {
+    id: 'banding-vn-87610',
+    nama: 'PT Nusa Convention Center',
+    ref: '#VN-87610',
+    peran: 'penyedia',
+    dinonaktifkan: '01 Okt 2026',
+    alasanPenonaktifan: 'Otomatisasi Sistem',
+    eksekusi: '01 Okt 2026 (09:20 WIB)',
+    alasanSistem: 'Flag otomatis inkonsistensi data NIB (SOP FR-G2).',
+    diajukan: '02 Okt 2026',
+    jam: '10:05 WIB',
+    status: 'disetujui',
+    alasan: 'NIB kami sudah diperbarui melalui OSS RBA dan siap diperiksa ulang.',
+    sha: 'd90c…2a11',
+    putusan: {
+      waktu: '03 Okt 2026, 15:40 WIB',
+      oleh: 'Admin Utama (ID #01)',
+      catatan: 'Dokumen NIB terverifikasi valid di OSS; akun dipulihkan dan etalase tayang kembali.',
+    },
+  },
+  {
+    id: 'banding-tn-31188',
+    nama: 'Rina Amelia',
+    ref: '#TN-31188',
+    peran: 'penyewa',
+    dinonaktifkan: '29 Sep 2026',
+    alasanPenonaktifan: 'Keterlambatan Pembayaran',
+    eksekusi: '29 Sep 2026 (10:11 WIB)',
+    alasanSistem: 'Tunggakan melewati tenggat 7 hari otomatis (SOP FR-G2).',
+    diajukan: '30 Sep 2026',
+    jam: '08:50 WIB',
+    status: 'disetujui',
+    alasan: 'Saya sudah melunasi tunggakan lewat mobile banking pada 29 Sep.',
+    sha: 'bb12…77af',
+    putusan: {
+      waktu: '30 Sep 2026, 16:12 WIB',
+      oleh: 'Admin Utama (ID #01)',
+      catatan: 'Bukti pembayaran terverifikasi; denda keterlambatan tetap berlaku sesuai T&C.',
+    },
+  },
+  {
+    id: 'banding-vn-86542',
+    nama: 'Hotel Puspa Eksekutif',
+    ref: '#VN-86542',
+    peran: 'penyedia',
+    dinonaktifkan: '26 Sep 2026',
+    alasanPenonaktifan: 'Laporan Pengguna',
+    eksekusi: '26 Sep 2026 (15:33 WIB)',
+    alasanSistem: 'Dua laporan kebocoran AC ruang meeting terkonfirmasi (SOP FR-G2).',
+    diajukan: '27 Sep 2026',
+    jam: '09:25 WIB',
+    status: 'disetujui',
+    alasan: 'Perbaikan selesai dan pengecekan ulang sudah dilakukan teknisi berlisensi.',
+    sha: '4f8e…c302',
+    putusan: {
+      waktu: '28 Sep 2026, 11:02 WIB',
+      oleh: 'Admin Utama (ID #01)',
+      catatan: 'Bukti perbaikan diterima; etalase dipulihkan dengan pemantauan 30 hari.',
+    },
+  },
+  {
+    id: 'banding-tn-30921',
+    nama: 'Bagas Wicaksono',
+    ref: '#TN-30921',
+    peran: 'penyewa',
+    dinonaktifkan: '24 Sep 2026',
+    alasanPenonaktifan: 'Pelanggaran T&C',
+    eksekusi: '24 Sep 2026 (20:41 WIB)',
+    alasanSistem: 'Pesan berulang mengandung promosi pihak ketiga (SOP FR-I2).',
+    diajukan: '25 Sep 2026',
+    jam: '12:18 WIB',
+    status: 'disetujui',
+    alasan: 'Saya tidak bermaksud promosi, hanya merekomendasikan teman. Mohon diberi peringatan.',
+    sha: '91aa…0d4e',
+    putusan: {
+      waktu: '25 Sep 2026, 17:45 WIB',
+      oleh: 'Admin Utama (ID #01)',
+      catatan: 'Peringatan keras tercatat di profil; akun aktif kembali.',
+    },
+  },
+  {
+    id: 'banding-vn-85770',
+    nama: 'CV Arya Griya Persada',
+    ref: '#VN-85770',
+    peran: 'penyedia',
+    dinonaktifkan: '22 Sep 2026',
+    alasanPenonaktifan: 'Otomatisasi Sistem',
+    eksekusi: '22 Sep 2026 (07:55 WIB)',
+    alasanSistem: 'Dokumen TDUP kedaluwarsa terdeteksi otomatis (SOP FR-G2).',
+    diajukan: '23 Sep 2026',
+    jam: '13:30 WIB',
+    status: 'disetujui',
+    alasan: 'TDUP baru sudah terbit dari OSS dan berlaku sampai 2027.',
+    sha: '6c20…88b5',
+    putusan: {
+      waktu: '23 Sep 2026, 16:20 WIB',
+      oleh: 'Admin Utama (ID #01)',
+      catatan: 'TDUP terverifikasi; etalase dipulihkan tanpa sanksi.',
+    },
+  },
+  {
+    id: 'banding-tn-29884',
+    nama: 'Maya Anggraeni',
+    ref: '#TN-29884',
+    peran: 'penyewa',
+    dinonaktifkan: '20 Sep 2026',
+    alasanPenonaktifan: 'Keterlambatan Pembayaran',
+    eksekusi: '20 Sep 2026 (11:26 WIB)',
+    alasanSistem: 'Tunggakan melewati tenggat otomatis (SOP FR-G2).',
+    diajukan: '21 Sep 2026',
+    jam: '10:02 WIB',
+    status: 'disetujui',
+    alasan: 'Saya sedang dirawat dan baru bisa membayar setelah keluar rumah sakit.',
+    sha: '2de7…41c9',
+    putusan: {
+      waktu: '21 Sep 2026, 14:55 WIB',
+      oleh: 'Admin Utama (ID #01)',
+      catatan: 'Pembayaran diterima; mohon koordinasi jadwal reservasi menyusul.',
+    },
+  },
+  {
+    id: 'banding-vn-84315',
+    nama: 'Grand Wisata Ballroom',
+    ref: '#VN-84315',
+    peran: 'penyedia',
+    dinonaktifkan: '18 Sep 2026',
+    alasanPenonaktifan: 'Laporan Pengguna',
+    eksekusi: '18 Sep 2026 (16:08 WIB)',
+    alasanSistem: 'Laporan kebocoran atap ballroom terkonfirmasi (SOP FR-G2).',
+    diajukan: '19 Sep 2026',
+    jam: '08:44 WIB',
+    status: 'disetujui',
+    alasan: 'Perbaikan atap selesai sebelum musim hujan dengan kontraktor resmi.',
+    sha: '70fa…9b13',
+    putusan: {
+      waktu: '19 Sep 2026, 15:10 WIB',
+      oleh: 'Admin Utama (ID #01)',
+      catatan: 'Bukti perbaikan valid; akun aktif dengan inspeksi berkala.',
+    },
+  },
+  {
+    id: 'banding-tn-28870',
+    nama: 'Fajar Nugroho',
+    ref: '#TN-28870',
+    peran: 'penyewa',
+    dinonaktifkan: '15 Sep 2026',
+    alasanPenonaktifan: 'Pelanggaran T&C',
+    eksekusi: '15 Sep 2026 (09:37 WIB)',
+    alasanSistem: 'Reservasi fiktif berulang terdeteksi (SOP FR-I2).',
+    diajukan: '16 Sep 2026',
+    jam: '11:21 WIB',
+    status: 'disetujui',
+    alasan: 'Reservasi saya batalkan karena pekerjaan mendadak, bukan fiktif.',
+    sha: '58bc…e2d7',
+    putusan: {
+      waktu: '17 Sep 2026, 10:05 WIB',
+      oleh: 'Admin Utama (ID #01)',
+      catatan: 'Kronologi dipercaya; akun aktif dengan pembatasan 30 hari.',
+    },
+  },
+  {
+    id: 'banding-vn-83102',
+    nama: 'Studio Kreatif Bening',
+    ref: '#VN-83102',
+    peran: 'penyedia',
+    dinonaktifkan: '12 Sep 2026',
+    alasanPenonaktifan: 'Otomatisasi Sistem',
+    eksekusi: '12 Sep 2026 (14:02 WIB)',
+    alasanSistem: 'Flag otomatis inkonsistensi NIB (SOP FR-G2).',
+    diajukan: '13 Sep 2026',
+    jam: '09:12 WIB',
+    status: 'disetujui',
+    alasan: 'NIB kami sudah sesuai badan usaha terbaru hasil legalisasi OSS.',
+    sha: 'e441…6f90',
+    putusan: {
+      waktu: '13 Sep 2026, 13:48 WIB',
+      oleh: 'Admin Utama (ID #01)',
+      catatan: 'Dokumen valid; etalase dipulihkan.',
+    },
+  },
+  {
+    id: 'banding-tn-27745',
+    nama: 'Lia Hartanto',
+    ref: '#TN-27745',
+    peran: 'penyewa',
+    dinonaktifkan: '10 Sep 2026',
+    alasanPenonaktifan: 'Keterlambatan Pembayaran',
+    eksekusi: '10 Sep 2026 (18:19 WIB)',
+    alasanSistem: 'Tunggakan deposit reservasi (SOP FR-G2).',
+    diajukan: '11 Sep 2026',
+    jam: '15:33 WIB',
+    status: 'disetujui',
+    alasan: 'Saya mohon dicicil pelunasannya karena baru kehilangan pekerjaan.',
+    sha: '3a9f…b502',
+    putusan: {
+      waktu: '12 Sep 2026, 09:40 WIB',
+      oleh: 'Admin Utama (ID #01)',
+      catatan: 'Cicilan pelunasan disetujui; akun aktif kembali.',
+    },
+  },
+  {
+    id: 'banding-vn-82019',
+    nama: 'PT Cendana Meeting Hall',
+    ref: '#VN-82019',
+    peran: 'penyedia',
+    dinonaktifkan: '08 Sep 2026',
+    alasanPenonaktifan: 'Laporan Pengguna',
+    eksekusi: '08 Sep 2026 (12:44 WIB)',
+    alasanSistem: 'Laporan keamanan lift utama terkonfirmasi (SOP FR-G2).',
+    diajukan: '09 Sep 2026',
+    jam: '10:26 WIB',
+    status: 'disetujui',
+    alasan: 'Servis lift oleh teknisi berlisensi sudah selesai dengan sertifikat resmi.',
+    sha: '85d0…17ce',
+    putusan: {
+      waktu: '10 Sep 2026, 11:15 WIB',
+      oleh: 'Admin Utama (ID #01)',
+      catatan: 'Sertifikat servis diterima; akun dipulihkan.',
+    },
+  },
+  {
+    id: 'banding-tn-26630',
+    nama: 'Rio Saputra',
+    ref: '#TN-26630',
+    peran: 'penyewa',
+    dinonaktifkan: '05 Sep 2026',
+    alasanPenonaktifan: 'Pelanggaran T&C',
+    eksekusi: '05 Sep 2026 (21:03 WIB)',
+    alasanSistem: 'Akun terindikasi menjual ulang kunci akses ruangan (SOP FR-I2).',
+    diajukan: '06 Sep 2026',
+    jam: '13:07 WIB',
+    status: 'disetujui',
+    alasan: 'Saya hanya berbagi akses ke rekan kantor saya sendiri, bukan dijual.',
+    sha: 'cf26…48a3',
+    putusan: {
+      waktu: '07 Sep 2026, 10:30 WIB',
+      oleh: 'Admin Utama (ID #01)',
+      catatan: 'Pemahaman T&C diberikan; akun aktif kembali.',
+    },
+  },
+  {
+    id: 'banding-vn-81104',
+    nama: 'Mandiri Jaya Conference',
+    ref: '#VN-81104',
+    peran: 'penyedia',
+    dinonaktifkan: '02 Sep 2026',
+    alasanPenonaktifan: 'Otomatisasi Sistem',
+    eksekusi: '02 Sep 2026 (08:31 WIB)',
+    alasanSistem: 'NIB terindikasi tidak terdaftar di OSS (SOP FR-G2).',
+    diajukan: '03 Sep 2026',
+    jam: '14:50 WIB',
+    status: 'ditolak',
+    alasan: 'NIB kami sedang dalam proses perpanjangan di OSS RBA.',
+    sha: '1b77…90dd',
+    putusan: {
+      waktu: '05 Sep 2026, 16:22 WIB',
+      oleh: 'Admin Utama (ID #01)',
+      catatan:
+        'Dokumen tidak dapat diverifikasi di OSS setelah dua kali tenggat perbaikan; akun tetap nonaktif. Dapat mendaftar ulang setelah NIB terbit.',
+    },
+  },
+  {
+    id: 'banding-tn-25512',
+    nama: 'Teguh Iman Santoso',
+    ref: '#TN-25512',
+    peran: 'penyewa',
+    dinonaktifkan: '30 Agu 2026',
+    alasanPenonaktifan: 'Keterlambatan Pembayaran',
+    eksekusi: '30 Agu 2026 (17:12 WIB)',
+    alasanSistem: 'Tunggakan menahun & dua kali somasi tertunda (SOP FR-G2).',
+    diajukan: '31 Agu 2026',
+    jam: '09:44 WIB',
+    status: 'ditolak',
+    alasan: 'Saya mohon keringanan sisa tagihan yang tersisa.',
+    sha: 'aa04…2e6b',
+    putusan: {
+      waktu: '02 Sep 2026, 14:05 WIB',
+      oleh: 'Admin Utama (ID #01)',
+      catatan: 'Tunggakan tidak lunas dalam tenggat banding; penonaktifan berlaku permanen.',
+    },
+  },
+  {
+    id: 'banding-vn-80233',
+    nama: 'Graha Floranda',
+    ref: '#VN-80233',
+    peran: 'penyedia',
+    dinonaktifkan: '27 Agu 2026',
+    alasanPenonaktifan: 'Laporan Pengguna',
+    eksekusi: '27 Agu 2026 (10:50 WIB)',
+    alasanSistem: 'Laporan penggelapan deposit penyewa terkonfirmasi (SOP FR-G2).',
+    diajukan: '28 Agu 2026',
+    jam: '11:38 WIB',
+    status: 'ditolak',
+    alasan: 'Keterlambatan pengembalian deposit terjadi karena kesalahan admin kami.',
+    sha: '7e18…c4f2',
+    putusan: {
+      waktu: '30 Agu 2026, 15:41 WIB',
+      oleh: 'Admin Utama (ID #01)',
+      catatan: 'Bukti penggelapan memadai; banding ditolak dan etalase ditutup permanen.',
+    },
+  },
+  {
+    id: 'banding-tn-24408',
+    nama: 'Anisa Rahmawati',
+    ref: '#TN-24408',
+    peran: 'penyewa',
+    dinonaktifkan: '24 Agu 2026',
+    alasanPenonaktifan: 'Pelanggaran T&C',
+    eksekusi: '24 Agu 2026 (23:05 WIB)',
+    alasanSistem: 'Akun terlibat penipuan tiket palsu — terdapat laporan polisi (FR-I2).',
+    diajukan: '25 Agu 2026',
+    jam: '10:15 WIB',
+    status: 'ditolak',
+    alasan: 'Saya tidak terlibat, akun saya diretas pihak yang tidak bertanggung jawab.',
+    sha: 'd63f…81a0',
+    putusan: {
+      waktu: '27 Agu 2026, 13:28 WIB',
+      oleh: 'Admin Utama (ID #01)',
+      catatan: 'Bukti keamanan tidak memadai dan ada laporan polisi; akun ditutup permanen.',
+    },
+  },
+  {
+    id: 'banding-vn-79540',
+    nama: 'PT Bali Tama Venue',
+    ref: '#VN-79540',
+    peran: 'penyedia',
+    dinonaktifkan: '20 Agu 2026',
+    alasanPenonaktifan: 'Otomatisasi Sistem',
+    eksekusi: '20 Agu 2026 (09:14 WIB)',
+    alasanSistem: 'Dokumen perizinan terindikasi tidak sah (SOP FR-G2).',
+    diajukan: '21 Agu 2026',
+    jam: '16:02 WIB',
+    status: 'ditolak',
+    alasan: 'Dokumen kami asli, mohon dicek ke dinas terkait setempat.',
+    sha: '0c95…ba37',
+    putusan: {
+      waktu: '23 Agu 2026, 10:50 WIB',
+      oleh: 'Admin Utama (ID #01)',
+      catatan: 'Pemeriksaan dinas tidak menemukan dokumen tersebut; banding ditolak.',
+    },
+  },
+]

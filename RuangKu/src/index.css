@@ -1,0 +1,16 @@
+@import 'tailwindcss';
+@import './styles/theme.css';
+
+/* Cetak struk (FR-E1): hanya kartu e-ticket yang dicetak — lihat `print:hidden`
+   pada chrome/judul/aksi di halaman struk. Warna & background ikut tercetak. */
+@media print {
+  @page {
+    margin: 10mm;
+  }
+
+  * {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}
+
