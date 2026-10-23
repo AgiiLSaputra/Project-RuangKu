@@ -1,4 +1,7 @@
-const BASE_URL = import.meta.env.VITE_API_URL ?? 'http://localhost:3000/api'
+// Kosong di produksi = pakai domain sendiri (redirect lewat vercel.json) supaya
+// cookie login tidak jadi third-party. Lihat server/README.md "Deploy ke Render".
+const BASE_URL =
+  import.meta.env.VITE_API_URL ?? (import.meta.env.DEV ? 'http://localhost:3000/api' : '/api')
 
 /** Acara window bila akun yang sedang bersesi ternyata sudah dinonaktifkan (403). */
 export const ACARA_AKUN_NONAKTIF = 'ruangku:akun-nonaktif'

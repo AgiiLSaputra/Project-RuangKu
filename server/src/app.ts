@@ -2,6 +2,7 @@ import cookie from '@fastify/cookie';
 import cors from '@fastify/cors';
 import jwt from '@fastify/jwt';
 import multipart from '@fastify/multipart';
+import rateLimit from '@fastify/rate-limit';
 import { createReadStream } from 'node:fs';
 import { stat } from 'node:fs/promises';
 import path from 'node:path';
@@ -55,6 +56,12 @@ export async function buildApp() {
   // credentials:true agar browser mau mengirim cookie login dari frontend (origin berbeda)
   await app.register(cors, { origin: env.CORS_ORIGIN.split(','), credentials: true });
   await app.register(cookie);
+  // Batasi kegaduhan dari luar: maks. 120 request per menit per IP (≈2 req/dtk).
+  // Tidak dipasang di lingkungan test — app.inject memakai IP yang sama
+  // sehingga test suite (±149 request) akan kena 429 semua.
+  if (env.NODE_ENV !== 'test') {
+    await app.register(rateLimit, { max: 120, timeWindow: '1 minute' });
+  }
   await app.register(jwt, {
     secret: env.JWT_SECRET,
     cookie: { cookieName: NAMA_COOKIE, signed: false },
