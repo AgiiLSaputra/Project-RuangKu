@@ -1,0 +1,7 @@
+node_modules
+dist
+.env
+*.log
+# Foto unggahan (M6)
+uploads
+test-uploads
