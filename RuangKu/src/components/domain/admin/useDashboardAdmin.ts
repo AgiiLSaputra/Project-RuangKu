@@ -38,11 +38,6 @@ function labelWaktu(iso: string): string {
   return `${d.toLocaleDateString('id-ID', { day: 'numeric', month: 'short', timeZone: 'Asia/Jakarta' })}, ${jam}`
 }
 
-/** Selisih jam (positif → di masa depan) antara ISO dan sekarang. */
-function selisihJam(iso: string): number {
-  return (Date.parse(iso) - Date.now()) / 3_600_000
-}
-
 /** Bentuk SLA verifikasi penyedia: target SOP FR-G1 < 24 jam sejak diajukan. */
 function slaVerifikasi(diajukanPada: string): { sla: string; slaNada: TugasAdmin['slaNada'] } {
   const sisa = 24 - (Date.now() - Date.parse(diajukanPada)) / 3_600_000
@@ -122,6 +117,21 @@ function dariApiTugas(t: TugasApi): TugasAdmin {
   }
 }
 
+/** Bentuk angka antrean + statistik dari `GET /api/admin/dashboard`. */
+interface StatistikAdmin {
+  verifikasiMenunggu: number
+  bandingMenunggu: number
+  akunMenunggu: number
+  anomali24Jam: number
+  penyediaTerverifikasi: number
+  penyediaTotal: number
+  penyewaTotal: number
+  ruanganAktif: number
+  ruanganTenggang: number
+  reservasiBulanIni: number
+  omzetBulanIni: number
+}
+
 /**
  * Konsol admin (FR-G1 & FR-G3) — data nyata dari `GET /api/admin/dashboard`:
  * angka antrean, statistik platform, dan daftar tugas (verifikasi + banding
@@ -133,7 +143,7 @@ export function useDashboardAdmin() {
   const [memuat, setMemuat] = useState(true)
   const [galatMuat, setGalatMuat] = useState('')
   const [percobaan, setPercobaan] = useState(0)
-  const [statistik, setStatistik] = useState<Record<string, number | null> | null>(null)
+  const [statistik, setStatistik] = useState<StatistikAdmin | null>(null)
   const [tab, setTab] = useState<TabAdmin>('semua')
   const [cari, setCari] = useState('')
   const [tampilSemua, setTampilSemua] = useState(false)
