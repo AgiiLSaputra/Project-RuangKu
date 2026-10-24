@@ -62,6 +62,8 @@ export interface MitraVerifikasi {
     jamSub: string
     jeda: string
   }
+  /** Penanda intern: detail berkas (foto/dokumen/maps) sudah diambil dari server. */
+  detailSiap?: boolean
 }
 
 /** Alasan standar penolakan sesuai SOP FR-G1 (bisa lebih dari satu). */

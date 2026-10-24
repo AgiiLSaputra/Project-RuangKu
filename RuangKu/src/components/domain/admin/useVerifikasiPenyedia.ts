@@ -160,6 +160,7 @@ function dariBarisApi(b: BarisVerifikasiApi): MitraVerifikasi {
       jamSub: '',
       jeda: '—',
     },
+    detailSiap: false,
   }
 }
 
@@ -177,7 +178,10 @@ function gabungDetail(before: MitraVerifikasi, d: DetailVerifikasiApi): MitraVer
           berlaku: d.dokumen[0].berlaku,
           pejabat: d.dokumen[0].pejabat,
         }
-      : before.dokumen
+      : {
+          ...before.dokumen,
+          meta: 'Tidak ada dokumen terlampir pada pengajuan ini',
+        }
   return {
     ...before,
     idMitra: d.mitra?.ref ?? before.idMitra,
@@ -206,6 +210,7 @@ function gabungDetail(before: MitraVerifikasi, d: DetailVerifikasiApi): MitraVer
       jamSub: 'Jam operasional pengajuan',
       jeda: d.jedaSteril || '—',
     },
+    detailSiap: true,
   }
 }
 
@@ -255,9 +260,9 @@ export function useVerifikasiPenyedia() {
         halaman += 1
       }
       setData(kolam.map(dariBarisApi))
-      // Preset `?mitra=<id>` dari dashboard admin.
+      // Preset `?mitra=<id>` dari dashboard admin, atau otomatis pengajuan pertama.
       const preset = params.get('mitra')
-      setPilihId((lama) => (lama !== '' ? lama : preset ?? ''))
+      setPilihId((lama) => (lama !== '' ? lama : preset ?? kolam[0]?.id ?? ''))
     } catch (err) {
       setGalatMuat(err instanceof ApiError ? err.message : 'Terjadi kesalahan. Coba lagi.')
     } finally {
@@ -273,15 +278,19 @@ export function useVerifikasiPenyedia() {
   useEffect(() => {
     if (pilihId === '') return
     const sasaran = data.find((m) => m.id === pilihId)
-    if (!sasaran || sasaran.pic.nama !== '—') return
+    if (!sasaran || sasaran.detailSiap) return
     let batal = false
     setMemuatDetail(true)
-    api<DetailVerifikasiApi>(`/admin/verifikasi/${pilihId}`)
-      .then((d) => {
+    api<{ pengajuan: DetailVerifikasiApi }>(`/admin/verifikasi/${pilihId}`)
+      .then(({ pengajuan: d }) => {
         if (!batal) setData((lama) => lama.map((m) => (m.id === pilihId ? gabungDetail(m, d) : m)))
       })
       .catch(() => {
-        /* detail gagal — kartu antrean tetap bisa dipakai */
+        /* detail gagal — tandai siap dengan placeholder agar panel tetap tampil, bukan kartu "selesai" */
+        if (!batal)
+          setData((lama) =>
+            lama.map((m) => (m.id === pilihId && !m.detailSiap ? { ...m, detailSiap: true } : m)),
+          )
       })
       .finally(() => {
         if (!batal) setMemuatDetail(false)
@@ -305,7 +314,7 @@ export function useVerifikasiPenyedia() {
   /** Mitra yang sedang dibuka di panel detail (null selama detail dimuat). */
   const terpilih = useMemo(() => {
     const kandidat = data.find((m) => m.id === pilihId) ?? antrean[0] ?? null
-    if (!kandidat || kandidat.pic.nama === '—') return null
+    if (!kandidat || !kandidat.detailSiap) return null
     return kandidat
   }, [data, pilihId, antrean])
 
