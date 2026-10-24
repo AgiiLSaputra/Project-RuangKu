@@ -98,6 +98,8 @@ export function VerifikasiPenyediaMobilePage() {
   const verif = useVerifikasiPenyedia()
   const navigate = useNavigate()
   const m = verif.terpilih
+  /** Panel memuat: saat list masuk ATAU detail pengajuan yang dipilih sedang diambil. */
+  const memuatPanel = verif.memuat || (verif.memuatDetail && verif.antrean.length > 0)
 
   const pilihDanScroll = (id: string) => {
     verif.pilih(id)
@@ -265,31 +267,50 @@ export function VerifikasiPenyediaMobilePage() {
         )}
 
         {!m ? (
-          <div className="flex flex-col items-center gap-space-md rounded-2xl bg-surface-container-lowest p-space-lg text-center shadow-sm">
-            <span className="flex h-14 w-14 items-center justify-center rounded-full bg-status-available-bg text-status-available">
-              <Icon name="verified" className="text-[28px]" />
-            </span>
-            <div>
+          memuatPanel ? (
+            <div className="flex flex-col items-center gap-space-md rounded-2xl bg-surface-container-lowest p-space-lg text-center shadow-sm">
+              <span className="flex h-14 w-14 animate-pulse items-center justify-center rounded-full bg-purple-100 text-primary">
+                <Icon name="hourglass_top" className="text-[28px]" />
+              </span>
               <p className="font-headline-sm text-headline-sm font-semibold text-on-surface">
-                Seluruh antrean verifikasi selesai diputus
+                Memuat Antrean Verifikasi…
               </p>
-              <p className="mt-1 text-body-sm leading-relaxed text-slate-500">
-                Semua permohonan mitra sudah disetujui atau ditolak, dan setiap keputusan tercatat
-                permanen di Audit Log (FR-I1).
+              <p className="text-body-sm leading-relaxed text-slate-500">
+                Mengambil data pengajuan terbaru dari server RuangKu.
               </p>
             </div>
-            <button
-              type="button"
-              onClick={verif.resetDemo}
-              className={cn(
-                KELAS_TOMBOL,
-                'h-11 bg-purple-50 px-space-md text-primary shadow-sm hover:bg-purple-100',
+          ) : (
+            <div className="flex flex-col items-center gap-space-md rounded-2xl bg-surface-container-lowest p-space-lg text-center shadow-sm">
+              <span className="flex h-14 w-14 items-center justify-center rounded-full bg-status-available-bg text-status-available">
+                <Icon name="verified" className="text-[28px]" />
+              </span>
+              {verif.galatMuat && (
+                <p className="font-label-md font-semibold text-status-full">
+                  Gagal memuat: {verif.galatMuat}
+                </p>
               )}
-            >
-              <Icon name="refresh" className="text-[18px]" />
-              Kembalikan Data Demo
-            </button>
-          </div>
+              <div>
+                <p className="font-headline-sm text-headline-sm font-semibold text-on-surface">
+                  Seluruh antrean verifikasi selesai diputus
+                </p>
+                <p className="mt-1 text-body-sm leading-relaxed text-slate-500">
+                  Semua permohonan mitra sudah disetujui atau ditolak, dan setiap keputusan tercatat
+                  permanen di Audit Log (FR-I1).
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={verif.resetDemo}
+                className={cn(
+                  KELAS_TOMBOL,
+                  'h-11 bg-purple-50 px-space-md text-primary shadow-sm hover:bg-purple-100',
+                )}
+              >
+                <Icon name="refresh" className="text-[18px]" />
+                Muat Ulang Antrean
+              </button>
+            </div>
+          )
         ) : (
           <div className="overflow-hidden rounded-2xl bg-surface-container-lowest shadow-sm">
             {/* Kepala identitas mitra */}
@@ -383,9 +404,14 @@ export function VerifikasiPenyediaMobilePage() {
                 <div className="flex items-center justify-between gap-2">
                   <JudulSeksiM nomor="1" judul="Bukti Fisik Bangunan" />
                   <span className="shrink-0 rounded-full bg-purple-100 px-2.5 py-1 font-label-sm font-semibold text-primary">
-                    3 Foto
+                    {m.foto.length} Foto
                   </span>
                 </div>
+                {m.foto.length === 0 ? (
+                  <div className="flex items-center justify-center rounded-2xl bg-surface-container p-space-md text-body-sm text-slate-500 shadow-sm">
+                    Belum ada foto pada pengajuan ini
+                  </div>
+                ) : (
                 <button
                   type="button"
                   onClick={() =>
@@ -408,6 +434,7 @@ export function VerifikasiPenyediaMobilePage() {
                     <span className="font-label-sm opacity-90">{m.foto[0].meta}</span>
                   </span>
                 </button>
+                )}
                 <div className="grid grid-cols-2 gap-space-sm">
                   {m.foto.slice(1).map((foto) => (
                     <button

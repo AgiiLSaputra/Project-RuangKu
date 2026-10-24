@@ -5,6 +5,7 @@ import { SortSelect } from '../../components/ui/SortSelect'
 import { KelolaReservasiModals } from '../../components/domain/mitra/KelolaReservasiModals'
 import {
   UKURAN_HALAMAN,
+  ikonKategori,
   useKelolaReservasi,
   type KelolaReservasi,
 } from '../../components/domain/mitra/useKelolaReservasi'
@@ -12,9 +13,6 @@ import {
   AVATAR_STATUS,
   BULAN_INI,
   FILTER_MASUK,
-  OPSI_RUANGAN,
-  ikonRuangan,
-  ruanganMitra,
   teksTanggalIso,
   type ReservasiMasuk,
 } from '../../data/kelolaReservasi'
@@ -163,8 +161,8 @@ export function KelolaReservasiPage() {
     },
     {
       eyebrow: 'Kinerja Keuangan',
-      judul: 'Selesai Bulan Ini',
-      angka: BULAN_INI.selesai,
+      judul: 'Reservasi Selesai',
+      angka: kelola.baris.filter((r) => r.status === 'completed').length,
       satuan: 'Booking',
       panel: 'bg-purple-100',
       teks: 'text-primary',
@@ -175,7 +173,13 @@ export function KelolaReservasiPage() {
             <Icon name="account_balance_wallet" className="text-[16px]" />
             <span>Nilai total sewa:</span>
           </span>
-          <span className="font-label-md text-label-md font-semibold text-primary">{rp(BULAN_INI.nilai)}</span>
+          <span className="font-label-md text-label-md font-semibold text-primary">
+            {rp(
+              kelola.baris
+                .filter((r) => r.status === 'completed')
+                .reduce((n, r) => n + r.total, 0),
+            )}
+          </span>
         </span>
       ),
     },
@@ -313,7 +317,7 @@ export function KelolaReservasiPage() {
               />
             </div>
             <SortSelect
-              opsi={OPSI_RUANGAN}
+              opsi={kelola.opsiRuangan}
               nilai={kelola.ruangan}
               onPilih={kelola.ubahRuangan}
               label="Filter ruangan"
@@ -339,8 +343,8 @@ export function KelolaReservasiPage() {
               </thead>
               <tbody className="divide-y divide-purple-50 text-body-md text-on-surface">
                 {kelola.barisHalaman.map((r) => {
-                  const info = ruanganMitra(r.ruanganId)
-                  const persen = Math.min(100, Math.round((r.tamu / (info?.pax ?? 1)) * 100))
+                  const info = kelola.infoRuangan(r.ruanganId)
+                  const persen = Math.min(100, Math.round((r.tamu / (info?.kapasitasMax ?? 1)) * 100))
                   return (
                     <tr key={r.kode} className="transition-colors hover:bg-purple-50/70">
                       {/* Penyewa & kode */}
@@ -386,8 +390,8 @@ export function KelolaReservasiPage() {
                       <td className="px-space-md py-space-md">
                         <p className="font-title-md text-title-md text-on-surface">{info?.nama ?? r.ruanganNama ?? '-'}</p>
                         <span className="inline-flex items-center gap-1 font-body-sm text-body-sm text-slate-500">
-                          <Icon name={ikonRuangan(r.ruanganId)} className="text-[14px]" />
-                          <span>{info?.lokasi}</span>
+                          <Icon name={ikonKategori(info?.kategori)} className="text-[14px]" />
+                          <span>{info?.kota ?? ''}</span>
                         </span>
                       </td>
 
@@ -439,7 +443,7 @@ export function KelolaReservasiPage() {
                       <td className="px-space-md py-space-md">
                         <div className="flex items-center gap-2 whitespace-nowrap">
                           <span className="font-title-md text-title-md">{r.tamu}</span>
-                          <span className="font-body-sm text-body-sm text-slate-500">/ {info?.pax ?? 0} Pax</span>
+                          <span className="font-body-sm text-body-sm text-slate-500">/ {info?.kapasitasMax ?? 0} Pax</span>
                         </div>
                         <div className="mt-1 h-1.5 w-24 overflow-hidden rounded-full bg-purple-100">
                           <div

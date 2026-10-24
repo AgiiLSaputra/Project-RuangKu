@@ -9,7 +9,6 @@ import {
 import {
   JENIS_META,
   NADA_SLA,
-  STAT_DASAR,
   type TugasAdmin,
 } from '../../data/dashboardAdmin'
 import { cn } from '../../lib/cn'
@@ -148,6 +147,7 @@ function BarisTugas({ t, onTinjau }: { t: TugasAdmin; onTinjau: (t: TugasAdmin) 
 export function DashboardAdminPage() {
   const admin = useDashboardAdmin()
   const { ringkas } = admin
+  const stat = admin.kartuDarurat
 
   /** Quick Review (FR-G1): lompat ke antrean verifikasi penyedia. */
   const quickReview = () => {
@@ -202,6 +202,25 @@ export function DashboardAdminPage() {
           </div>
         </section>
 
+        {/* Banner memuat / galat dari server */}
+        {admin.galatMuat && (
+          <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl bg-status-blocked-bg px-space-md py-3 shadow-sm">
+            <span className="font-label-md text-label-md font-semibold text-status-full">
+              Gagal memuat data: {admin.galatMuat}
+            </span>
+            <button
+              type="button"
+              onClick={admin.muat}
+              className="h-9 rounded-full bg-status-full px-4 font-title-md text-title-md font-semibold text-white transition-all hover:opacity-90"
+            >
+              Coba Lagi
+            </button>
+          </div>
+        )}
+        {admin.memuat && !admin.galatMuat && (
+          <p className="text-body-sm text-slate-500">Memuat data terbaru dari server…</p>
+        )}
+
         {/* 2. Empat kartu statistik */}
         <section className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-4">
           <KartuStat
@@ -236,28 +255,30 @@ export function DashboardAdminPage() {
           />
           <KartuStat
             label="Penyedia Terverifikasi"
-            nilai={String(STAT_DASAR.terverifikasi)}
+            nilai={stat ? String(stat.terverifikasi) : '…'}
             satuan="Mitra"
             ikon="verified"
             gayaIkon="bg-status-available-bg text-status-available"
             titik="bg-status-available"
             kaki={
               <>
-                <strong className="font-semibold text-status-available">+12 bulan ini</strong> • 320
-                ruangan aktif
+                <strong className="font-semibold text-status-available">Tersambung server</strong> •{' '}
+                {stat ? stat.terverifikasiCatatan : 'memuat statistik…'}
               </>
             }
           />
           <KartuStat
             label="Total Penyewa Aktif"
-            nilai={STAT_DASAR.penyewa.toLocaleString('id-ID')}
+            nilai={stat ? stat.penyewa.toLocaleString('id-ID') : '…'}
             satuan="Akun"
             ikon="groups"
             gayaIkon="bg-purple-100 text-primary"
             titik="bg-primary"
             kaki={
               <>
-                <strong className="font-semibold text-primary">99.2%</strong> verifikasi email berhasil
+                <strong className="font-semibold text-primary">
+                  {stat ? stat.penyewaCatatan : 'memuat…'}
+                </strong>{' '}
                 (FR-A2)
               </>
             }
@@ -401,7 +422,7 @@ export function DashboardAdminPage() {
         <footer className="flex flex-col items-center justify-between gap-2 pt-2 text-slate-500 sm:flex-row">
           <span className="flex items-center gap-2 font-label-sm text-label-sm">
             <span className="h-2 w-2 rounded-full bg-status-available" />
-            RuangKu Super Admin v1.0 • Mode Demo (data mock lokal)
+            RuangKu Super Admin v1.0 • Tersambung server (data real-time)
           </span>
           <span className="flex items-center gap-3 font-label-sm text-label-sm">
             <span>Zona Waktu Server: WIB (UTC+7)</span>

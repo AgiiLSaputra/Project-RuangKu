@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { OPSI_RUANGAN, ruanganMitra, type ReservasiMasuk } from '../../../data/kelolaReservasi'
+import { type ReservasiMasuk } from '../../../data/kelolaReservasi'
+import type { BarisListingMitra } from '../../../services/mitra'
 import { rp } from '../../../lib/format'
 import { cn } from '../../../lib/cn'
 import { Icon } from '../../ui/Icon'
@@ -207,7 +208,7 @@ function ModalBuktiTransfer({
 }
 
 const FORM_AWAL: FormManual = {
-  ruanganId: OPSI_RUANGAN[1]?.id ?? '',
+  ruanganId: '',
   nama: '',
   organisasi: '',
   tanggal: '',
@@ -356,22 +357,29 @@ function ModalBookingManual({
   open,
   onTutup,
   onSimpan,
+  opsiRuangan,
+  infoRuangan,
 }: {
   open: boolean
   onTutup: () => void
   onSimpan: (form: FormManual) => boolean
+  /** Opsi ruangan dari listing server milik mitra. */
+  opsiRuangan: Array<{ id: string; label: string }>
+  infoRuangan: (id: string) => BarisListingMitra | null
 }) {
   const [form, setForm] = useState<FormManual>(FORM_AWAL)
   const [galat, setGalat] = useState('')
 
-  const info = ruanganMitra(form.ruanganId)
+  const info = infoRuangan(form.ruanganId)
   const total = (info?.tarifPerJam ?? 0) * form.durasiJam
 
   const simpan = () => {
+    if (form.ruanganId === '') return setGalat('Pilih ruangan terlebih dahulu.')
     if (form.nama.trim() === '') return setGalat('Nama penyewa wajib diisi.')
     if (form.tanggal === '') return setGalat('Tanggal acara wajib dipilih.')
     if (form.tamu < 1) return setGalat('Jumlah tamu minimal 1 orang.')
-    if (!onSimpan(form)) setGalat('Ruangan tidak ditemukan — coba pilih ulang.')
+    if (!onSimpan(form))
+      setGalat('Booking manual belum tersambung ke server — fitur ini mengikuti pembaruan berikutnya.')
   }
 
   return (
@@ -397,11 +405,13 @@ function ModalBookingManual({
             onChange={(e) => setForm({ ...form, ruanganId: e.target.value })}
             className="sm:col-span-2"
           >
-            {OPSI_RUANGAN.filter((o) => o.id !== 'semua').map((o) => (
-              <option key={o.id} value={o.id}>
-                {o.label}
-              </option>
-            ))}
+            {opsiRuangan
+              .filter((o) => o.id !== 'semua')
+              .map((o) => (
+                <option key={o.id} value={o.id}>
+                  {o.label}
+                </option>
+              ))}
           </Select>
           <Field
             label="Nama Penyewa"
@@ -523,6 +533,8 @@ export function KelolaReservasiModals({ kelola }: { kelola: KelolaReservasi }) {
         open={kelola.manual}
         onTutup={() => kelola.setManual(false)}
         onSimpan={kelola.tambahManual}
+        opsiRuangan={kelola.opsiRuangan}
+        infoRuangan={kelola.infoRuangan}
       />
       {/* key = kode: reset form usulan setiap ganti reservasi (FR-D1). */}
       <ModalUsulanJadwal

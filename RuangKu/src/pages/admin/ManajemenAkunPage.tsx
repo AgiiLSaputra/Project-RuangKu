@@ -346,7 +346,7 @@ export function ManajemenAkunPage() {
                 )}
               >
                 <Icon name="refresh" className="text-[18px]" />
-                Kembalikan Data Demo
+                Muat Ulang Data
               </button>
             )}
           </div>
@@ -503,7 +503,7 @@ export function ManajemenAkunPage() {
                   )}
                 >
                   <Icon name="refresh" className="text-[18px]" />
-                  Kembalikan Data Demo
+                  Muat Ulang Data
                 </button>
               )}
             </div>

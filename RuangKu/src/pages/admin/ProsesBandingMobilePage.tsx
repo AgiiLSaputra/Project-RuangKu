@@ -172,11 +172,30 @@ export function ProsesBandingMobilePage() {
               className={cn(KELAS_TOMBOL, 'h-11 bg-purple-100 px-4 text-primary shadow-sm')}
             >
               <Icon name="refresh" className="text-[18px]" />
-              Reset Demo
+              Muat Ulang
             </button>
           )}
         </div>
       </section>
+
+      {/* Banner memuat / galat dari server */}
+      {admin.galatMuat && (
+        <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl bg-status-blocked-bg px-space-md py-3 shadow-sm">
+          <span className="font-label-md text-label-md font-semibold text-status-full">
+            Gagal memuat data: {admin.galatMuat}
+          </span>
+          <button
+            type="button"
+            onClick={admin.resetDemo}
+            className={cn(KELAS_TOMBOL, 'h-9 bg-status-full px-4 text-white')}
+          >
+            Coba Lagi
+          </button>
+        </div>
+      )}
+      {admin.memuat && !admin.galatMuat && (
+        <p className="text-body-sm text-slate-500">Memuat data banding dari server…</p>
+      )}
 
       {/* 2. Kartu statistik — 2 kolom */}
       <div className="grid grid-cols-2 gap-space-sm">
@@ -206,9 +225,13 @@ export function ProsesBandingMobilePage() {
         />
         <KartuStatBanding
           ikon="verified"
-          label="SLA Selesai"
-          nilai="98.4%"
-          kaki="Target >95%"
+          label="Progres Selesai"
+          nilai={
+            admin.ringkas.total > 0
+              ? `${Math.round(((admin.ringkas.disetujui + admin.ringkas.ditolak) / admin.ringkas.total) * 100)}%`
+              : '—'
+          }
+          kaki="Dari semua pengajuan"
           nada="sla"
           nilaiKelas="text-display-mobile"
         />
@@ -310,7 +333,7 @@ export function ProsesBandingMobilePage() {
       <footer className="flex flex-col items-center gap-1 text-slate-500">
         <span className="flex items-center gap-2 font-label-sm text-label-sm">
           <span className="h-2 w-2 rounded-full bg-status-available" />
-          RuangKu Super Admin v1.0 • Mode Demo (data mock lokal)
+          RuangKu Super Admin v1.0 • Tersambung server (data real-time)
         </span>
         <span className="font-label-sm text-label-sm">
           SOP FR-H4 &amp; FR-H5 Aktif • Zona Waktu WIB

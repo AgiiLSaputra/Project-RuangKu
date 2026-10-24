@@ -117,6 +117,8 @@ function KartuAntrean({
 export function VerifikasiPenyediaPage() {
   const verif = useVerifikasiPenyedia()
   const m = verif.terpilih
+  /** Panel memuat: saat list masuk ATAU detail pengajuan yang dipilih sedang diambil. */
+  const memuatPanel = verif.memuat || (verif.memuatDetail && verif.antrean.length > 0)
 
   return (
     <div className="mx-auto w-full max-w-7xl pb-6 pt-4">
@@ -290,32 +292,51 @@ export function VerifikasiPenyediaPage() {
           )}
 
           {!m ? (
-            /* Antrean habis diputus */
-            <div className="flex flex-col items-center gap-space-md rounded-2xl bg-surface-container-lowest p-space-xl text-center shadow-sm">
-              <span className="flex h-14 w-14 items-center justify-center rounded-full bg-status-available-bg text-status-available">
-                <Icon name="verified" className="text-[28px]" />
-              </span>
-              <div>
+            /* Antrean habis diputus — atau detail sedang dimuat dari server */
+            memuatPanel ? (
+              <div className="flex flex-col items-center gap-space-md rounded-2xl bg-surface-container-lowest p-space-xl text-center shadow-sm">
+                <span className="flex h-14 w-14 animate-pulse items-center justify-center rounded-full bg-purple-100 text-primary">
+                  <Icon name="hourglass_top" className="text-[28px]" />
+                </span>
                 <p className="font-headline-sm text-headline-sm font-semibold text-on-surface">
-                  Seluruh antrean verifikasi selesai diputus
+                  Memuat Antrean Verifikasi…
                 </p>
-                <p className="mt-1 max-w-md text-body-sm text-slate-500">
-                  Semua permohonan mitra sudah disetujui atau ditolak, dan setiap keputusan
-                  tercatat permanen di Audit Log (FR-I1).
+                <p className="max-w-md text-body-sm text-slate-500">
+                  Mengambil data pengajuan terbaru dari server RuangKu.
                 </p>
               </div>
-              <button
-                type="button"
-                onClick={verif.resetDemo}
-                className={cn(
-                  KELAS_TOMBOL,
-                  'h-11 bg-purple-50 px-space-md text-primary shadow-sm hover:bg-purple-100',
+            ) : (
+              <div className="flex flex-col items-center gap-space-md rounded-2xl bg-surface-container-lowest p-space-xl text-center shadow-sm">
+                <span className="flex h-14 w-14 items-center justify-center rounded-full bg-status-available-bg text-status-available">
+                  <Icon name="verified" className="text-[28px]" />
+                </span>
+                {verif.galatMuat && (
+                  <p className="font-label-md font-semibold text-status-full">
+                    Gagal memuat: {verif.galatMuat}
+                  </p>
                 )}
-              >
-                <Icon name="refresh" className="text-[18px]" />
-                Kembalikan Data Demo
-              </button>
-            </div>
+                <div>
+                  <p className="font-headline-sm text-headline-sm font-semibold text-on-surface">
+                    Seluruh antrean verifikasi selesai diputus
+                  </p>
+                  <p className="mt-1 max-w-md text-body-sm text-slate-500">
+                    Semua permohonan mitra sudah disetujui atau ditolak, dan setiap keputusan
+                    tercatat permanen di Audit Log (FR-I1).
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={verif.resetDemo}
+                  className={cn(
+                    KELAS_TOMBOL,
+                    'h-11 bg-purple-50 px-space-md text-primary shadow-sm hover:bg-purple-100',
+                  )}
+                >
+                  <Icon name="refresh" className="text-[18px]" />
+                  Muat Ulang Antrean
+                </button>
+              </div>
+            )
           ) : (
             <div className="overflow-hidden rounded-2xl bg-surface-container-lowest shadow-sm">
               {/* Kepala: identitas mitra + kanal komunikasi */}
@@ -422,11 +443,16 @@ export function VerifikasiPenyediaPage() {
                       deskripsi="Verifikasi visual keaslian fasilitas, tata ruang, dan pencahayaan (FR-A5, FR-A9)"
                     />
                     <span className="shrink-0 rounded-full bg-purple-100 px-2.5 py-1 font-label-sm font-semibold text-primary">
-                      3 Foto Berkas Diajukan
+                      {m.foto.length} Foto Berkas Diajukan
                     </span>
                   </div>
                   <div className="grid grid-cols-1 items-stretch gap-space-md md:grid-cols-3">
-                    {/* Foto utama */}
+                    {/* Foto utama — bisa kosong bila pemohon belum mengunggah foto */}
+                    {m.foto.length === 0 ? (
+                      <div className="col-span-1 flex items-center justify-center rounded-2xl bg-surface-container p-space-md text-body-sm text-slate-500 shadow-sm md:col-span-2">
+                        Belum ada foto pada pengajuan ini
+                      </div>
+                    ) : (
                     <button
                       type="button"
                       onClick={() =>
@@ -453,6 +479,7 @@ export function VerifikasiPenyediaPage() {
                         </span>
                       </span>
                     </button>
+                    )}
                     {/* Foto pendukung */}
                     <div className="flex flex-col justify-between gap-space-md">
                       {m.foto.slice(1).map((foto) => (

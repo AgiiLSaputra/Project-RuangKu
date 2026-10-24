@@ -1,6 +1,6 @@
 import { cn } from '../../../lib/cn'
 import { Icon } from '../../ui/Icon'
-import { NADA_BANDING, type Banding, type StatusBanding } from '../../../data/prosesBanding'
+import { NADA_BANDING, type StatusBanding } from '../../../data/prosesBanding'
 import { ChipPeran } from './ManajemenAkunBagian'
 import { KELAS_TOMBOL, type ProsesBanding } from './useProsesBanding'
 
@@ -141,20 +141,6 @@ export function FilterPeranPopover({ admin }: { admin: ProsesBanding }) {
   )
 }
 
-/** Unduh lampiran banding sebagai berkas teks contoh (mode demo). */
-function unduhLampiran(l: NonNullable<Banding['lampiran']>) {
-  const isi =
-    `RuangKu — Lampiran Pengajuan Banding (contoh demo)\n\n` +
-    `Dokumen : ${l.nama}\nJenis    : ${l.jenis}\nUkuran   : ${l.ukuran}\nInfo     : ${l.meta}\n\n` +
-    `Berkas ini dibuat otomatis untuk mode demo; dokumen asli tersimpan di penyimpanan produksi.`
-  const url = URL.createObjectURL(new Blob([isi], { type: 'text/plain' }))
-  const tautan = document.createElement('a')
-  tautan.href = url
-  tautan.download = l.nama.replace(/\.pdf$/i, '') + '-demo.txt'
-  tautan.click()
-  URL.revokeObjectURL(url)
-}
-
 /**
  * Panel konfirmasi keputusan banding — mockup `SidebarAcc.html`. Isi yang sama
  * dipakai slide-over desktop dan seksi inline di bawah konten varian mobile.
@@ -259,14 +245,6 @@ export function PanelKonfirmasi({ admin, onTutup }: { admin: ProsesBanding; onTu
                   </span>
                 </span>
               </span>
-              <button
-                type="button"
-                onClick={() => unduhLampiran(b.lampiran!)}
-                className={cn(KELAS_TOMBOL, 'h-9 shrink-0 bg-purple-100 px-4 text-primary hover:bg-purple-300/40')}
-              >
-                <Icon name="download" className="text-[16px]" />
-                Unduh
-              </button>
             </div>
           )}
           {b.perluUnggahUlang && (

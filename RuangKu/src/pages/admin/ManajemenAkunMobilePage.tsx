@@ -234,7 +234,7 @@ export function ManajemenAkunMobilePage() {
               )}
             >
               <Icon name="refresh" className="text-[18px]" />
-              Kembalikan Data Demo
+              Muat Ulang Data
             </button>
           )}
         </div>
@@ -357,7 +357,7 @@ export function ManajemenAkunMobilePage() {
                 )}
               >
                 <Icon name="refresh" className="text-[18px]" />
-                Kembalikan Data Demo
+                Muat Ulang Data
               </button>
             )}
           </div>
@@ -447,7 +447,7 @@ export function ManajemenAkunMobilePage() {
       <footer className="flex flex-col items-center gap-1 pt-1 text-slate-500">
         <span className="flex items-center gap-2 font-label-sm text-label-sm">
           <span className="h-2 w-2 rounded-full bg-status-available" />
-          RuangKu Super Admin v1.0 • Mode Demo (data mock lokal)
+          RuangKu Super Admin v1.0 • Tersambung server (data real-time)
         </span>
         <span className="font-label-sm text-label-sm">FR-G2 &amp; FR-G3 Aktif • WIB (UTC+7)</span>
       </footer>

@@ -9,7 +9,6 @@ import {
 import {
   JENIS_META,
   NADA_SLA,
-  STAT_DASAR,
   type TugasAdmin,
 } from '../../data/dashboardAdmin'
 import { cn } from '../../lib/cn'
@@ -137,6 +136,7 @@ function KartuTugas({ t, onTinjau }: { t: TugasAdmin; onTinjau: (t: TugasAdmin) 
 export function DashboardAdminMobilePage() {
   const admin = useDashboardAdmin()
   const { ringkas } = admin
+  const stat = admin.kartuDarurat
 
   /** Quick Review (FR-G1): lompat ke antrean verifikasi penyedia. */
   const quickReview = () => {
@@ -184,6 +184,25 @@ export function DashboardAdminMobilePage() {
         </div>
       </section>
 
+      {/* Banner memuat / galat dari server */}
+      {admin.galatMuat && (
+        <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl bg-status-blocked-bg px-space-md py-3 shadow-sm">
+          <span className="font-label-md text-label-md font-semibold text-status-full">
+            Gagal memuat data: {admin.galatMuat}
+          </span>
+          <button
+            type="button"
+            onClick={admin.muat}
+            className="h-9 rounded-full bg-status-full px-4 font-title-md text-title-md font-semibold text-white"
+          >
+            Coba Lagi
+          </button>
+        </div>
+      )}
+      {admin.memuat && !admin.galatMuat && (
+        <p className="text-body-sm text-slate-500">Memuat data terbaru dari server…</p>
+      )}
+
       {/* 2. Empat kartu statistik */}
       <section className="grid grid-cols-2 gap-3">
         <KartuStatM
@@ -218,28 +237,30 @@ export function DashboardAdminMobilePage() {
         />
         <KartuStatM
           label="Penyedia Terverifikasi"
-          nilai={String(STAT_DASAR.terverifikasi)}
+          nilai={stat ? String(stat.terverifikasi) : '…'}
           satuan="Mitra"
           ikon="verified"
           gayaIkon="bg-status-available-bg text-status-available"
           titik="bg-status-available"
           kaki={
             <>
-              <strong className="font-semibold text-status-available">+12 bulan ini</strong> • 320
-              ruangan aktif
+              <strong className="font-semibold text-status-available">Tersambung server</strong> •{' '}
+              {stat ? stat.terverifikasiCatatan : 'memuat…'}
             </>
           }
         />
         <KartuStatM
           label="Total Penyewa Aktif"
-          nilai={STAT_DASAR.penyewa.toLocaleString('id-ID')}
+          nilai={stat ? stat.penyewa.toLocaleString('id-ID') : '…'}
           satuan="Akun"
           ikon="groups"
           gayaIkon="bg-purple-100 text-primary"
           titik="bg-primary"
           kaki={
             <>
-              <strong className="font-semibold text-primary">99.2%</strong> verifikasi email berhasil
+              <strong className="font-semibold text-primary">
+                {stat ? stat.penyewaCatatan : 'memuat…'}
+              </strong>{' '}
               (FR-A2)
             </>
           }
@@ -352,7 +373,7 @@ export function DashboardAdminMobilePage() {
       <footer className="flex flex-col items-center justify-between gap-2 border-t border-purple-100 pt-4 text-slate-500">
         <span className="flex items-center gap-2 font-label-sm text-label-sm">
           <span className="h-2 w-2 rounded-full bg-status-available" />
-          RuangKu Super Admin v1.0 • Mode Demo (data mock lokal)
+          RuangKu Super Admin v1.0 • Tersambung server (data real-time)
         </span>
         <span className="flex items-center gap-3 font-label-sm text-label-sm">
           <span>Zona Waktu: WIB (UTC+7)</span>

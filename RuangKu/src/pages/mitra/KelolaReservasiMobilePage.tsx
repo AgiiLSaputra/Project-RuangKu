@@ -6,6 +6,7 @@ import { SortSelect } from '../../components/ui/SortSelect'
 import { KelolaReservasiModals } from '../../components/domain/mitra/KelolaReservasiModals'
 import {
   UKURAN_HALAMAN,
+  ikonKategori,
   useKelolaReservasi,
   type KelolaReservasi,
 } from '../../components/domain/mitra/useKelolaReservasi'
@@ -13,11 +14,8 @@ import {
   AVATAR_STATUS,
   BULAN_INI,
   FILTER_MASUK,
-  OPSI_RUANGAN,
   STATUS_BAYAR,
-  ikonRuangan,
   kodeKanan,
-  ruanganMitra,
   teksTanggalIso,
   type ReservasiMasuk,
 } from '../../data/kelolaReservasi'
@@ -165,9 +163,11 @@ export function KelolaReservasiMobilePage() {
       panel: 'bg-purple-100',
       teks: 'text-primary',
       ikon: 'account_balance_wallet',
-      nilai: rp(BULAN_INI.nilai),
+      nilai: rp(
+        kelola.baris.filter((r) => r.status === 'completed').reduce((n, r) => n + r.total, 0),
+      ),
       nilaiKelas: 'text-primary',
-      sub: `${BULAN_INI.selesai} Booking Selesai Bulan Ini`,
+      sub: `${kelola.baris.filter((r) => r.status === 'completed').length} Reservasi Selesai`,
       kaki: 'Omset terkonfirmasi via virtual account & manual transfer.',
     },
   ]
@@ -281,7 +281,7 @@ export function KelolaReservasiMobilePage() {
           <div className="flex items-center gap-space-xs">
             <div className="min-w-0 flex-1">
               <SortSelect
-                opsi={OPSI_RUANGAN}
+                opsi={kelola.opsiRuangan}
                 nilai={kelola.ruangan}
                 onPilih={kelola.ubahRuangan}
                 label="Filter ruangan"
@@ -304,7 +304,7 @@ export function KelolaReservasiMobilePage() {
       {/* Daftar kartu reservasi */}
       <section className="flex flex-col gap-space-md">
         {kelola.barisHalaman.map((r) => {
-          const info = ruanganMitra(r.ruanganId)
+          const info = kelola.infoRuangan(r.ruanganId)
           const kanan = kodeKanan(r)
           const bayar = STATUS_BAYAR[r.status]
           const penanda = r.masuk ?? r.tanggal
@@ -373,11 +373,11 @@ export function KelolaReservasiMobilePage() {
               {/* Ruangan, kapasitas, jadwal & jeda sterilisasi */}
               <div className="flex flex-col gap-1.5 rounded-xl bg-surface-container-low p-3">
                 <div className="flex items-center gap-2">
-                  <Icon name={ikonRuangan(r.ruanganId)} className="shrink-0 text-[18px] text-primary" />
+                  <Icon name={ikonKategori(info?.kategori)} className="shrink-0 text-[18px] text-primary" />
                   <span className="truncate font-body-sm font-medium text-on-surface">{info?.nama ?? r.ruanganNama ?? '-'}</span>
                 </div>
                 <p className="pl-6 font-body-sm text-body-sm text-slate-500">
-                  {info?.lokasi} (Kapasitas: {r.tamu} / {info?.pax ?? 0} Pax)
+                  {info?.kota} (Kapasitas: {r.tamu} / {info?.kapasitasMax ?? 0} Pax)
                 </p>
                 <div className="flex items-center gap-2 pt-1">
                   <Icon name="schedule" className="shrink-0 text-[18px] text-primary" />

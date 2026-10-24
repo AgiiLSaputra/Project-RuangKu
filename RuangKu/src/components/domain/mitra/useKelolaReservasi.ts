@@ -1,13 +1,12 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import {
-  SINGKAT_RUANGAN,
   epochTanggal,
-  ruanganMitra,
   type FilterMasuk,
   type ReservasiMasuk,
 } from '../../../data/kelolaReservasi'
 import type { StatusReservasi } from '../../../data/seed'
 import { ApiError } from '../../../lib/api'
+import { ambilListingMitra, type BarisListingMitra } from '../../../services/mitra'
 import {
   ambilReservasiMasuk,
   lepasReservasiServer,
@@ -40,8 +39,7 @@ export interface FormUsulanJadwal {
   catatan: string
 }
 
-const AWAL: Record<StatusReservasi, number> = {
-  pending: 0,
+const AWAL: Record<StatusReservasi, number> = {  pending: 0,
   approved: 0,
   rejected: 0,
   completed: 0,
@@ -49,14 +47,14 @@ const AWAL: Record<StatusReservasi, number> = {
   expired: 0,
 }
 
-const jamAkhir = (mulai: string, durasi: number) => {
-  const [h, m] = mulai.split(':').map(Number)
-  const akhir = (h + durasi) % 24
-  return `${String(akhir).padStart(2, '0')}:${String(m ?? 0).padStart(2, '0')}`
+/** Ikon ruangan berdasar kategori listing server (bukan id mock lagi). */
+export function ikonKategori(kategori: string | undefined): string {
+  const k = (kategori ?? '').toLowerCase()
+  if (k.includes('ballroom') || k.includes('konferensi') || k.includes('auditorium')) return 'groups'
+  if (k.includes('studio') || k.includes('creative')) return 'videocam'
+  if (k.includes('meeting') || k.includes('boardroom')) return 'meeting_room'
+  return 'meeting_room'
 }
-
-const acakKode = (singkat: string) =>
-  `RK-${Math.floor(10000 + Math.random() * 89999)}-${singkat}`
 
 /**
  * State Kelola Reservasi (mitra): daftar baris, filter/pencarian, paginasi,
@@ -99,6 +97,32 @@ export function useKelolaReservasi() {
     void muatUlang()
   }, [muatUlang, percobaan])
 
+  /** Daftar ruangan milik mitra dari server (`GET /mitra/listing`) — pengganti daftar mock. */
+  const [daftarRuangan, setDaftarRuangan] = useState<BarisListingMitra[]>([])
+  useEffect(() => {
+    let batal = false
+    ambilListingMitra()
+      .then((daftar) => {
+        if (!batal) setDaftarRuangan(daftar)
+      })
+      .catch(() => {})
+    return () => {
+      batal = true
+    }
+  }, [])
+
+  /** Info satu ruangan dari listing server (nama, kapasitas, tarif). */
+  const infoRuangan = useCallback(
+    (id: string) => daftarRuangan.find((l) => l.id === id) ?? null,
+    [daftarRuangan],
+  )
+
+  /** Opsi dropdown filter ruangan — diambil dari listing milik mitra. */
+  const opsiRuangan = useMemo(
+    () => [{ id: 'semua', label: 'Semua Ruangan' }, ...daftarRuangan.map((l) => ({ id: l.id, label: l.nama }))],
+    [daftarRuangan],
+  )
+
   /** Muat ulang manual (tombol "Coba lagi" / pemulih setelah aksi gagal). */
   const muat = useCallback(() => setPercobaan((n) => n + 1), [])
 
@@ -113,7 +137,7 @@ export function useKelolaReservasi() {
   const tersaring = useMemo(() => {
     const kata = cari.trim().toLowerCase()
     const hasil = baris.filter((r) => {
-      const info = ruanganMitra(r.ruanganId)
+      const info = infoRuangan(r.ruanganId)
       const cocokFilter = filter === 'semua' || r.status === filter
       const cocokRuangan = ruangan === 'semua' || r.ruanganId === ruangan
       const cocokCari =
@@ -125,7 +149,7 @@ export function useKelolaReservasi() {
     })
     const arah = urut === 'terbaru' ? -1 : 1
     return [...hasil].sort((a, b) => arah * (epochTanggal(a.tanggal) - epochTanggal(b.tanggal)))
-  }, [baris, filter, cari, ruangan, urut])
+  }, [baris, filter, cari, ruangan, urut, infoRuangan])
 
   const totalHalaman = Math.max(1, Math.ceil(tersaring.length / UKURAN_HALAMAN))
   const halamanEfektif = Math.min(halaman, totalHalaman)
@@ -242,43 +266,12 @@ export function useKelolaReservasi() {
     }
   }
 
-  /** Booking manual mitra → selalu masuk sebagai pending untuk verifikasi. */
-  const tambahManual = (f: FormManual) => {
-    const info = ruanganMitra(f.ruanganId)
-    if (!info || f.nama.trim() === '' || f.tanggal === '' || f.tamu < 1) return false
-    const tanggal = new Date(`${f.tanggal}T00:00:00`).toLocaleDateString('id-ID', {
-      weekday: 'long',
-      day: 'numeric',
-      month: 'short',
-      year: 'numeric',
-    })
-    const inisial = f.nama
-      .trim()
-      .split(/\s+/)
-      .slice(0, 2)
-      .map((kata) => kata[0]?.toUpperCase() ?? '')
-      .join('')
-    const baru: ReservasiMasuk = {
-      kode: acakKode(SINGKAT_RUANGAN[f.ruanganId] ?? 'BOOKING'),
-      penyewa: f.nama.trim(),
-      inisial,
-      organisasi: f.organisasi.trim() || 'Penyewa Perorangan',
-      wa: '6281112003199',
-      ruanganId: f.ruanganId,
-      tanggal,
-      jam: `${f.jamMulai} - ${jamAkhir(f.jamMulai, f.durasiJam)} WIB`,
-      durasiJam: f.durasiJam,
-      tamu: f.tamu,
-      total: info.tarifPerJam * f.durasiJam,
-      metode: 'Booking Manual Mitra',
-      status: 'pending',
-      steril: { teks: 'Sterilisasi +2 Jam', aktif: false },
-    }
-    setBaris((prev) => [baru, ...prev])
-    setManual(false)
-    ubahFilter('pending')
-    return true
-  }
+  /**
+   * Booking manual mitra — fitur masih belum tersambung ke server (tidak ada
+   * endpoint `POST /reservasi` untuk mitra), jadi jangan membuat baris palsu.
+   * Kembalikan `false`; modal menampakkan pesan "belum tersambung".
+   */
+  const tambahManual = (_f: FormManual) => false
 
   /** Ekspor baris terfilter ke CSV (pemisah titik-koma, siap Excel). */
   const eksporCsv = () => {
@@ -296,7 +289,7 @@ export function useKelolaReservasi() {
       'Status',
     ]
     const isi = tersaring.map((r) => {
-      const info = ruanganMitra(r.ruanganId)
+      const info = infoRuangan(r.ruanganId)
       return [
         r.kode,
         r.penyewa,
@@ -305,7 +298,7 @@ export function useKelolaReservasi() {
         r.tanggal,
         r.jam,
         String(r.tamu),
-        String(info?.pax ?? 0),
+        String(info?.kapasitasMax ?? 0),
         String(r.total),
         r.metode,
         r.status,
@@ -343,6 +336,9 @@ export function useKelolaReservasi() {
     ubahRuangan,
     ubahCari,
     keHalaman,
+    opsiRuangan,
+    infoRuangan,
+    daftarRuangan,
     setujui,
     selesaikan,
     batalkan,

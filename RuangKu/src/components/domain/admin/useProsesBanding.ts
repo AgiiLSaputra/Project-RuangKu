@@ -1,7 +1,7 @@
-import { useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
+import { api, ApiError } from '../../../lib/api'
 import {
-  BANDING_AWAL,
   NADA_BANDING,
   type Banding,
   type StatusBanding,
@@ -41,23 +41,124 @@ export function warnaAvatar(index: number): string {
 /** Jumlah baris tabel per halaman. */
 const PER_HALAMAN = 6
 
+const pad2 = (n: number) => String(n).padStart(2, '0')
+
+/** Jam & menit WIB "HH:MM" dari timestamp UTC. */
+const jamWib = (d: Date) => {
+  const wib = new Date(d.getTime() + 7 * 60 * 60 * 1000)
+  return `${pad2(wib.getUTCHours())}:${pad2(wib.getUTCMinutes())}`
+}
+
+/** "13 Okt 2026" — tanggal singkat WIB. */
+function tanggalSingkat(iso: string): string {
+  return new Date(iso).toLocaleDateString('id-ID', {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+    timeZone: 'Asia/Jakarta',
+  })
+}
+
+/** Format tanggal polos "YYYY-MM-DD" (kolom dinonaktifkan) → "12 Okt 2026". */
+function tanggalPolos(pola: string): string {
+  const d = new Date(`${pola}T00:00:00Z`)
+  if (Number.isNaN(d.getTime())) return pola
+  return d.toLocaleDateString('id-ID', {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+    timeZone: 'UTC',
+  })
+}
+
+/** Nada warna sisa tenggang (FR-H5): sisa hari 0-1 kritis, 2-3 wasit, sisanya aman. */
+function nadaSisa(sisa: number): 'kritis' | 'wasit' | 'aman' {
+  if (sisa <= 1) return 'kritis'
+  if (sisa <= 3) return 'wasit'
+  return 'aman'
+}
+
+/** Baris `GET /api/admin/banding`. */
+interface BarisBandingApi {
+  id: string
+  ref: string
+  akun: { id: string; ref: string; nama: string; email: string; peran: string }
+  dinonaktifkanPada: string
+  eksekusiPada: string | null
+  alasanPenonaktifan: string
+  alasanSistem: string
+  diajukanPada: string
+  alasanPemohon: string
+  lampiran: { nama: string; ukuran?: string; jenis?: string; meta?: string } | null
+  status: StatusBanding
+  sisaHari: number | null
+  putusanPada: string | null
+  putusanOleh: string | null
+  catatanKeputusan: string | null
+  sha: string
+}
+
+/** Baris server → objek Banding tampilan. */
+function dariApi(b: BarisBandingApi): Banding {
+  const umurJam = (Date.now() - Date.parse(b.diajukanPada)) / 3_600_000
+  const sisa = b.status === 'menunggu' ? (b.sisaHari ?? 0) : null
+  return {
+    id: b.id,
+    nama: b.akun.nama,
+    ref: `#${b.ref}`,
+    peran: (b.akun.peran === 'penyedia' ? 'penyedia' : 'penyewa') as PeranAkun,
+    dinonaktifkan: tanggalPolos(b.dinonaktifkanPada),
+    alasanPenonaktifan: b.alasanPenonaktifan,
+    eksekusi: b.eksekusiPada
+      ? `${tanggalSingkat(b.eksekusiPada)} (${jamWib(new Date(b.eksekusiPada))} WIB)`
+      : '—',
+    alasanSistem: b.alasanSistem,
+    diajukan: tanggalSingkat(b.diajukanPada),
+    jam: `${jamWib(new Date(b.diajukanPada))} WIB`,
+    sisaHari: sisa ?? undefined,
+    sisaLabel: sisa === null ? undefined : sisa <= 0 ? 'Tenggat Lewat' : `${sisa} Hari Tersisa`,
+    nadaSisa: sisa === null ? undefined : nadaSisa(sisa),
+    status: b.status,
+    alasan: b.alasanPemohon,
+    diajukan24Jam: umurJam <= 24,
+    lampiran:
+      b.lampiran
+        ? {
+            nama: b.lampiran.nama,
+            ukuran: b.lampiran.ukuran ?? '—',
+            jenis: b.lampiran.jenis ?? 'Lampiran',
+            meta: b.lampiran.meta ?? 'Terlampir pada pengajuan',
+          }
+        : undefined,
+    perluUnggahUlang: Boolean(b.lampiran),
+    sha: b.sha,
+    putusan: b.putusanPada
+      ? {
+          waktu: `${tanggalSingkat(b.putusanPada)}, ${jamWib(new Date(b.putusanPada))} WIB`,
+          oleh: b.putusanOleh ?? 'Super Admin',
+          catatan: b.catatanKeputusan ?? '',
+        }
+      : undefined,
+  }
+}
+
 /**
- * State halaman Manajemen Banding (SOP FR-H4, FR-H5, FR-H6): tabel pengajuan
- * banding akun nonaktif + pencarian + filter status/peran + paginasi, panel
- * konfirmasi keputusan super admin (dapat dipreset lewat `?banding=<id>`),
- * catatan keputusan wajib sebagai jejak audit. Dipakai bersama desktop & mobile.
+ * State halaman Manajemen Banding (SOP FR-H4, FR-H5, FR-H6) — data nyata dari
+ * `GET /api/admin/banding`, keputusan via `PATCH /api/admin/banding/:id/putusan`.
+ * Panel konfirmasi keputusan super admin, catatan wajib sebagai jejak audit.
+ * Dipakai bersama desktop & mobile.
  */
 export function useProsesBanding() {
   const [params] = useSearchParams()
-  const [data, setData] = useState<Banding[]>(BANDING_AWAL)
+  const [data, setData] = useState<Banding[]>([])
+  const [memuat, setMemuat] = useState(true)
+  const [galatMuat, setGalatMuat] = useState('')
+  const [percobaan, setPercobaan] = useState(0)
   const [cari, setCari] = useState('')
   const [tab, setTabState] = useState<TabBanding>('menunggu')
   const [peran, setPeran] = useState<PeranFilter>('semua')
   const [filterBuka, setFilterBuka] = useState(false)
-  const [pilihId, setPilihId] = useState<string>(() => {
-    const preset = params.get('banding')
-    return BANDING_AWAL.some((b) => b.id === preset) ? preset! : BANDING_AWAL[0].id
-  })
+  const [pilihId, setPilihId] = useState('')
   const [halaman, setHalaman] = useState(1)
   const [drawerBuka, setDrawerBuka] = useState(false)
   const [pratinjauBuka, setPratinjauBuka] = useState(false)
@@ -66,6 +167,39 @@ export function useProsesBanding() {
   const [catatan, setCatatan] = useState('')
   const [galat, setGalat] = useState('')
   const [berubah, setBerubah] = useState(false)
+
+  /** Ambil seluruh halaman antrean banding dari server. */
+  const muat = useCallback(async () => {
+    setMemuat(true)
+    setGalatMuat('')
+    try {
+      const kolam: BarisBandingApi[] = []
+      let hlm = 1
+      for (;;) {
+        const isi = await api<{
+          daftar: BarisBandingApi[]
+          total: number
+          halaman: number
+          perHalaman: number
+        }>(`/admin/banding?halaman=${hlm}`)
+        kolam.push(...isi.daftar)
+        if (isi.daftar.length < isi.perHalaman || kolam.length >= isi.total || hlm >= 20) break
+        hlm += 1
+      }
+      setData(kolam.map(dariApi))
+      const preset = params.get('banding')
+      if (preset) setPilihId((lama) => (lama !== '' ? lama : preset))
+      setPilihId((lama) => (lama === '' ? (kolam[0]?.id ?? '') : lama))
+    } catch (err) {
+      setGalatMuat(err instanceof ApiError ? err.message : 'Terjadi kesalahan. Coba lagi.')
+    } finally {
+      setMemuat(false)
+    }
+  }, [params])
+
+  useEffect(() => {
+    void muat()
+  }, [muat, percobaan])
 
   /** Ganti tab filter status — paginasi kembali ke halaman pertama. */
   const setTab = (t: TabBanding) => {
@@ -143,7 +277,7 @@ export function useProsesBanding() {
   )
 
   /** Keputusan akhir banding — wajib isi catatan sebagai jejak audit (FR-H6). */
-  const putuskan = (setuju: boolean) => {
+  const putuskan = async (setuju: boolean) => {
     const b = terpilih
     if (!b || proses) return
     if (catatan.trim() === '') {
@@ -152,33 +286,31 @@ export function useProsesBanding() {
     }
     setGalat('')
     setProses(true)
-    window.setTimeout(() => {
-      setData((daftar) =>
-        daftar.map((x) =>
-          x.id === b.id
-            ? {
-                ...x,
-                status: setuju ? 'disetujui' : 'ditolak',
-                putusan: {
-                  waktu: 'Hari ini, 14:20 WIB',
-                  oleh: 'Admin Utama (ID #01)',
-                  catatan: catatan.trim(),
-                },
-              }
-            : x,
-        ),
+    try {
+      const diperbarui = dariApi(
+        await api<BarisBandingApi>(`/admin/banding/${b.id}/putusan`, {
+          method: 'PATCH',
+          body: {
+            keputusan: setuju ? 'setujui' : 'tolak',
+            catatan: catatan.trim(),
+          },
+        }),
       )
+      setData((daftar) => daftar.map((x) => (x.id === b.id ? diperbarui : x)))
       setHasil({
         nada: setuju ? 'sukses' : 'tolak',
         teks: setuju
           ? `Banding ${b.nama} telah DISETUJUI — pemulihan akun diproses otomatis sesuai SOP FR-H5. Keputusan tercatat di jejak audit (FR-H6).`
           : `Banding ${b.nama} telah DITOLAK — penonaktifan permanen dikonfirmasi. Pemohon menerima rincian lewat email.`,
       })
-      setProses(false)
       setCatatan('')
       setDrawerBuka(false)
       setBerubah(true)
-    }, setuju ? 750 : 850)
+    } catch (err) {
+      setGalat(err instanceof ApiError ? err.message : 'Terjadi kesalahan. Coba lagi.')
+    } finally {
+      setProses(false)
+    }
   }
 
   /** Unduh daftar pengajuan hasil filter sebagai CSV (pemisah titik-koma). */
@@ -216,20 +348,19 @@ export function useProsesBanding() {
     URL.revokeObjectURL(url)
   }
 
-  /** Kembalikan seluruh pengajuan ke kondisi awal (mode demo). */
+  /** Muat ulang daftar banding dari server (pengganti "kembalikan data demo"). */
   const resetDemo = () => {
-    setData(BANDING_AWAL)
     setCari('')
     setTabState('menunggu')
     setPeran('semua')
     setHalaman(1)
-    setPilihId(BANDING_AWAL[0].id)
     setDrawerBuka(false)
     setPratinjauBuka(false)
     setHasil(null)
     setCatatan('')
     setGalat('')
     setBerubah(false)
+    setPercobaan((n) => n + 1)
   }
 
   return {
@@ -264,6 +395,9 @@ export function useProsesBanding() {
     putuskan,
     eksporCsv,
     resetDemo,
+    memuat,
+    galatMuat,
+    muat,
   }
 }
 

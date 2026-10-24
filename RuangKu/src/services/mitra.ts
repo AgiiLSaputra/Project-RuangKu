@@ -79,6 +79,25 @@ export async function ambilLaporanMitra(
   return api<LaporanMitra>(`/mitra/laporan?${t.toString()}`)
 }
 
+/** Satu baris listing ruangan milik penyedia (`GET /api/mitra/listing`). */
+export interface BarisListingMitra {
+  id: string
+  slug: string
+  kode: string
+  nama: string
+  kategori: string
+  kota: string
+  statusListing: string
+  kapasitasMax: number
+  tarifPerJam: number
+  foto: string[]
+}
+
+/** Daftar seluruh ruangan milik penyedia yang login. */
+export async function ambilListingMitra(): Promise<BarisListingMitra[]> {
+  return api<BarisListingMitra[]>('/mitra/listing')
+}
+
 /** Bentuk ringkas ruangan hasil `POST /api/mitra/ruangan`. */
 export interface HasilBuatRuangan {
   id: string
