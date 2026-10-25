@@ -24,7 +24,7 @@ export interface DokumenVerif {
   terbit: string
   berlaku: string
   pejabat: string
-  /** URL berkas asli (`/uploads/...` di server) — kosong bila tidak ada berkas. */
+  /** Data URI berkas asli (`data:<mime>;base64,...`, byte diambil dari database) — kosong bila tidak ada berkas. */
   url?: string
 }
 

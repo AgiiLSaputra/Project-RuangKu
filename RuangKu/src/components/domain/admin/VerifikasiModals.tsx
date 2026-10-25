@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import { cn } from '../../../lib/cn'
 import { Icon } from '../../ui/Icon'
 import { Overlay } from '../../ui/Overlay'
@@ -5,6 +6,77 @@ import type { VerifikasiPenyedia } from './useVerifikasiPenyedia'
 
 const KELAS_TOMBOL =
   'inline-flex h-11 items-center justify-center gap-2 rounded-full px-space-md font-title-md text-title-md font-semibold transition-all active:scale-[0.98]'
+
+/**
+ * Berkas verifikasi datang sebagai **data URI** (`data:<mime>;base64,...`) yang
+ * diambil langsung dari database — bukan URL host yang bisa salah. Chrome
+ * memblokir navigasi/iframe top-level ke `data:`, jadi semua aksi "buka" dan
+ * "unduh" di bawah melewatkan byte-nya ke Blob dulu.
+ */
+const EKSTENSI_MIME: Record<string, string> = {
+  'image/jpeg': 'jpg',
+  'image/png': 'png',
+  'image/webp': 'webp',
+  'application/pdf': 'pdf',
+}
+
+/** Data URI PDF? (regex `.pdf` biasa tidak menangkap `data:application/pdf;base64,...`). */
+const adalahPdf = (url: string) => /^data:application\/pdf[;,]/i.test(url) || /\.pdf(\?|#|$)/i.test(url)
+
+/** Nama berkas unduhan — ekstensi diambil dari MIME data URI bila nama tak bersufiks. */
+function namaBerkas(src: string, nama?: string) {
+  if (nama && /\.[a-z0-9]+$/i.test(nama)) return nama
+  const mime = /^data:([^;,]+)/i.exec(src)?.[1]?.toLowerCase()
+  return `${nama || 'berkas'}.${(mime && EKSTENSI_MIME[mime]) || 'bin'}`
+}
+
+/** Buka berkas di tab baru lewat Blob (data: diblokir Chrome untuk navigasi tab baru). */
+async function bukaTabBaru(src: string) {
+  const res = await fetch(src)
+  const objek = URL.createObjectURL(await res.blob())
+  window.open(objek, '_blank', 'noreferrer')
+  window.setTimeout(() => URL.revokeObjectURL(objek), 5 * 60_000)
+}
+
+/** Unduh berkas dengan nama + ekstensi yang benar (data URI tidak membawa nama). */
+async function unduhBerkas(src: string, nama?: string) {
+  const res = await fetch(src)
+  const objek = URL.createObjectURL(await res.blob())
+  const jangkar = document.createElement('a')
+  jangkar.href = objek
+  jangkar.download = namaBerkas(src, nama)
+  document.body.appendChild(jangkar)
+  jangkar.click()
+  jangkar.remove()
+  window.setTimeout(() => URL.revokeObjectURL(objek), 5 * 60_000)
+}
+
+/** Object URL Blob dari data URI — hanya saat `src` terisi, dibatalkan saat dilepas. */
+function useObjectUrl(src: string | null) {
+  const [objek, setObjek] = useState<string | null>(null)
+  useEffect(() => {
+    if (!src) {
+      setObjek(null)
+      return
+    }
+    let batal = false
+    let dibuat: string | null = null
+    fetch(src)
+      .then((r) => r.blob())
+      .then((b) => {
+        if (batal) return
+        dibuat = URL.createObjectURL(b)
+        setObjek(dibuat)
+      })
+      .catch(() => undefined)
+    return () => {
+      batal = true
+      setObjek(null)
+      if (dibuat) URL.revokeObjectURL(dibuat)
+    }
+  }, [src])
+  return objek
+}
 
 /**
  * Modal penolakan verifikasi (FR-G1, SOP wajib): checklist alasan standar
@@ -125,6 +197,7 @@ export function ModalPenolakan({ verif }: { verif: VerifikasiPenyedia }) {
 
 /** Lightbox pratinjau foto berkas verifikasi. */
 export function ModalFoto({ verif }: { verif: VerifikasiPenyedia }) {
+  const fb = verif.fotoBesar
   return (
     <Overlay
       open={Boolean(verif.fotoBesar)}
@@ -155,29 +228,24 @@ export function ModalFoto({ verif }: { verif: VerifikasiPenyedia }) {
           >
             Tutup
           </button>
-          {verif.fotoBesar?.src && (
+          {fb?.src && (
             <>
-              <a
-                href={verif.fotoBesar.src}
-                target="_blank"
-                rel="noreferrer"
-                className={cn(
-                  KELAS_TOMBOL,
-                  'bg-purple-50 text-on-surface hover:bg-purple-100',
-                  'inline-flex items-center',
-                )}
+              <button
+                type="button"
+                onClick={() => void bukaTabBaru(fb.src)}
+                className={cn(KELAS_TOMBOL, 'bg-purple-50 text-on-surface hover:bg-purple-100')}
               >
                 <Icon name="open_in_new" className="text-[18px]" />
                 Buka Tab Baru
-              </a>
-              <a
-                href={verif.fotoBesar.src}
-                download={verif.fotoBesar.judul || true}
+              </button>
+              <button
+                type="button"
+                onClick={() => void unduhBerkas(fb.src, fb.judul)}
                 className={cn(KELAS_TOMBOL, 'bg-primary text-white shadow-sm hover:opacity-90')}
               >
                 <Icon name="download" className="text-[18px]" />
                 Unduh Foto
-              </a>
+              </button>
             </>
           )}
         </div>
@@ -186,13 +254,17 @@ export function ModalFoto({ verif }: { verif: VerifikasiPenyedia }) {
   )
 }
 
-/** Pratinjau dokumen verifikasi — berkas asli dari server (/uploads/...). */
+/** Pratinjau dokumen verifikasi — byte berkas dari database (data URI). */
 export function ModalDokumen({ verif }: { verif: VerifikasiPenyedia }) {
   const m = verif.terpilih
-  if (!m) return null
-  const d = m.dokumen
-  const url = d.url ?? ''
-  const pdf = /\.pdf(\?|$)/i.test(url)
+  const d = m?.dokumen
+  const url = d?.url ?? ''
+  const pdf = url !== '' && adalahPdf(url)
+  // Pratinjau PDF dialihkan lewat Blob (Chrome memblokir iframe ber-`data:`) —
+  // object URL hanya dibuat selama modal terbuka.
+  const pratinjau = useObjectUrl(verif.dokBuka && pdf ? url : null)
+
+  if (!m || !d) return null
 
   return (
     <Overlay open={verif.dokBuka} onClose={() => verif.setDokBuka(false)} labelledBy="judul-dok">
@@ -209,13 +281,19 @@ export function ModalDokumen({ verif }: { verif: VerifikasiPenyedia }) {
           </span>
         </div>
 
-        {/* Pratinjau berkas asli (bila ada) — klik bisa dijalankan admin langsung dari sini. */}
+        {/* Pratinjau berkas asli (bila ada) — PDF lewat Blob, sisanya data URI langsung. */}
         {d.url && pdf ? (
-          <iframe
-            src={d.url}
-            title={`Berkas ${d.jenis}`}
-            className="mt-space-md h-96 w-full rounded-2xl border border-purple-100 bg-white"
-          />
+          pratinjau ? (
+            <iframe
+              src={pratinjau}
+              title={`Berkas ${d.jenis}`}
+              className="mt-space-md h-96 w-full rounded-2xl border border-purple-100 bg-white"
+            />
+          ) : (
+            <div className="mt-space-md flex items-center gap-3 rounded-2xl border border-purple-100 bg-purple-50 p-space-md">
+              <p className="text-body-sm text-slate-500">Menyiapkan pratinjau berkas…</p>
+            </div>
+          )
         ) : d.url ? (
           <img
             src={d.url}
@@ -257,27 +335,22 @@ export function ModalDokumen({ verif }: { verif: VerifikasiPenyedia }) {
           </button>
           {d.url && (
             <>
-              <a
-                href={d.url}
-                target="_blank"
-                rel="noreferrer"
-                className={cn(
-                  KELAS_TOMBOL,
-                  'bg-purple-50 text-on-surface hover:bg-purple-100',
-                  'inline-flex items-center',
-                )}
+              <button
+                type="button"
+                onClick={() => void bukaTabBaru(d.url!)}
+                className={cn(KELAS_TOMBOL, 'bg-purple-50 text-on-surface hover:bg-purple-100')}
               >
                 <Icon name="open_in_new" className="text-[18px]" />
                 Buka Berkas
-              </a>
-              <a
-                href={d.url}
-                download={d.nama || true}
+              </button>
+              <button
+                type="button"
+                onClick={() => void unduhBerkas(d.url!, d.nama)}
                 className={cn(KELAS_TOMBOL, 'bg-primary text-white shadow-sm hover:opacity-90')}
               >
                 <Icon name="download" className="text-[18px]" />
                 Unduh Berkas
-              </a>
+              </button>
             </>
           )}
         </div>

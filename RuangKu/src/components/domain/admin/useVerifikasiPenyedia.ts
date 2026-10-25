@@ -105,10 +105,12 @@ interface DetailVerifikasiApi {
     terbit: string
     berlaku: string
     pejabat: string
+    /** Data URI (`data:<mime>;base64,...`) — byte dokumen dari database, bukan URL host. */
     fileUrl: string
     ukuran: string | number
     meta: string | null
   }>
+  /** `url` tiap foto juga data URI dari database (berkas dihapus setelah keputusan admin). */
   foto: Array<{ url: string; label: string; judul: string | null; meta: string | null }>
 }
 
