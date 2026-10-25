@@ -1,7 +1,7 @@
 import { randomUUID } from 'node:crypto';
 import { mkdir, unlink } from 'node:fs/promises';
 import path from 'node:path';
-import { env } from '../../config/env';
+import { env, isProduction } from '../../config/env';
 
 /** Batas jumlah foto per ruangan (sama dengan `MAKS_FOTO` di frontend). */
 export const MAKS_FOTO = 4;
@@ -22,8 +22,25 @@ export const folderUpload = () => path.resolve(env.UPLOAD_DIR);
 
 export const ekstensiUntuk = (mime: string): string | undefined => EKSTENSI[mime];
 
-/** URL publik yang disimpan di `ruangan_foto.url`. */
-export const urlUntuk = (nama: string) => `${env.PUBLIC_URL.replace(/\/+$/, '')}/uploads/${nama}`;
+/**
+ * URL publik yang disimpan di `ruangan_foto.url` / `verifikasi_foto.url`.
+ *
+ * Jaring pengaman: kalau di produksi `PUBLIC_URL` belum diset (masih default
+ * localhost), URL yang tertanam akan menunjuk ke komputer pengguna dan foto
+ * tak terlihat. Dalam kondisi itu kita simpan URL RELATIF saja — proxy Vercel
+ * (`/uploads/*` di vercel.json) tetap melayaninya dengan benar.
+ */
+export const urlUntuk = (nama: string) => {
+  const dasar = env.PUBLIC_URL.replace(/\/+$/, '');
+  const masihLokal = /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/i.test(dasar);
+  if (isProduction && masihLokal) {
+    console.warn(
+      '[upload] PUBLIC_URL belum diset di produksi (masih localhost) — menyimpan URL relatif. Set PUBLIC_URL di dashboard Render.',
+    );
+    return `/uploads/${nama}`;
+  }
+  return `${dasar}/uploads/${nama}`;
+};
 
 /** Tolak nama berkas yang bukan hasil buatan server (mencegah path traversal). */
 export const namaValid = (nama: string) => POLA_NAMA.test(nama);
