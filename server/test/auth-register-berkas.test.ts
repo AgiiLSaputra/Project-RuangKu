@@ -1,14 +1,10 @@
 /** Pendaftaran penyedia dengan berkas verifikasi (FR-A5): foto gedung + dokumen pendukung. */
 import { randomUUID } from 'node:crypto';
-import { existsSync } from 'node:fs';
-import { rm } from 'node:fs/promises';
-import path from 'node:path';
 import type { FastifyInstance } from 'fastify';
 import { afterAll, beforeAll, beforeEach, describe, expect, it } from 'vitest';
 import { eq } from 'drizzle-orm';
 import { db, pool } from '../src/config/db';
 import { pengajuanVerifikasi, verifikasiDokumen, verifikasiFoto } from '../src/db/schema';
-import { folderUpload } from '../src/modules/mitra/upload.util';
 import { bersihkanData, buatApp } from './helpers';
 
 let app: FastifyInstance;
@@ -20,12 +16,8 @@ beforeAll(async () => {
 afterAll(async () => {
   await app.close();
   await pool.end();
-  await rm(folderUpload(), { recursive: true, force: true });
 });
-beforeEach(async () => {
-  await bersihkanData();
-  await rm(folderUpload(), { recursive: true, force: true });
-});
+beforeEach(bersihkanData);
 
 /** Byte awal PNG — isinya tidak diperiksa server, hanya tipe MIME yang divalidasi. */
 const PNG = Buffer.from('89504e470d0a1a0a0000000d49484452', 'hex');
@@ -63,7 +55,6 @@ function multipartRegister(
 }
 
 const emailBaru = () => `uji-${randomUUID().slice(0, 8)}@mail.com`;
-const namaDariUrl = (url: string) => url.split('/uploads/')[1];
 
 describe('POST /api/auth/register — penyedia dengan berkas verifikasi', () => {
   it('menyimpan foto gedung + dokumen pendukung dengan metode docs', async () => {
@@ -99,14 +90,15 @@ describe('POST /api/auth/register — penyedia dengan berkas verifikasi', () => 
 
     const foto = await db.select().from(verifikasiFoto).where(eq(verifikasiFoto.pengajuanId, p.id));
     expect(foto).toHaveLength(1);
-    expect(foto[0].url).toMatch(/\/uploads\/.+\.png$/);
-    expect(existsSync(path.join(folderUpload(), namaDariUrl(foto[0].url)))).toBe(true);
+    // Berkas disimpan sebagai byte di database (bukan file di folder uploads/).
+    expect(foto[0].mime).toBe('image/png');
+    expect(Buffer.compare(foto[0].data, PNG)).toBe(0);
+    expect(foto[0].meta).toBe('1 KB');
 
     const dokumen = await db.select().from(verifikasiDokumen).where(eq(verifikasiDokumen.pengajuanId, p.id));
     expect(dokumen).toHaveLength(1);
-    expect(dokumen[0]).toMatchObject({ jenis: 'Pendukung', nama: 'nib.pdf' });
-    expect(dokumen[0].fileUrl).toMatch(/\/uploads\/.+\.pdf$/);
-    expect(existsSync(path.join(folderUpload(), namaDariUrl(dokumen[0].fileUrl!)))).toBe(true);
+    expect(dokumen[0]).toMatchObject({ jenis: 'Pendukung', nama: 'nib.pdf', mime: 'application/pdf' });
+    expect(dokumen[0].data.toString('utf8')).toBe('%PDF-1.4 uji');
   });
 
   it('menyimpan tautan Maps dan tanpa berkas bila metode maps (JSON tetap didukung)', async () => {

@@ -29,7 +29,7 @@ export function pasangErrorHandler(app: FastifyInstance) {
     if (kode === 'FST_REQ_FILE_TOO_LARGE') {
       return reply.status(413).send({
         ok: false,
-        error: { kode: 'BERKAS_TERLALU_BESAR', pesan: 'Ukuran foto melebihi batas 5 MB' },
+        error: { kode: 'BERKAS_TERLALU_BESAR', pesan: 'Ukuran berkas melebihi batas yang diizinkan' },
       });
     }
     if (kode === 'FST_FILES_LIMIT' || kode === 'FST_PARTS_LIMIT') {

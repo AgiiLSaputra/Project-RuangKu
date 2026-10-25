@@ -6,6 +6,14 @@ import { sha256 } from '../../lib/hash';
 import type { AuthUser } from '../../plugins/auth';
 
 /**
+ * Byte berkas verifikasi → data URI (`data:<mime>;base64,...`) supaya panel admin
+ * bisa langsung memakainya sebagai `src`/`href`. Tanpa URL berkas, tak ada host
+ * yang bisa salah (kasus `http://localhost:3000/...` di produksi).
+ */
+const dataUri = (data: Buffer, mime: string | null | undefined) =>
+  `data:${mime || 'application/octet-stream'};base64,${data.toString('base64')}`;
+
+/**
  * Semua akun penyewa & penyedia (akun admin tidak ikut), terbaru di atas, maksimal 500 baris.
  * Pencarian, filter status/peran, dan paginasi dikerjakan di frontend untuk sementara.
  */
@@ -356,11 +364,18 @@ export async function detailVerifikasi(id: string) {
       terbit: d.terbit,
       berlaku: d.berlaku,
       pejabat: d.pejabat,
-      fileUrl: d.fileUrl,
+      fileUrl: dataUri(d.data, d.mime),
       ukuran: d.ukuran,
       meta: d.meta,
     })),
-    foto: foto.map((f) => ({ id: f.id, url: f.url, label: f.label, judul: f.judul, meta: f.meta, urutan: f.urutan })),
+    foto: foto.map((f) => ({
+      id: f.id,
+      url: dataUri(f.data, f.mime),
+      label: f.label,
+      judul: f.judul,
+      meta: f.meta,
+      urutan: f.urutan,
+    })),
   };
 }
 
@@ -368,6 +383,11 @@ export async function detailVerifikasi(id: string) {
  * Setujui/tolak satu pengajuan verifikasi. Dalam satu transaksi: status pengajuan,
  * status akun penyedia (hanya bila masih `menunggu`), `mitra.diverifikasi_pada`, dan audit log.
  * Hanya pengajuan berstatus `menunggu` yang bisa diputuskan.
+ *
+ * Foto & dokumen bukti ikut dihapus di transaksi yang sama (baik setujui maupun
+ * tolak): berkas itu hanya perlu ada selama masa review, supaya penyimpanan tidak
+ * menumpuk. Modul banding tidak pernah membaca berkas ini; catatan keputusan +
+ * audit log tetap tersimpan.
  */
 export async function putuskanVerifikasi(
   admin: AuthUser,
@@ -413,8 +433,12 @@ export async function putuskanVerifikasi(
         .where(and(eq(users.id, p.userId), eq(users.status, 'menunggu')));
     }
 
-    const payload = { pengajuanId: id, ref: p.ref, venue: p.venue, keputusan, catatan: catatan ?? null };
-    const json = JSON.stringify(payload);
+    // Berkas bukti (foto + dokumen) dihapus bersama barisnya begitu keputusan
+    // diambil — baik setujui maupun tolak — supaya penyimpanan tidak menumpuk.
+    await tx.delete(verifikasiFoto).where(eq(verifikasiFoto.pengajuanId, id));
+    await tx.delete(verifikasiDokumen).where(eq(verifikasiDokumen.pengajuanId, id));
+
+    const payload = { pengajuanId: id, ref: p.ref, venue: p.venue, keputusan, catatan: catatan ?? null };    const json = JSON.stringify(payload);
     await tx.execute(sql`INSERT INTO audit_log
       (aktor_id, aktor_nama, aktor_ref, aktor_peran, aksi_kode, aksi_label, jenis,
        entitas_jenis, entitas_id, entitas_nama, keterangan, payload, sha256)

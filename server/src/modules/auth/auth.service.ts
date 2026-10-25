@@ -29,13 +29,13 @@ function adalahDuplikatEmail(err: unknown) {
 }
 
 export interface BerkasVerifikasiInfo {
-  /** Nama berkas hasil server di folder `uploads/`. */
-  nama: string
-  /** URL publik berkas (dipakai URL di tabel verifikasi). */
-  url: string
+  /** Isi berkas dalam byte — disimpan langsung ke kolom `bytea`, bukan ke disk. */
+  data: Buffer
+  /** MIME dari allowlist (image/jpeg|png|webp, application/pdf). */
+  mime: string
   /** Nama asli dari perangkat pengunggah (untuk statistik tampilan). */
   namaAsli: string
-  /** Ukuran berkas dalam bita (dihitung saat streaming). */
+  /** Ukuran berkas dalam bita. */
   ukuranBita: number
 }
 
@@ -84,7 +84,8 @@ export async function register(input: RegisterInput, berkas?: BerkasVerifikasi) 
         if (berkas?.foto) {
           await tx.insert(verifikasiFoto).values({
             pengajuanId: p.id,
-            url: berkas.foto.url,
+            data: berkas.foto.data,
+            mime: berkas.foto.mime,
             label: 'Foto Gedung',
             judul: input.properti,
             meta: ukuranTeks(berkas.foto),
@@ -94,9 +95,10 @@ export async function register(input: RegisterInput, berkas?: BerkasVerifikasi) 
         if (berkas?.dokumen) {
           await tx.insert(verifikasiDokumen).values({
             pengajuanId: p.id,
+            data: berkas.dokumen.data,
+            mime: berkas.dokumen.mime,
             jenis: 'Pendukung',
             nama: berkas.dokumen.namaAsli,
-            fileUrl: berkas.dokumen.url,
             ukuran: ukuranTeks(berkas.dokumen),
             meta: 'Dokumen pendukung dari formulir verifikasi (FR-A5)',
           });

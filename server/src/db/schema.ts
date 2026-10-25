@@ -6,6 +6,12 @@ import { boolean, customType, date, integer, jsonb, numeric, pgEnum, pgTable, pr
 
 const citext = customType<{ data: string }>({ dataType: () => 'citext' });
 
+/**
+ * Kolom `bytea` (drizzle-orm 0.45 belum menyediakan builder-nya). Dipakai untuk
+ * menyimpan byte berkas verifikasi — driver pg sudah mengembalikannya sebagai Buffer.
+ */
+const bytea = customType<{ data: Buffer; driverData: Buffer }>({ dataType: () => 'bytea' });
+
 export const peranUser = pgEnum('peran_user', ['penyewa', 'penyedia', 'admin']);
 export const statusAkun = pgEnum('status_akun', ['aktif', 'menunggu', 'ditolak', 'nonaktif']);
 export const statusVerifikasi = pgEnum('status_verifikasi', ['menunggu', 'disetujui', 'ditolak']);
@@ -90,30 +96,42 @@ export const pengajuanVerifikasi = pgTable('pengajuan_verifikasi', {
   catatanKeputusan: text('catatan_keputusan'),
 });
 
-/** Dokumen legal yang diunggah mitra saat mengajukan verifikasi (NIB / SKDU). */
+/**
+ * Dokumen legal yang diunggah mitra saat mengajukan verifikasi (NIB / SKDU).
+ * Berkasnya disimpan di database (`bytea`) selama masa review saja —
+ * dihapus bersama barisnya begitu admin memutuskan pengajuan (lihat
+ * `admin.service.ts#putuskanVerifikasi`), jadi penyimpanan tidak pernah menumpuk.
+ * Panel admin menerimanya sebagai data URI, tanpa URL berkas yang bisa salah host.
+ */
 export const verifikasiDokumen = pgTable('verifikasi_dokumen', {
   id: uuid('id').primaryKey().defaultRandom(),
   pengajuanId: uuid('pengajuan_id')
     .notNull()
     .references(() => pengajuanVerifikasi.id, { onDelete: 'cascade' }),
+  data: bytea('data').notNull(),
+  mime: text('mime').notNull().default('application/octet-stream'),
   jenis: text('jenis').notNull(),
   nama: text('nama').notNull(),
   nomor: text('nomor'),
   terbit: date('terbit', { mode: 'string' }),
   berlaku: date('berlaku', { mode: 'string' }),
   pejabat: text('pejabat'),
-  fileUrl: text('file_url'),
   ukuran: text('ukuran'),
   meta: text('meta'),
 });
 
-/** Foto bukti fisik venue (maksimal 3, urutan 0 = utama). */
+/**
+ * Foto bukti fisik venue (maksimal 3, urutan 0 = utama).
+ * Seperti `verifikasiDokumen`: byte fotonya hidup di database hanya selama
+ * pengajuan berstatus `menunggu`, lalu ikut terhapus saat keputusan diambil.
+ */
 export const verifikasiFoto = pgTable('verifikasi_foto', {
   id: uuid('id').primaryKey().defaultRandom(),
   pengajuanId: uuid('pengajuan_id')
     .notNull()
     .references(() => pengajuanVerifikasi.id, { onDelete: 'cascade' }),
-  url: text('url').notNull(),
+  data: bytea('data').notNull(),
+  mime: text('mime').notNull().default('application/octet-stream'),
   label: text('label').notNull(),
   judul: text('judul'),
   meta: text('meta'),

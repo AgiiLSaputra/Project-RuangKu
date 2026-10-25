@@ -19,6 +19,10 @@ beforeEach(bersihkanData);
 
 const SANDI = 'sandi-rahasia-1';
 
+/** Byte contoh berkas bukti — disimpan sebagai kolom `bytea` di tabel verifikasi. */
+const FOTO = Buffer.from('89504e470d0a1a0a0000000d49484452', 'hex');
+const PDF = Buffer.from('%PDF-1.4 contoh');
+
 async function adminCookie() {
   await buatUserLangsung({ email: 'admin@mail.com', peran: 'admin', nama: 'Admin Uji' });
   const res = await app.inject({ method: 'POST', url: '/api/auth/login', payload: { email: 'admin@mail.com', sandi: SANDI } });
@@ -95,12 +99,12 @@ describe('Antrean verifikasi penyedia', () => {
     const p = await daftarPenyedia('mitra@mail.com', 'Gedung Melati');
 
     await db.insert(verifikasiDokumen).values([
-      { pengajuanId: p.id, jenis: 'NIB', nama: 'NIB-2026.pdf', nomor: '1234567890', pejabat: 'Kementerian' },
-      { pengajuanId: p.id, jenis: 'SKDU', nama: 'SKDU-2026.pdf', nomor: 'SK-0099' },
+      { pengajuanId: p.id, data: PDF, mime: 'application/pdf', jenis: 'NIB', nama: 'NIB-2026.pdf', nomor: '1234567890', pejabat: 'Kementerian' },
+      { pengajuanId: p.id, data: PDF, mime: 'application/pdf', jenis: 'SKDU', nama: 'SKDU-2026.pdf', nomor: 'SK-0099' },
     ]);
     await db.insert(verifikasiFoto).values([
-      { pengajuanId: p.id, url: '/img/img-03.jpg', label: 'Tampak Depan', judul: 'Gedung Melati', urutan: 0 },
-      { pengajuanId: p.id, url: '/img/img-04.jpg', label: 'Ruang Utama', urutan: 1 },
+      { pengajuanId: p.id, data: FOTO, mime: 'image/jpeg', label: 'Tampak Depan', judul: 'Gedung Melati', urutan: 0 },
+      { pengajuanId: p.id, data: FOTO, mime: 'image/jpeg', label: 'Ruang Utama', urutan: 1 },
     ]);
 
     const res = await detail(cookie, p.id);
@@ -110,6 +114,10 @@ describe('Antrean verifikasi penyedia', () => {
     expect(data.dokumen.map((d: { jenis: string }) => d.jenis)).toEqual(['NIB', 'SKDU']);
     expect(data.foto).toHaveLength(2);
     expect(data.foto[0]).toMatchObject({ label: 'Tampak Depan', urutan: 0 });
+    // Panel admin menerima byte berkas langsung sebagai data URI — tidak ada URL
+    // host yang bisa salah seperti kasus `http://localhost:3000/uploads/...`.
+    expect(data.foto[0].url).toBe(`data:image/jpeg;base64,${FOTO.toString('base64')}`);
+    expect(data.dokumen[0].fileUrl).toBe(`data:application/pdf;base64,${PDF.toString('base64')}`);
     expect(data.pemohon.email).toBe('mitra@mail.com');
     expect(data.mitra.ref).toMatch(/^MITRA-\d+$/);
   });
@@ -175,6 +183,32 @@ describe('Keputusan verifikasi', () => {
 
     const [sesudah] = await db.select().from(pengajuanVerifikasi).where(eq(pengajuanVerifikasi.id, p.id));
     expect(sesudah.catatanKeputusan).toBe('Dokumen NIB tidak sesuai');
+  });
+
+  it('berkas bukti (foto & dokumen) dihapus begitu keputusan diambil — setujui maupun tolak', async () => {
+    const cookie = await adminCookie();
+    const satu = await daftarPenyedia('satu@mail.com', 'Gedung Melati');
+    const dua = await daftarPenyedia('dua@mail.com', 'Aula Anggrek');
+
+    for (const p of [satu, dua]) {
+      await db.insert(verifikasiFoto).values({ pengajuanId: p.id, data: FOTO, mime: 'image/jpeg', label: 'Tampak Depan' });
+      await db
+        .insert(verifikasiDokumen)
+        .values({ pengajuanId: p.id, data: PDF, mime: 'application/pdf', jenis: 'NIB', nama: 'NIB.pdf' });
+    }
+
+    const sisa = async (id: string) => ({
+      foto: (await db.select().from(verifikasiFoto).where(eq(verifikasiFoto.pengajuanId, id))).length,
+      dokumen: (await db.select().from(verifikasiDokumen).where(eq(verifikasiDokumen.pengajuanId, id))).length,
+    });
+    expect(await sisa(satu.id)).toEqual({ foto: 1, dokumen: 1 });
+    expect(await sisa(dua.id)).toEqual({ foto: 1, dokumen: 1 });
+
+    expect((await putuskan(cookie, satu.id, { keputusan: 'setujui' })).statusCode).toBe(200);
+    expect((await putuskan(cookie, dua.id, { keputusan: 'tolak', catatan: 'Berkas tidak terbaca' })).statusCode).toBe(200);
+
+    expect(await sisa(satu.id)).toEqual({ foto: 0, dokumen: 0 });
+    expect(await sisa(dua.id)).toEqual({ foto: 0, dokumen: 0 });
   });
 
   it('pengajuan yang sudah diputuskan tidak bisa diputuskan lagi (409)', async () => {

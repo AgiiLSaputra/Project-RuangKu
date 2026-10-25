@@ -15,7 +15,7 @@ const EKSTENSI: Record<string, string> = {
   'image/webp': 'webp',
 };
 
-/** Nama berkas yang dibuat server: `<potongan id ruangan>-<uuid>.<ext>` (juga dipakai berkas verifikasi). */
+/** Nama berkas yang dibuat server: `<potongan id ruangan>-<uuid>.<ext>`. */
 const POLA_NAMA = /^[a-z0-9-]+\.(jpg|png|webp|pdf)$/i;
 
 export const folderUpload = () => path.resolve(env.UPLOAD_DIR);
@@ -23,7 +23,8 @@ export const folderUpload = () => path.resolve(env.UPLOAD_DIR);
 export const ekstensiUntuk = (mime: string): string | undefined => EKSTENSI[mime];
 
 /**
- * URL publik yang disimpan di `ruangan_foto.url` / `verifikasi_foto.url`.
+ * URL publik yang disimpan di `ruangan_foto.url` (foto katalog).
+ * Foto verifikasi TIDAK memakai URL — byte-nya disimpan di database (kolom `bytea`).
  *
  * Jaring pengaman: kalau di produksi `PUBLIC_URL` belum diset (masih default
  * localhost), URL yang tertanam akan menunjuk ke komputer pengguna dan foto
