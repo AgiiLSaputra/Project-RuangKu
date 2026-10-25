@@ -2,7 +2,7 @@ import { randomUUID } from 'node:crypto';
 import { and, eq, lt } from 'drizzle-orm';
 import { db } from '../../config/db';
 import { env } from '../../config/env';
-import { mitra, pengajuanVerifikasi, sesi, users } from '../../db/schema';
+import { mitra, pengajuanVerifikasi, sesi, users, verifikasiDokumen, verifikasiFoto } from '../../db/schema';
 import { AppError } from '../../lib/errors';
 import { cocokSandi, hashSandi, sha256 } from '../../lib/hash';
 import { pesanStatusAkun } from '../../plugins/auth';
@@ -28,7 +28,24 @@ function adalahDuplikatEmail(err: unknown) {
   return e?.code === '23505' || e?.cause?.code === '23505';
 }
 
-export async function register(input: RegisterInput) {
+export interface BerkasVerifikasiInfo {
+  /** Nama berkas hasil server di folder `uploads/`. */
+  nama: string
+  /** URL publik berkas (dipakai URL di tabel verifikasi). */
+  url: string
+  /** Nama asli dari perangkat pengunggah (untuk statistik tampilan). */
+  namaAsli: string
+  /** Ukuran berkas dalam bita (dihitung saat streaming). */
+  ukuranBita: number
+}
+
+/** Berkas verifikasi yang disertakan saat pendaftaran penyedia (FR-A5). */
+export interface BerkasVerifikasi {
+  foto?: BerkasVerifikasiInfo
+  dokumen?: BerkasVerifikasiInfo
+}
+
+export async function register(input: RegisterInput, berkas?: BerkasVerifikasi) {
   const sandiHash = await hashSandi(input.sandi);
   const status = 'menunggu' as const;
 
@@ -44,15 +61,46 @@ export async function register(input: RegisterInput) {
           .insert(mitra)
           .values({ userId: user.id, picNama: input.picNama, picJabatan: input.picJabatan, properti: input.properti })
           .returning({ ref: mitra.ref });
-        await tx.insert(pengajuanVerifikasi).values({
-          ref: m.ref, // pengajuan memakai ref yang sama dengan mitra (mis. MITRA-018)
-          userId: user.id,
-          venue: input.properti,
-          lokasi: input.lokasi,
-          picNama: input.picNama,
-          picJabatan: input.picJabatan,
-          email: input.email,
-        });
+        const [p] = await tx
+          .insert(pengajuanVerifikasi)
+          .values({
+            ref: m.ref, // pengajuan memakai ref yang sama dengan mitra (mis. MITRA-018)
+            userId: user.id,
+            venue: input.properti,
+            lokasi: input.lokasi,
+            // Tautan Maps (metode `maps`) disimpan sebagai identitas tempat pengajuan.
+            tempat: input.metodeLokasi === 'maps' ? (input.mapsUrl ?? null) : null,
+            picNama: input.picNama ?? input.nama, // pemilik akun sebagai kontak PIC bila tidak diisi
+            picJabatan: input.picJabatan ?? null,
+            email: input.email,
+            waTampil: input.waTampil ?? input.wa ?? null,
+            waNomor: input.wa ?? null,
+          })
+          .returning({ id: pengajuanVerifikasi.id });
+        const ukuranTeks = (info: BerkasVerifikasiInfo) => {
+          const mb = info.ukuranBita / (1024 * 1024);
+          return mb >= 1 ? `${mb.toFixed(1)} MB` : `${Math.ceil(info.ukuranBita / 1024)} KB`;
+        };
+        if (berkas?.foto) {
+          await tx.insert(verifikasiFoto).values({
+            pengajuanId: p.id,
+            url: berkas.foto.url,
+            label: 'Foto Gedung',
+            judul: input.properti,
+            meta: ukuranTeks(berkas.foto),
+            urutan: 0,
+          });
+        }
+        if (berkas?.dokumen) {
+          await tx.insert(verifikasiDokumen).values({
+            pengajuanId: p.id,
+            jenis: 'Pendukung',
+            nama: berkas.dokumen.namaAsli,
+            fileUrl: berkas.dokumen.url,
+            ukuran: ukuranTeks(berkas.dokumen),
+            meta: 'Dokumen pendukung dari formulir verifikasi (FR-A5)',
+          });
+        }
       }
       return user;
     });

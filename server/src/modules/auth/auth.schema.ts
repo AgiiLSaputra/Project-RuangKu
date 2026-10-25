@@ -24,6 +24,10 @@ export const registerSchema = z.discriminatedUnion('peran', [
       lokasi: z.string().trim().min(2, 'Lokasi wajib diisi').max(150),
       picNama: z.string().trim().min(2).max(100).optional(),
       picJabatan: z.string().trim().min(2).max(100).optional(),
+      // Berkas verifikasi (FR-A5) — dikirim bersama formulir melalui multipart.
+      waTampil: wa.optional(), // nomor WA yang ditampilkan pengajuan (bisa beda dengan WA akun)
+      metodeLokasi: z.enum(['maps', 'docs']).optional(),
+      mapsUrl: z.string().trim().regex(/^https?:\/\/\S+$/i, 'Tautan Maps tidak valid').max(500).optional(),
     })
     .strict(),
 ]);

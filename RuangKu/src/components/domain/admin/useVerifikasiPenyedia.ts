@@ -177,6 +177,7 @@ function gabungDetail(before: MitraVerifikasi, d: DetailVerifikasiApi): MitraVer
           terbit: d.dokumen[0].terbit,
           berlaku: d.dokumen[0].berlaku,
           pejabat: d.dokumen[0].pejabat,
+          url: d.dokumen[0].fileUrl,
         }
       : {
           ...before.dokumen,

@@ -6,7 +6,7 @@ import { Icon } from "../../components/ui/Icon";
 import { Stepper } from "../../components/ui/Stepper";
 import { Logo } from "../../components/chrome/Logo";
 import { Spinner } from "../../components/domain/auth/Spinner";
-import { api, ApiError } from "../../lib/api";
+import { ApiError, apiForm } from "../../lib/api";
 import { ambilLangkah1, hapusLangkah1 } from "../../lib/pendaftaran";
 
 const ACCEPT_FOTO = "image/jpeg,image/png,application/pdf";
@@ -75,10 +75,17 @@ export function RegistrasiLanjutanPage() {
     else if (wa.replace(/\D/g, "").length < 9)
       errs.wa = "Nomor WhatsApp belum lengkap.";
     if (!file) errs.file = "Foto gedung wajib diunggah.";
+    else if (file.size > 2 * 1024 * 1024)
+      errs.file = "Ukuran foto maksimal 2 MB (FR-A9).";
     if (metode === "maps") {
       if (!mapsUrl.trim()) errs.maps = "Tautan Google Maps wajib diisi.";
       else if (!ujiTautan())
         errs.maps = "Tautan tidak valid — periksa kembali URL Google Maps.";
+    } else if (!dokumen) {
+      errs.dokumen =
+        "Gedung belum terdaftar Maps — unggah dokumen pendukung (FR-A5).";
+    } else if (dokumen.size > 2 * 1024 * 1024) {
+      errs.dokumen = "Ukuran dokumen maksimal 2 MB (FR-A9).";
     }
     setErrors(errs);
     if (Object.keys(errs).length > 0 || loading) return;
@@ -91,18 +98,23 @@ export function RegistrasiLanjutanPage() {
 
     setLoading(true);
     try {
-      await api("/auth/register", {
-        method: "POST",
-        body: {
-          peran: "penyedia",
-          nama: langkah1.nama,
-          email: langkah1.email,
-          sandi: langkah1.sandi,
-          wa: langkah1.wa,
-          properti: properti.trim(),
-          lokasi: lokasi.trim(),
-        },
-      });
+      // Berkas dikirim bersama formulir lewat multipart (FR-A5) — foto gedung
+      // masuk `verifikasi_foto`, dokumen pendukung masuk `verifikasi_dokumen`.
+      const isi = new FormData();
+      isi.set("peran", "penyedia");
+      isi.set("nama", langkah1.nama);
+      isi.set("email", langkah1.email);
+      isi.set("sandi", langkah1.sandi);
+      isi.set("wa", langkah1.wa);
+      isi.set("waTampil", wa.trim());
+      isi.set("properti", properti.trim());
+      isi.set("lokasi", lokasi.trim());
+      isi.set("metodeLokasi", metode);
+      if (metode === "maps") isi.set("mapsUrl", mapsUrl.trim());
+      if (file) isi.set("fotoBerkas", file);
+      if (dokumen) isi.set("dokumenBerkas", dokumen);
+
+      await apiForm("/auth/register", isi);
       hapusLangkah1();
       navigate("/status-akun?tab=review");
     } catch (err) {
@@ -582,6 +594,12 @@ export function RegistrasiLanjutanPage() {
                               <Icon name="close" className="text-[14px]" />
                               Hapus dokumen
                             </button>
+                          )}
+                          {errors.dokumen && (
+                            <p className="flex items-center gap-1 text-body-sm text-error">
+                              <Icon name="error" className="text-[14px]" />
+                              {errors.dokumen}
+                            </p>
                           )}
                         </div>
                       )}

@@ -31,21 +31,44 @@ export class ApiError extends Error {
   }
 }
 
+/** Pesan satu rasa untuk kegagalan jaringan — Render free tier bisa tidur ±15 menit. */
+const PESAN_JARINGAN =
+  'Tidak dapat terhubung ke server. Bila situs baru dibuka, tunggu ±30 detik (backend sedang bangun) lalu coba lagi.'
+
+const tunggu = (ms: number) => new Promise<void>((s) => setTimeout(s, ms))
+
 export async function api<T>(
   path: string,
   opsi: { method?: string; body?: unknown } = {},
 ): Promise<T> {
-  let res: Response
-  try {
-    res = await fetch(`${BASE_URL}${path}`, {
-      method: opsi.method ?? 'GET',
+  const metode = opsi.method ?? 'GET'
+  const kirim = () =>
+    fetch(`${BASE_URL}${path}`, {
+      method: metode,
       credentials: 'include', // wajib: agar cookie login dikirim dan diterima
       headers: opsi.body !== undefined ? { 'Content-Type': 'application/json' } : undefined,
       body: opsi.body !== undefined ? JSON.stringify(opsi.body) : undefined,
     })
+
+  let res: Response
+  try {
+    res = await kirim()
   } catch (err) {
-    console.error(`[api] gagal fetch ${BASE_URL}${path}`, err)
-    throw new ApiError(0, 'JARINGAN', 'Tidak dapat terhubung ke server. Pastikan backend sudah berjalan.')
+    // Render free tier bisa tidur: beri GET satu peluang kedua setelah jeda pendek
+    // (idempoten, aman). Aksi perubahan (POST/PATCH/DELETE) tidak diulang otomatis
+    // supaya tidak berisiko dobel-kirim.
+    if (metode !== 'GET') {
+      console.error(`[api] gagal fetch ${BASE_URL}${path}`, err)
+      throw new ApiError(0, 'JARINGAN', PESAN_JARINGAN)
+    }
+    console.warn(`[api] fetch GET gagal, mencoba ulang 2,5 detik... ${BASE_URL}${path}`)
+    await tunggu(2500)
+    try {
+      res = await kirim()
+    } catch (err2) {
+      console.error(`[api] gagal fetch (setelah 1 ulangan) ${BASE_URL}${path}`, err2)
+      throw new ApiError(0, 'JARINGAN', PESAN_JARINGAN)
+    }
   }
   const json = await res.json().catch(() => null)
   if (!json || json.ok !== true) {
@@ -67,7 +90,7 @@ export async function apiForm<T>(path: string, form: FormData): Promise<T> {
     })
   } catch (err) {
     console.error(`[api] gagal unggah ${BASE_URL}${path}`, err)
-    throw new ApiError(0, 'JARINGAN', 'Tidak dapat terhubung ke server. Cek koneksi lalu coba lagi.')
+    throw new ApiError(0, 'JARINGAN', PESAN_JARINGAN)
   }
   const json = await res.json().catch(() => null)
   if (!json || json.ok !== true) {

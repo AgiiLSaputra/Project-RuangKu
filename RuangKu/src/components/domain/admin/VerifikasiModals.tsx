@@ -147,7 +147,7 @@ export function ModalFoto({ verif }: { verif: VerifikasiPenyedia }) {
           alt={verif.fotoBesar?.judul ?? 'Foto berkas verifikasi'}
           className="mt-space-md w-full rounded-2xl object-cover"
         />
-        <div className="mt-space-lg flex justify-end">
+        <div className="mt-space-lg flex flex-col-reverse gap-space-sm sm:flex-row sm:justify-end">
           <button
             type="button"
             onClick={() => verif.setFotoBesar(null)}
@@ -155,17 +155,44 @@ export function ModalFoto({ verif }: { verif: VerifikasiPenyedia }) {
           >
             Tutup
           </button>
+          {verif.fotoBesar?.src && (
+            <>
+              <a
+                href={verif.fotoBesar.src}
+                target="_blank"
+                rel="noreferrer"
+                className={cn(
+                  KELAS_TOMBOL,
+                  'bg-purple-50 text-on-surface hover:bg-purple-100',
+                  'inline-flex items-center',
+                )}
+              >
+                <Icon name="open_in_new" className="text-[18px]" />
+                Buka Tab Baru
+              </a>
+              <a
+                href={verif.fotoBesar.src}
+                download={verif.fotoBesar.judul || true}
+                className={cn(KELAS_TOMBOL, 'bg-primary text-white shadow-sm hover:opacity-90')}
+              >
+                <Icon name="download" className="text-[18px]" />
+                Unduh Foto
+              </a>
+            </>
+          )}
         </div>
       </div>
     </Overlay>
   )
 }
 
-/** Pratinjau dokumen perizinan (mockup surat) — pengganti "unduh berkas demo". */
+/** Pratinjau dokumen verifikasi — berkas asli dari server (/uploads/...). */
 export function ModalDokumen({ verif }: { verif: VerifikasiPenyedia }) {
   const m = verif.terpilih
   if (!m) return null
   const d = m.dokumen
+  const url = d.url ?? ''
+  const pdf = /\.pdf(\?|$)/i.test(url)
 
   return (
     <Overlay open={verif.dokBuka} onClose={() => verif.setDokBuka(false)} labelledBy="judul-dok">
@@ -178,46 +205,49 @@ export function ModalDokumen({ verif }: { verif: VerifikasiPenyedia }) {
             <span className="truncate text-body-sm text-slate-500">{d.nama}</span>
           </span>
           <span className="shrink-0 rounded-full bg-pink-100 px-3 py-1 font-label-sm text-label-sm font-semibold text-secondary">
-            PDF-A
+            {pdf ? 'PDF' : 'Berkas'}
           </span>
         </div>
 
-        {/* Lembar surat demo */}
-        <div className="mt-space-md rounded-2xl border border-purple-100 bg-white p-space-md shadow-sm">
-          <div className="flex items-center gap-3 border-b border-purple-100 pb-space-md">
-            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-pink-100 text-secondary">
-              <Icon name="picture_as_pdf" className="text-[24px]" />
-            </span>
-            <span className="flex min-w-0 flex-col">
-              <span className="font-label-sm text-label-sm uppercase tracking-wider text-slate-500">
-                {d.jenis}
-              </span>
-              <span className="truncate font-title-md text-title-md font-semibold text-on-surface">
-                {m.nama}
-              </span>
-            </span>
+        {/* Pratinjau berkas asli (bila ada) — klik bisa dijalankan admin langsung dari sini. */}
+        {d.url && pdf ? (
+          <iframe
+            src={d.url}
+            title={`Berkas ${d.jenis}`}
+            className="mt-space-md h-96 w-full rounded-2xl border border-purple-100 bg-white"
+          />
+        ) : d.url ? (
+          <img
+            src={d.url}
+            alt={`Berkas ${d.jenis}`}
+            className="mt-space-md max-h-96 w-full rounded-2xl bg-white object-contain"
+          />
+        ) : (
+          <div className="mt-space-md flex items-center gap-3 rounded-2xl border border-purple-100 bg-purple-50 p-space-md">
+            <Icon name="folder_off" className="shrink-0 text-[24px] text-slate-500" />
+            <p className="text-body-sm text-slate-500">
+              Berkas tidak terlampir pada pengajuan ini — pemohon belum mengunggah dokumen.
+            </p>
           </div>
-          <dl className="mt-space-md space-y-2 text-body-sm">
-            {[
-              ['Nomor Dokumen', d.nomor],
-              ['Tanggal Terbit', d.terbit],
-              ['Masa Berlaku', d.berlaku],
-              ['Penerbit / Pejabat', d.pejabat],
-              ['Alamat Terdaftar', m.maps.alamat],
-            ].map(([label, nilai]) => (
-              <div key={label} className="flex items-baseline justify-between gap-space-sm">
-                <dt className="shrink-0 text-slate-500">{label}</dt>
-                <dd className="text-right font-label-md text-label-md text-on-surface">{nilai}</dd>
-              </div>
-            ))}
-          </dl>
-          <p className="mt-space-md border-t border-purple-100 pt-space-md text-body-sm leading-relaxed text-slate-500">
-            Pratinjau ini menampilkan metadata berkas demo yang diunggah mitra. Berkas asli
-            berstempel digital hanya tersedia pada mode produksi.
-          </p>
-        </div>
+        )}
 
-        <div className="mt-space-lg flex justify-end">
+        <dl className="mt-space-md space-y-2 text-body-sm">
+          {[
+            ['Jenis Dokumen', d.jenis],
+            ['Nomor Dokumen', d.nomor],
+            ['Tanggal Terbit', d.terbit],
+            ['Masa Berlaku', d.berlaku],
+            ['Penerbit / Pejabat', d.pejabat],
+            ['Alamat Terdaftar', m.maps.alamat],
+          ].map(([label, nilai]) => (
+            <div key={label} className="flex items-baseline justify-between gap-space-sm">
+              <dt className="shrink-0 text-slate-500">{label}</dt>
+              <dd className="text-right font-label-md text-label-md text-on-surface">{nilai}</dd>
+            </div>
+          ))}
+        </dl>
+
+        <div className="mt-space-lg flex flex-col-reverse gap-space-sm sm:flex-row sm:justify-end">
           <button
             type="button"
             onClick={() => verif.setDokBuka(false)}
@@ -225,6 +255,31 @@ export function ModalDokumen({ verif }: { verif: VerifikasiPenyedia }) {
           >
             Tutup
           </button>
+          {d.url && (
+            <>
+              <a
+                href={d.url}
+                target="_blank"
+                rel="noreferrer"
+                className={cn(
+                  KELAS_TOMBOL,
+                  'bg-purple-50 text-on-surface hover:bg-purple-100',
+                  'inline-flex items-center',
+                )}
+              >
+                <Icon name="open_in_new" className="text-[18px]" />
+                Buka Berkas
+              </a>
+              <a
+                href={d.url}
+                download={d.nama || true}
+                className={cn(KELAS_TOMBOL, 'bg-primary text-white shadow-sm hover:opacity-90')}
+              >
+                <Icon name="download" className="text-[18px]" />
+                Unduh Berkas
+              </a>
+            </>
+          )}
         </div>
       </div>
     </Overlay>

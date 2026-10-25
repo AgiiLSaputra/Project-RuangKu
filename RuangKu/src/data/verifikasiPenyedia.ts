@@ -24,6 +24,8 @@ export interface DokumenVerif {
   terbit: string
   berlaku: string
   pejabat: string
+  /** URL berkas asli (`/uploads/...` di server) — kosong bila tidak ada berkas. */
+  url?: string
 }
 
 export interface MitraVerifikasi {

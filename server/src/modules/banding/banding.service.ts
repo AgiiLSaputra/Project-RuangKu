@@ -22,7 +22,9 @@ type BarisBanding = {
 };
 
 function bentuk({ b, akunRef, akunNama, akunEmail, akunPeran, putusanNama }: BarisBanding) {
-  const umurHari = Math.floor((Date.now() - b.diajukanPada.getTime()) / 86_400_000);
+  // Umur tidak boleh negatif: skew jam milidetik antara Node dan Postgres bisa
+  // mengirim nilai -1 dan menambah "sisa hari" keliru (+1).
+  const umurHari = Math.max(0, Math.floor((Date.now() - b.diajukanPada.getTime()) / 86_400_000));
   return {
     id: b.id,
     ref: b.ref,

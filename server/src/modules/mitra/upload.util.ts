@@ -15,8 +15,8 @@ const EKSTENSI: Record<string, string> = {
   'image/webp': 'webp',
 };
 
-/** Nama berkas yang dibuat server: `<potongan id ruangan>-<uuid>.<ext>`. */
-const POLA_NAMA = /^[a-z0-9-]+\.(jpg|png|webp)$/i;
+/** Nama berkas yang dibuat server: `<potongan id ruangan>-<uuid>.<ext>` (juga dipakai berkas verifikasi). */
+const POLA_NAMA = /^[a-z0-9-]+\.(jpg|png|webp|pdf)$/i;
 
 export const folderUpload = () => path.resolve(env.UPLOAD_DIR);
 

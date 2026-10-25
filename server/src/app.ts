@@ -53,8 +53,15 @@ export async function buildApp() {
   });
 
   pasangErrorHandler(app);
-  // credentials:true agar browser mau mengirim cookie login dari frontend (origin berbeda)
-  await app.register(cors, { origin: env.CORS_ORIGIN.split(','), credentials: true });
+  // credentials:true agar browser mau mengirim cookie login dari frontend (origin berbeda).
+  // `methods` wajib eksplisit: default @fastify/cors hanya GET,HEAD,POST — tanpa ini
+  // preflight PATCH (tolak/banding/nonaktifkan) sukses 204 tapi browser memblokir
+  // request aslinya, terlihat seperti "Tidak dapat terhubung ke server" di dev lokal.
+  await app.register(cors, {
+    origin: env.CORS_ORIGIN.split(','),
+    credentials: true,
+    methods: ['GET', 'HEAD', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+  });
   await app.register(cookie);
   // Batasi kegaduhan dari luar: maks. 120 request per menit per IP (≈2 req/dtk).
   // Tidak dipasang di lingkungan test — app.inject memakai IP yang sama
