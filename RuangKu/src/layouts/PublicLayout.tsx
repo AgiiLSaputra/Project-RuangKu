@@ -29,7 +29,6 @@ export function PublicLayout({ children }: { children: ReactNode }) {
   );
 }
 
-/** Kerangka halaman form (login, registrasi, status akun) — tanpa nav publik. */
 export function AuthLayout({ children }: { children: ReactNode }) {
   const device = useDevice();
   return (
@@ -113,7 +112,9 @@ export function DashboardAdminLayout({ children }: { children: ReactNode }) {
           aria-hidden
         />
       )}
-      <div className={cn("transition-[padding] duration-300", buka && "md:pl-72")}>
+      <div
+        className={cn("transition-[padding] duration-300", buka && "md:pl-72")}
+      >
         <AdminTopBar buka={buka} onBuka={() => setBuka((v) => !v)} />
         <main className="min-h-screen px-gutter pb-16 pt-24 md:px-gutter-desktop md:pt-28">
           <IsiHalaman>{children}</IsiHalaman>
