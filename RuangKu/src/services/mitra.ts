@@ -93,9 +93,29 @@ export interface BarisListingMitra {
   foto: string[]
 }
 
+/**
+ * Respons `GET /api/mitra/listing` — object, **bukan** array murni.
+ * (Dulu fungsi ini mengembalikan object-nya apa adanya sementara tipenya bilang
+ * array, sehingga `daftarRuangan.map(...)` melempar TypeError dan halaman
+ * Kelola Reservasi jadi putih polos. Lihat CATATAN_BUG.md — bug #2.)
+ */
+export interface DaftarListingMitra {
+  ringkasan: RingkasanListing
+  listing: BarisListingMitra[]
+}
+
+/** Ringkasan hitung ruangan milik penyedia. */
+export interface RingkasanListing {
+  total: number
+  aktif: number
+  tenggang: number
+  kapasitas: number
+}
+
 /** Daftar seluruh ruangan milik penyedia yang login. */
 export async function ambilListingMitra(): Promise<BarisListingMitra[]> {
-  return api<BarisListingMitra[]>('/mitra/listing')
+  const data = await api<DaftarListingMitra>('/mitra/listing')
+  return data.listing
 }
 
 /** Bentuk ringkas ruangan hasil `POST /api/mitra/ruangan`. */

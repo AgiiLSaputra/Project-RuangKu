@@ -16,6 +16,9 @@ const kapital = (s: string) => (s ? s[0].toUpperCase() + s.slice(1) : s)
 /** Pembanding periode sebelumnya (dipakai perbedaan okupansi): rentang tanggal. */
 function geserHari(iso: string, n: number): string {
   const d = new Date(`${iso}T00:00:00Z`)
+  // Tanggal tak valid → jangan dilempar. `toISOString()` pada Invalid Date
+  // melempar RangeError "Invalid time value" yang membongkar seluruh halaman.
+  if (Number.isNaN(d.getTime())) return iso
   d.setUTCDate(d.getUTCDate() + n)
   return d.toISOString().slice(0, 10)
 }
@@ -104,15 +107,26 @@ export function useLaporanOkupansi() {
       periode === 'kustom'
         ? { periode: 'kustom' as const, dari: rentang.dari, sampai: rentang.sampai }
         : { periode }
-    const pembanding: KueriLaporan = { periode: 'kustom' as const, ...periodeSebelumnya(kueri) }
     setMemuat(true)
     setGagal(false)
-    // Periode sebelumnya boleh gagal tanpa membuat laporan utama gagal — delta punya nilai cadangan.
-    Promise.all([
-      ambilLaporanMitra(kueri),
-      ambilLaporanMitra(pembanding).catch(() => null),
-    ])
-      .then(([kini, laluPembanding]) => {
+    // Laporan utama dulu. Rentang periode sebelumnya baru dihitung SETELAH respons
+    // utama datang, memakai `periode.dari/sampai` milik server — pada periode
+    // minggu/bulan/kuartal `kueri` tidak punya `dari`, jadi menghitungnya dari
+    // `kueri` menghasilkan tanggal tak valid lalu melempar RangeError
+    // "Invalid time value" (CATATAN_BUG.md — bug #1).
+    ambilLaporanMitra(kueri)
+      .then(async (kini) => {
+        if (batal) return
+        const pembanding: KueriLaporan = {
+          periode: 'kustom' as const,
+          ...periodeSebelumnya({
+            periode: 'kustom' as const,
+            dari: kini.periode.dari,
+            sampai: kini.periode.sampai,
+          }),
+        }
+        // Periode sebelumnya boleh gagal tanpa membuat laporan utama gagal — delta punya nilai cadangan.
+        const laluPembanding = await ambilLaporanMitra(pembanding).catch(() => null)
         if (batal) return
         setData(kini)
         setLalu(laluPembanding?.total ?? null)

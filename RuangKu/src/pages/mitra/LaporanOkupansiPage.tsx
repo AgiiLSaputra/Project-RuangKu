@@ -387,7 +387,7 @@ export function LaporanOkupansiPage() {
                         <div className="flex items-center gap-4">
                           <div className="h-12 w-12 shrink-0 overflow-hidden rounded-2xl bg-purple-100 shadow-sm">
                             <img
-                              src={r.foto[0]}
+                              src={r.foto?.[0] ?? ''}
                               alt={r.nama}
                               className="h-full w-full object-cover"
                             />

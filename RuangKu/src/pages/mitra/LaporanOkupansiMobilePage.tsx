@@ -115,7 +115,11 @@ function KartuRuangan({ r }: { r: OkupansiRuangan }) {
     <div className="space-y-3 rounded-2xl border border-purple-100 bg-white p-space-md shadow-sm">
       <div className="flex items-center gap-3">
         <div className="h-12 w-12 shrink-0 overflow-hidden rounded-2xl bg-purple-100 shadow-sm">
-          <img src={r.foto[0]} alt={r.nama} className="h-full w-full object-cover" />
+          <img
+            src={r.foto?.[0] ?? ''}
+            alt={r.nama}
+            className="h-full w-full object-cover"
+          />
         </div>
         <div className="min-w-0">
           <p className="font-title-md text-title-md font-semibold leading-snug text-on-surface">{r.nama}</p>
