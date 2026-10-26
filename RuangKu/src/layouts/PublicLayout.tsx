@@ -40,11 +40,6 @@ export function AuthLayout({ children }: { children: ReactNode }) {
   );
 }
 
-/**
- * Kerangka halaman dashboard penyewa — desktop memakai PublicHeader yang sama
- * dengan halaman katalog/beranda supaya posisi navbar konsisten.
- * Mobile memakai header dashboard + drawer tenant (DashboardPenyewaMobile.html).
- */
 export function DashboardLayout({ children }: { children: ReactNode }) {
   const device = useDevice();
   return (
