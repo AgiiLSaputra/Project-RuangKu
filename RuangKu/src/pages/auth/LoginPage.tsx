@@ -98,21 +98,15 @@ async function handleSubmit(event: FormEvent<HTMLFormElement>) {
             <Link
               to="/masuk"
               aria-current="page"
-              className="rounded-full bg-primary-container px-5 py-2 font-title-md text-body-md text-white shadow-sm transition-colors"
+              className="rounded-full bg-primary-container px-5 py-2 text-[14px] font-semibold text-white shadow-sm transition-colors"
             >
               Sign In
             </Link>
             <Link
               to="/daftar"
-              className="px-3 py-2 font-title-md text-body-md text-on-surface transition-colors hover:text-primary"
+              className="px-3 py-2 text-[14px] font-semibold text-on-surface transition-colors hover:text-primary"
             >
               Create Account
-            </Link>
-            <Link
-              to="/pusat-bantuan"
-              className="px-3 py-2 font-title-md text-body-md text-on-surface transition-colors hover:text-primary"
-            >
-              Support
             </Link>
           </nav>
           <div className="flex items-center">
