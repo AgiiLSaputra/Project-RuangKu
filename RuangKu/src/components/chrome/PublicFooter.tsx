@@ -61,7 +61,6 @@ export function PublicFooter() {
 
         <div className="mt-12 flex flex-col items-center justify-between gap-3 border-t border-purple-100 pt-6 sm:flex-row">
           <p className="text-body-sm text-outline">© 2026 RuangKu. All rights reserved.</p>
-          <p className="text-label-sm text-outline">Sesuai PRD RuangKu v1.0</p>
         </div>
       </div>
     </footer>
