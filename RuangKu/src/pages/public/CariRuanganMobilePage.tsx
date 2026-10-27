@@ -20,6 +20,7 @@ import { useKatalogRuangan } from '../../components/domain/room/useRuangan'
 import { Button } from '../../components/ui/Button'
 import { Icon } from '../../components/ui/Icon'
 import { Overlay } from '../../components/ui/Overlay'
+import { SortSelect } from '../../components/ui/SortSelect'
 import { CITIES, KATEGORI_FILTER, type Kategori, type Ruangan } from '../../data/seed'
 import { rp } from '../../lib/format'
 
@@ -208,24 +209,13 @@ export function CariRuanganMobilePage() {
               Live
             </span>
           </div>
-          <div className="relative">
-            <select
-              value={urut}
-              onChange={(e) => setUrut(e.target.value as Urut)}
-              aria-label="Urutkan hasil"
-              className="cursor-pointer appearance-none rounded-full bg-purple-100 py-1 pl-2.5 pr-7 font-label-md text-label-md text-on-surface outline-none"
-            >
-              {OPSI_URUT.map((o) => (
-                <option key={o.id} value={o.id}>
-                  Urutkan: {o.singkat}
-                </option>
-              ))}
-            </select>
-            <Icon
-              name="expand_more"
-              className="pointer-events-none absolute right-2 top-1.5 text-[16px] text-on-surface-variant"
-            />
-          </div>
+          <SortSelect
+            label="Urutkan hasil"
+            nilai={urut}
+            onPilih={(id) => setUrut(id as Urut)}
+            opsi={OPSI_URUT.map((o) => ({ id: o.id, label: `Urutkan: ${o.singkat}` }))}
+            className="cursor-pointer bg-purple-100 px-2.5 py-1 font-label-md text-label-md text-on-surface"
+          />
         </div>
 
         {chips.length > 0 && (

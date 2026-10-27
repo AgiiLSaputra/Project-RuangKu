@@ -17,6 +17,7 @@ import {
 } from "../../components/domain/room/katalog";
 import { Button } from "../../components/ui/Button";
 import { Icon } from "../../components/ui/Icon";
+import { SortSelect } from "../../components/ui/SortSelect";
 import {
   CITIES,
   KATEGORI_FILTER,
@@ -354,23 +355,13 @@ export function CariRuanganPage() {
               <span className="hidden font-label-sm text-label-sm text-slate-500 md:inline">
                 Urutan:
               </span>
-              <div className="relative w-full sm:w-auto">
-                <select
-                  value={urut}
-                  onChange={(e) => setUrut(e.target.value as Urut)}
-                  className="h-9 w-full cursor-pointer appearance-none rounded-full bg-purple-50 py-0 pl-space-md pr-8 font-title-md text-body-sm text-on-surface outline-none sm:w-auto"
-                >
-                  {OPSI_URUT.map((o) => (
-                    <option key={o.id} value={o.id}>
-                      {o.label}
-                    </option>
-                  ))}
-                </select>
-                <Icon
-                  name="arrow_drop_down"
-                  className="pointer-events-none absolute right-2.5 top-2 text-[18px] text-slate-500"
-                />
-              </div>
+              <SortSelect
+                label="Urutan"
+                nilai={urut}
+                onPilih={(id) => setUrut(id as Urut)}
+                opsi={OPSI_URUT.map((o) => ({ id: o.id, label: o.singkat }))}
+                className="h-9 w-full cursor-pointer bg-purple-50 px-space-md font-title-md text-body-sm text-on-surface sm:w-auto"
+              />
             </div>
           </div>
 
