@@ -40,7 +40,6 @@ export function PublicFooter() {
               Etalase & reservasi gedung/ruangan berbasis kuota. Lihat jadwal real-time, pesan per jam atau paket
               harian, terima struk PDF.
             </p>
-            <p className="mt-4 text-label-sm text-outline">Jl. Karet Pasar Baru IV No. 5, Jakarta Pusat</p>
           </div>
 
           {COLUMNS.map((c) => (
