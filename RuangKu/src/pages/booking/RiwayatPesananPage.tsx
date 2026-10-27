@@ -19,35 +19,35 @@ interface Aksi {
 }
 
 const CHIPS: { nilai: Filter; label: string; kelas: string; dot: string }[] = [
-  { nilai: 'semua', label: 'Semua', kelas: 'bg-primary-container text-white font-semibold', dot: '' },
+  { nilai: 'semua', label: 'Semua', kelas: 'bg-white text-black font-semibold hover:bg-surface-container', dot: '' },
   {
     nilai: 'pending',
     label: 'Pending',
-    kelas: 'bg-status-occupied-bg text-status-occupied font-semibold hover:bg-amber-100',
+    kelas: 'bg-white text-black font-semibold hover:bg-amber-100',
     dot: 'bg-status-occupied',
   },
   {
     nilai: 'approved',
     label: 'Approved',
-    kelas: 'bg-status-available-bg text-status-available font-semibold hover:bg-emerald-100',
+    kelas: 'bg-white text-black font-semibold hover:bg-emerald-100',
     dot: 'bg-status-available',
   },
   {
     nilai: 'completed',
     label: 'Completed',
-    kelas: 'bg-purple-100 text-primary font-semibold hover:bg-purple-200',
+    kelas: 'bg-white text-black font-semibold hover:bg-purple-200',
     dot: 'bg-primary',
   },
   {
     nilai: 'cancelled',
     label: 'Cancelled',
-    kelas: 'bg-status-full-bg text-status-full font-semibold hover:bg-rose-100',
+    kelas: 'bg-white text-black font-semibold hover:bg-rose-100',
     dot: 'bg-status-full',
   },
   {
     nilai: 'expired',
     label: 'Expired',
-    kelas: 'bg-status-blocked-bg text-status-blocked font-medium opacity-70 hover:bg-slate-200',
+    kelas: 'bg-white text-black font-medium hover:bg-slate-200',
     dot: 'bg-status-blocked',
   },
 ]
