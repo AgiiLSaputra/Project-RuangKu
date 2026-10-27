@@ -437,20 +437,6 @@ export function CariRuanganPage() {
                         src={r.foto[0]}
                         className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                       />
-                      <span
-                        className={cn(
-                          "absolute left-3 top-3 flex items-center gap-1 rounded-full bg-surface-container-lowest/90 px-3 py-1 font-label-sm text-label-sm shadow-card backdrop-blur-md",
-                          r.kategori === "Creative Space"
-                            ? "text-secondary"
-                            : "text-primary",
-                        )}
-                      >
-                        <Icon
-                          name={IKON_KATEGORI[r.kategori]}
-                          className="text-[14px]"
-                        />
-                        <span>{r.kategori}</span>
-                      </span>
                       <span className="absolute right-3 top-3 flex items-center gap-1 rounded-full bg-surface-container-lowest/95 px-2.5 py-1 font-title-md text-body-sm shadow-card backdrop-blur-md">
                         <Icon
                           name="star"
@@ -497,6 +483,21 @@ export function CariRuanganPage() {
                           </span>
                         ))}
                       </div>
+
+                      <span
+                        className={cn(
+                          "flex w-fit items-center gap-1 rounded-full px-3 py-1 font-label-sm text-label-sm",
+                          r.kategori === "Creative Space"
+                            ? "bg-pink-100 text-secondary"
+                            : "bg-purple-50 text-primary",
+                        )}
+                      >
+                        <Icon
+                          name={IKON_KATEGORI[r.kategori]}
+                          className="text-[14px]"
+                        />
+                        <span>{r.kategori}</span>
+                      </span>
 
                       <div className="mt-auto flex flex-col gap-space-sm border-t border-slate-300/50 pt-space-sm">
                         <div className="flex flex-col">

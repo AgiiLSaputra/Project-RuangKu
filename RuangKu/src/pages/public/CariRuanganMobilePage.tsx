@@ -299,14 +299,6 @@ export function CariRuanganMobilePage() {
               <div className="relative aspect-[4/3] w-full bg-surface-container">
                 <img alt={r.nama} src={r.foto[0]} className="h-full w-full object-cover" />
                 <div className="absolute inset-0 bg-gradient-to-t from-on-surface/40 via-transparent to-transparent" />
-                <span
-                  className={cn(
-                    'absolute left-3 top-3 rounded-full px-3 py-1 font-label-sm text-label-sm shadow-sm backdrop-blur-md',
-                    r.kategori === 'Creative Space' ? 'bg-secondary/90 text-on-secondary' : 'bg-primary/90 text-on-primary',
-                  )}
-                >
-                  {r.kategori}
-                </span>
                 <div className="absolute right-3 top-3 flex items-center gap-1 rounded-full bg-surface-container-lowest/90 px-2.5 py-1 font-label-sm text-label-sm text-on-surface shadow-sm backdrop-blur-md">
                   <Icon name="star" filled className="text-[14px] text-status-occupied" />
                   <span className="font-title-md">{r.rating}</span>
@@ -343,6 +335,15 @@ export function CariRuanganMobilePage() {
                     </span>
                   ))}
                 </div>
+
+                <span
+                  className={cn(
+                    'flex w-fit items-center gap-1 rounded-full px-3 py-1 font-label-sm text-label-sm shadow-sm',
+                    r.kategori === 'Creative Space' ? 'bg-secondary/90 text-on-secondary' : 'bg-primary/90 text-on-primary',
+                  )}
+                >
+                  {r.kategori}
+                </span>
 
                 <div className="flex items-center justify-between gap-3 pt-2">
                   <div className="min-w-0">

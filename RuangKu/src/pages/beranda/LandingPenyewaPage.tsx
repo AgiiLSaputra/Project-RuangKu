@@ -428,14 +428,6 @@ export function LandingPenyewaPage() {
                       src={r.foto[0]}
                       className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                     />
-                    <span
-                      className={`absolute left-3 top-3 flex items-center gap-1 rounded-full bg-surface-container-lowest/90 px-3 py-1 font-label-sm text-xs font-semibold shadow-card backdrop-blur-md ${
-                        r.kategori === 'Creative Space' ? 'text-secondary' : 'text-primary'
-                      }`}
-                    >
-                      <Icon name={IKON_KATEGORI[r.kategori]} className="text-[14px]" />
-                      {r.kategori}
-                    </span>
                     <span className="absolute right-3 top-3 flex items-center gap-1 rounded-full bg-surface-container-lowest/95 px-2.5 py-1 font-title-md text-xs font-bold text-on-surface shadow-card">
                       <Icon name="star" filled className="text-[15px] text-status-occupied" />
                       {r.rating}
@@ -455,7 +447,7 @@ export function LandingPenyewaPage() {
                         <Icon name="groups" className="text-[16px]" />
                         Kapasitas: <strong className="text-on-surface">{r.kapasitasMax} Orang</strong>
                       </p>
-                      <div className="mb-space-md mt-space-md flex flex-wrap gap-1.5">
+                      <div className="mt-space-md flex flex-wrap gap-1.5">
                         {r.fasilitas.slice(0, 3).map((f) => (
                           <span
                             key={f}
@@ -469,6 +461,17 @@ export function LandingPenyewaPage() {
                           </span>
                         ))}
                       </div>
+
+                      <span
+                        className={`mb-1 mt-2 inline-flex w-fit items-center gap-1 rounded-full px-3 py-1 font-label-sm text-xs font-semibold ${
+                          r.kategori === 'Creative Space'
+                            ? 'bg-pink-100 text-secondary'
+                            : 'bg-purple-50 text-primary'
+                        }`}
+                      >
+                        <Icon name={IKON_KATEGORI[r.kategori]} className="text-[14px]" />
+                        {r.kategori}
+                      </span>
                     </div>
 
                     <div className="mt-space-md flex items-center justify-between border-t border-slate-300/50 pt-space-md">
