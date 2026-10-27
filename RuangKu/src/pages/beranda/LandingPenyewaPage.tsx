@@ -571,7 +571,7 @@ export function LandingPenyewaPage() {
                     className="inline-flex h-14 items-center gap-2 rounded-full bg-surface-container-lowest/15 px-6 font-title-md text-sm font-semibold text-on-primary transition-colors hover:bg-surface-container-lowest/25"
                   >
                     <Icon name="help" className="text-[18px]" />
-                    Pelajari Sistem Bagi Hasil
+                    Pelajari Cara Kerja
                   </Link>
                 </div>
               </div>
