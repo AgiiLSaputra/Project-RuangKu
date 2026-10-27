@@ -159,8 +159,8 @@ export function RiwayatStrukMobilePage() {
         <div className="flex items-start gap-3 rounded-lg border border-slate-300/40 bg-surface-container-low p-4">
           <Icon name="verified_user" className="mt-0.5 text-[20px] text-primary" />
           <p className="font-body-sm leading-relaxed text-body-sm text-on-surface-variant">
-            Sesuai <span className="font-semibold text-primary">PRD FR-E1 s.d FR-E5</span>: Struk reservasi lama tetap
-            valid secara hukum dan dapat dibuka kembali kapan pun untuk audit pembukuan perusahaan Anda.
+            Struk reservasi lama tetap valid secara hukum dan dapat dibuka kembali kapan pun untuk audit pembukuan
+            perusahaan Anda.
           </p>
         </div>
       </div>
