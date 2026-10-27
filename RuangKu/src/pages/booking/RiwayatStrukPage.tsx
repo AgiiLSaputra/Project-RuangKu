@@ -57,7 +57,7 @@ export function RiwayatStrukPage() {
                 type="button"
                 onClick={() => setFilter(f.nilai)}
                 className={cn(
-                  'rounded-full px-3.5 py-1.5 font-label-sm transition-all',
+                  'rounded-full px-3.5 py-1.5 font-title-md transition-all',
                   filter === f.nilai
                     ? 'bg-primary font-bold text-on-primary'
                     : 'font-medium text-on-surface-variant hover:text-primary',
