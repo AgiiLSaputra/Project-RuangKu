@@ -182,7 +182,7 @@ export function CariRuanganPage() {
               aria-pressed={aktif}
               onClick={() => pilihKategori(k)}
               className={cn(
-                "flex-shrink-0 whitespace-nowrap rounded-full px-space-lg py-2 font-title-md text-title-md shadow-card transition-all",
+                "flex-shrink-0 whitespace-nowrap rounded-full px-space-lg py-2 text-[14px] font-semibold shadow-card transition-all",
                 aktif
                   ? "bg-cta text-white"
                   : "bg-surface-container-lowest text-on-surface hover:bg-purple-100 hover:text-primary",

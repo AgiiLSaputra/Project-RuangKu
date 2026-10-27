@@ -189,7 +189,7 @@ export function CariRuanganMobilePage() {
               aria-pressed={aktif}
               onClick={() => pilihKategori(k)}
               className={cn(
-                'shrink-0 rounded-full px-4 py-1.5 font-title-md text-body-sm shadow-card transition-colors',
+                'shrink-0 rounded-full px-4 py-1.5 text-[14px] font-semibold shadow-card transition-colors',
                 aktif ? 'bg-cta text-white' : 'bg-surface-container-lowest text-on-surface-variant hover:text-on-surface',
               )}
             >

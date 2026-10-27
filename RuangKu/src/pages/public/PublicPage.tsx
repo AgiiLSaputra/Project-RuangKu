@@ -379,8 +379,8 @@ export function PublicPage() {
                     aria-pressed={aktif}
                     className={
                       aktif
-                        ? 'whitespace-nowrap rounded-full bg-primary px-5 py-2 font-title-md text-xs text-on-primary shadow-card'
-                        : 'whitespace-nowrap rounded-full bg-surface-container-lowest px-5 py-2 font-title-md text-xs text-slate-500 transition-colors hover:text-primary'
+                        ? 'whitespace-nowrap rounded-full bg-primary px-5 py-2 text-[14px] font-semibold text-on-primary shadow-card'
+                        : 'whitespace-nowrap rounded-full bg-surface-container-lowest px-5 py-2 text-[14px] font-semibold text-slate-500 transition-colors hover:text-primary'
                     }
                   >
                     {k}

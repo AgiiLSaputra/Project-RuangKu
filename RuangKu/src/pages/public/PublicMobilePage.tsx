@@ -248,7 +248,7 @@ export function PublicMobilePage() {
                   type="button"
                   aria-pressed={aktif}
                   onClick={() => setKategori(k)}
-                  className={`rounded-full px-4 py-1.5 font-title-md text-xs transition-colors ${
+                  className={`rounded-full px-4 py-1.5 text-[14px] font-semibold transition-colors ${
                     aktif ? 'bg-primary text-on-primary' : 'bg-purple-50 text-slate-500'
                   }`}
                 >
