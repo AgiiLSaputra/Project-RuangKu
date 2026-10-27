@@ -4,7 +4,6 @@ import { Button } from '../../components/ui/Button'
 import { Icon } from '../../components/ui/Icon'
 import { Logo } from '../../components/chrome/Logo'
 import { AuthInput, PasswordField } from '../../components/domain/auth/AuthInput'
-import { GoogleSSOButton } from '../../components/domain/auth/GoogleSSOButton'
 import { Spinner } from '../../components/domain/auth/Spinner'
 import { useAuth, type Pengguna } from '../../context/AuthContext'
 import { api, ApiError } from '../../lib/api'
@@ -158,17 +157,6 @@ export function LoginMobilePage() {
                   </>
                 )}
               </Button>
-
-              <div className="relative my-5 flex items-center justify-center">
-                <div className="absolute inset-0 flex items-center">
-                  <div className="h-px w-full bg-outline-variant/50" />
-                </div>
-                <span className="relative bg-surface-container-lowest px-3 font-label-md text-label-md uppercase text-slate-500">
-                  atau
-                </span>
-              </div>
-
-              <GoogleSSOButton />
 
               <div className="pt-3 text-center">
                 <p className="font-body-sm text-body-sm text-on-surface-variant">

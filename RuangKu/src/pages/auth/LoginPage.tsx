@@ -4,7 +4,6 @@ import { Button } from '../../components/ui/Button'
 import { Icon } from '../../components/ui/Icon'
 import { Logo } from '../../components/chrome/Logo'
 import { AuthInput, PasswordField } from '../../components/domain/auth/AuthInput'
-import { GoogleSSOButton } from '../../components/domain/auth/GoogleSSOButton'
 import { Spinner } from '../../components/domain/auth/Spinner'
 import { useAuth, type Pengguna } from '../../context/AuthContext'
 import { api, ApiError } from '../../lib/api'
@@ -330,15 +329,6 @@ async function handleSubmit(event: FormEvent<HTMLFormElement>) {
                       )}
                     </Button>
                   </div>
-
-                  <div className="relative flex items-center justify-center py-space-xs">
-                    <div className="h-px w-full bg-slate-300/60" />
-                    <span className="absolute bg-surface-container-lowest px-3 font-body-sm text-body-sm uppercase tracking-wider text-slate-500">
-                      atau masuk dengan
-                    </span>
-                  </div>
-
-                  <GoogleSSOButton />
 
                   <div className="pt-2 text-center">
                     <p className="font-body-md text-body-md text-slate-500">
