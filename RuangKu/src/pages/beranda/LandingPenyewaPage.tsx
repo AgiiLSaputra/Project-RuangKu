@@ -363,10 +363,6 @@ export function LandingPenyewaPage() {
         <div className="mx-auto max-w-[1200px]">
           <div className="mb-space-xl flex flex-col justify-between gap-4 md:flex-row md:items-end">
             <div>
-              <div className="mb-2 inline-flex items-center gap-2 rounded-full bg-purple-100 px-3 py-1 font-label-sm text-xs text-primary">
-                <Icon name="local_fire_department" className="text-[14px]" />
-                <span>Pilihan Terbaik Pengguna</span>
-              </div>
               <h2 className="font-headline-lg text-headline-lg font-bold text-on-surface">
                 Rekomendasi Ruangan Terpopuler
               </h2>
