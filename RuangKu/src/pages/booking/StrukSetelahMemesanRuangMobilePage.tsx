@@ -76,7 +76,7 @@ export function StrukSetelahMemesanRuangMobilePage() {
       <div className="flex min-h-screen flex-col bg-purple-50">
         {header}
         <main className="flex flex-grow items-center justify-center px-margin pb-space-xl pt-20">
-          <div className="flex w-full flex-col items-center gap-3 rounded-2xl bg-surface-container-lowest p-6 text-center shadow-card">
+          <div className="flex w-full flex-col items-center gap-3 rounded-lg bg-surface-container-lowest p-6 text-center shadow-card">
             <span className="flex h-12 w-12 items-center justify-center rounded-full bg-purple-100 text-primary">
               <Icon name="receipt_long" className="text-[26px]" />
             </span>
@@ -167,7 +167,7 @@ export function StrukSetelahMemesanRuangMobilePage() {
               </div>
 
               {/* Kode booking */}
-              <div className="mt-space-xs flex items-center justify-between gap-2 rounded-2xl bg-purple-100 p-space-sm shadow-inner">
+              <div className="mt-space-xs flex items-center justify-between gap-2 rounded-lg bg-purple-100 p-space-sm shadow-inner">
                 <div className="flex min-w-0 flex-col">
                   <span className="font-label-sm text-[10px] font-semibold uppercase tracking-wider text-slate-500">
                     KODE RESERVASI RUANGKU
@@ -231,7 +231,7 @@ export function StrukSetelahMemesanRuangMobilePage() {
                   {struk.tanggalLabel}
                 </span>
 
-                <div className="mt-1 flex items-start gap-2 rounded-2xl bg-purple-100 p-2.5 text-purple-700">
+                <div className="mt-1 flex items-start gap-2 rounded-lg bg-purple-100 p-2.5 text-purple-700">
                   <Icon name="sanitizer" className="mt-0.5 shrink-0 text-[18px]" />
                   <div className="flex flex-col">
                     <span className="font-body-sm font-semibold">Jeda Sterilisasi Terkunci: {struk.steril}</span>
@@ -241,7 +241,7 @@ export function StrukSetelahMemesanRuangMobilePage() {
                   </div>
                 </div>
 
-                <div className="mt-2 flex flex-col gap-1 rounded-2xl bg-surface-container-low p-2.5 text-body-sm">
+                <div className="mt-2 flex flex-col gap-1 rounded-lg bg-surface-container-low p-2.5 text-body-sm">
                   <div className="flex items-center justify-between gap-2 text-slate-500">
                     <span>Nama Penyewa:</span>
                     <span className="font-semibold text-on-surface">{struk.penyewa}</span>
@@ -311,7 +311,7 @@ export function StrukSetelahMemesanRuangMobilePage() {
                 </div>
 
                 {/* Total */}
-                <div className="mt-2 flex flex-col gap-1 rounded-2xl bg-primary-fixed p-3.5 shadow-sm">
+                <div className="mt-2 flex flex-col gap-1 rounded-lg bg-primary-fixed p-3.5 shadow-sm">
                   <div className="flex items-start justify-between gap-2">
                     <div>
                       <span className="block font-label-sm text-[11px] font-bold uppercase tracking-wider text-on-primary-fixed">
@@ -330,7 +330,7 @@ export function StrukSetelahMemesanRuangMobilePage() {
               </div>
 
               {/* Pengelola resmi FR-E7 */}
-              <div className="mt-space-md flex flex-col gap-2 rounded-2xl bg-status-available-bg p-3.5 shadow-sm">
+              <div className="mt-space-md flex flex-col gap-2 rounded-lg bg-status-available-bg p-3.5 shadow-sm">
                 <div className="flex items-center justify-between gap-2">
                   <span className="flex items-center gap-1 font-label-sm text-[10px] font-bold uppercase tracking-wider text-status-available">
                     <span className="h-1.5 w-1.5 rounded-full bg-status-available" />
@@ -357,7 +357,7 @@ export function StrukSetelahMemesanRuangMobilePage() {
 
               {/* E-stamp & barcode */}
               <div className="mt-space-md flex flex-col items-center pt-space-xs text-center">
-                <div className="flex h-12 w-full max-w-[260px] items-center justify-center gap-[3px] rounded-2xl bg-surface-container-low px-2 py-1">
+                <div className="flex h-12 w-full max-w-[260px] items-center justify-center gap-[3px] rounded-lg bg-surface-container-low px-2 py-1">
                   {BARCODE.map((w, i) => (
                     <div key={i} className="h-9 bg-on-surface" style={{ width: `${w * 2}px` }} />
                   ))}
@@ -402,7 +402,7 @@ export function StrukSetelahMemesanRuangMobilePage() {
           </div>
 
           {/* Instruksi SOP */}
-          <div className="mt-space-sm flex flex-col gap-1.5 rounded-2xl bg-purple-100 p-space-sm print:hidden">
+          <div className="mt-space-sm flex flex-col gap-1.5 rounded-lg bg-purple-100 p-space-sm print:hidden">
             <div className="flex items-center gap-1.5 text-primary">
               <Icon name="info" className="text-[18px]" />
               <span className="font-title-md text-[13px] font-bold">

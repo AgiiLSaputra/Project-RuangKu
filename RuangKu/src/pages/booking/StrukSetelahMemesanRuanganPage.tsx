@@ -51,7 +51,7 @@ export function StrukSetelahMemesanRuanganPage() {
       <div className="flex min-h-screen flex-col bg-purple-50">
         <PublicHeader />
         <main className="flex flex-grow items-center justify-center px-6 pb-16 pt-32">
-          <div className="flex w-full max-w-md flex-col items-center gap-4 rounded-2xl border border-slate-300/40 bg-surface-container-lowest p-8 text-center shadow-card-elevated">
+          <div className="flex w-full max-w-md flex-col items-center gap-4 rounded-lg border border-slate-300/40 bg-surface-container-lowest p-8 text-center shadow-card-elevated">
             <span className="flex h-14 w-14 items-center justify-center rounded-full bg-purple-100 text-primary">
               <Icon name="receipt_long" className="text-[30px]" />
             </span>
@@ -121,7 +121,7 @@ export function StrukSetelahMemesanRuanganPage() {
             </div>
 
             {/* Kartu e-ticket */}
-            <div className="relative w-full overflow-hidden rounded-[28px] bg-surface-container-lowest shadow-card-highlight print:rounded-none print:shadow-none">
+            <div className="relative w-full overflow-hidden rounded-lg bg-surface-container-lowest shadow-card-highlight print:rounded-none print:shadow-none">
               {/* Bagian atas */}
               <div className="flex flex-col gap-6 p-6 md:p-8">
                 <div className="flex flex-wrap items-center justify-between gap-4 pb-2">
@@ -160,7 +160,7 @@ export function StrukSetelahMemesanRuanganPage() {
                 </div>
 
                 {/* Kode booking */}
-                <div className="flex flex-col gap-3 rounded-2xl bg-purple-100/70 p-4 shadow-inner sm:flex-row sm:items-center sm:justify-between md:p-5">
+                <div className="flex flex-col gap-3 rounded-lg bg-purple-100/70 p-4 shadow-inner sm:flex-row sm:items-center sm:justify-between md:p-5">
                   <div className="flex flex-col">
                     <span className="font-label-sm uppercase tracking-wider text-slate-500">KODE RESERVASI RUANGKU</span>
                     <span className="select-all font-label-md text-2xl font-bold tracking-wider text-on-surface md:text-[28px]">
@@ -184,7 +184,7 @@ export function StrukSetelahMemesanRuanganPage() {
 
                 {/* Grid info */}
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                  <div className="flex flex-col justify-between rounded-2xl bg-surface-container-low p-5">
+                  <div className="flex flex-col justify-between rounded-lg bg-surface-container-low p-5">
                     <div>
                       <span className="font-label-sm uppercase tracking-wider text-slate-500">
                         LOKASI &amp; RUANGAN
@@ -192,7 +192,7 @@ export function StrukSetelahMemesanRuanganPage() {
                       <h3 className="mt-1 font-title-md font-bold text-on-surface">{struk.ruangan.nama}</h3>
                       <p className="mt-0.5 font-body-sm font-medium text-primary">Gedung: {struk.ruangan.gedung}</p>
                     </div>
-                    <div className="mt-4 flex flex-col gap-1.5 rounded-xl bg-surface-container-lowest/60 p-3">
+                    <div className="mt-4 flex flex-col gap-1.5 rounded-lg bg-surface-container-lowest/60 p-3">
                       <div className="flex items-center gap-2">
                         <Icon name="domain" className="text-[18px] text-slate-500" />
                         <span className="font-body-sm text-body-sm text-on-surface">{struk.ruangan.penyedia}</span>
@@ -206,7 +206,7 @@ export function StrukSetelahMemesanRuanganPage() {
                     </div>
                   </div>
 
-                  <div className="flex flex-col justify-between rounded-2xl bg-surface-container-low p-5">
+                  <div className="flex flex-col justify-between rounded-lg bg-surface-container-low p-5">
                     <div>
                       <span className="font-label-sm uppercase tracking-wider text-slate-500">
                         WAKTU SEWA &amp; STERILISASI
@@ -218,7 +218,7 @@ export function StrukSetelahMemesanRuanganPage() {
                       <p className="mt-0.5 font-body-sm font-medium text-on-surface">{struk.tanggalLabel}</p>
                     </div>
                     <div className="mt-4 flex flex-col gap-2 pt-2">
-                      <div className="flex items-center gap-2 rounded-xl bg-purple-100 px-3 py-2 text-purple-700">
+                      <div className="flex items-center gap-2 rounded-lg bg-purple-100 px-3 py-2 text-purple-700">
                         <Icon name="cleaning_services" className="text-[18px]" />
                         <span className="font-label-sm font-semibold leading-tight">
                           Jeda Sterilisasi Terkunci: {struk.steril} (FR-C6)
@@ -293,7 +293,7 @@ export function StrukSetelahMemesanRuanganPage() {
                     </div>
                   </div>
 
-                  <div className="mt-3 flex items-center justify-between gap-4 rounded-2xl bg-surface-container-low p-4">
+                  <div className="mt-3 flex items-center justify-between gap-4 rounded-lg bg-surface-container-low p-4">
                     <div className="flex flex-col">
                       <span className="font-label-sm font-semibold text-slate-500">TOTAL TAGIHAN PELUNASAN</span>
                       <span className="font-body-sm text-body-sm text-on-surface-variant">
@@ -307,7 +307,7 @@ export function StrukSetelahMemesanRuanganPage() {
                 </div>
 
                 {/* Pengelola resmi FR-E7 */}
-                <div className="flex flex-col gap-4 rounded-2xl bg-gradient-to-r from-purple-50 via-purple-100 to-pink-100 p-5 sm:flex-row sm:items-center sm:justify-between">
+                <div className="flex flex-col gap-4 rounded-lg bg-gradient-to-r from-purple-50 via-purple-100 to-pink-100 p-5 sm:flex-row sm:items-center sm:justify-between">
                   <div className="flex items-center gap-3.5">
                     <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-status-available text-on-primary shadow-sm">
                       <Icon name="chat" className="text-[26px]" />
@@ -413,7 +413,7 @@ export function StrukSetelahMemesanRuanganPage() {
             </div>
 
             {/* Instruksi SOP FR-E3 & FR-E6 */}
-            <div className="mt-10 flex w-full max-w-[820px] items-start gap-4 rounded-2xl bg-surface-container-low p-5 shadow-sm print:hidden">
+            <div className="mt-10 flex w-full max-w-[820px] items-start gap-4 rounded-lg bg-surface-container-low p-5 shadow-sm print:hidden">
               <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-purple-100 text-primary">
                 <Icon name="info" className="text-[20px]" />
               </span>

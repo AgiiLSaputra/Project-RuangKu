@@ -98,7 +98,7 @@ export function RiwayatStrukMobilePage() {
               type="button"
               onClick={() => navigate('/struk/' + s.kode)}
               className={cn(
-                'rounded-2xl border-2 border-slate-300/30 bg-surface-container-lowest p-4 text-left shadow-sm transition-all hover:bg-purple-50/50 active:scale-[0.99]',
+                'rounded-lg border-2 border-slate-300/30 bg-surface-container-lowest p-4 text-left shadow-sm transition-all hover:bg-purple-50/50 active:scale-[0.99]',
                 s.grup === 'arsip' && 'opacity-85',
               )}
             >
@@ -141,7 +141,7 @@ export function RiwayatStrukMobilePage() {
           ))}
 
           {terlihat.length === 0 && (
-            <div className="flex flex-col items-center gap-3 rounded-2xl bg-purple-100 p-5 text-center">
+            <div className="flex flex-col items-center gap-3 rounded-lg bg-purple-100 p-5 text-center">
               <div className="flex h-12 w-12 items-center justify-center rounded-full bg-surface-container-lowest text-primary shadow-sm">
                 <Icon name="search_off" className="text-[26px]" />
               </div>
@@ -156,7 +156,7 @@ export function RiwayatStrukMobilePage() {
         </div>
 
         {/* Catatan PRD */}
-        <div className="flex items-start gap-3 rounded-2xl border border-slate-300/40 bg-surface-container-low p-4">
+        <div className="flex items-start gap-3 rounded-lg border border-slate-300/40 bg-surface-container-low p-4">
           <Icon name="verified_user" className="mt-0.5 text-[20px] text-primary" />
           <p className="font-body-sm leading-relaxed text-body-sm text-on-surface-variant">
             Sesuai <span className="font-semibold text-primary">PRD FR-E1 s.d FR-E5</span>: Struk reservasi lama tetap

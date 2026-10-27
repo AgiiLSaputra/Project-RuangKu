@@ -71,7 +71,7 @@ export function RiwayatStrukPage() {
 
         {/* Konten: daftar struk (detail dibuka di halaman terpisah) */}
         <div className="flex flex-col gap-4">
-          <div className="flex items-center justify-between gap-3 rounded-2xl border border-slate-300/40 bg-surface-container-lowest p-4 shadow-sm">
+          <div className="flex items-center justify-between gap-3 rounded-lg border border-slate-300/40 bg-surface-container-lowest p-4 shadow-sm">
             <div className="flex flex-1 items-center gap-2">
               <Icon name="search" className="text-[20px] text-slate-500" />
               <input
@@ -94,7 +94,7 @@ export function RiwayatStrukPage() {
                 type="button"
                 onClick={() => navigate('/struk/' + s.kode)}
                 className={cn(
-                  'rounded-2xl border-2 border-slate-300/30 bg-surface-container-lowest p-4 text-left shadow-sm transition-all hover:border-primary/40 hover:bg-purple-50/50 hover:shadow-[0_8px_24px_-4px_rgba(108,92,231,0.14)] active:scale-[0.99]',
+                  'rounded-lg border-2 border-slate-300/30 bg-surface-container-lowest p-4 text-left shadow-sm transition-all hover:border-primary/40 hover:bg-purple-50/50 hover:shadow-[0_8px_24px_-4px_rgba(108,92,231,0.14)] active:scale-[0.99]',
                   s.grup === 'arsip' && 'opacity-85',
                 )}
               >
@@ -138,12 +138,12 @@ export function RiwayatStrukPage() {
           </div>
 
           {terlihat.length === 0 && (
-            <div className="rounded-2xl border border-slate-300/40 bg-surface-container-lowest p-6 text-center font-body-sm text-body-sm text-slate-500 shadow-sm">
+            <div className="rounded-lg border border-slate-300/40 bg-surface-container-lowest p-6 text-center font-body-sm text-body-sm text-slate-500 shadow-sm">
               Struk tidak ditemukan. Coba ubah kata kunci atau pilih filter lain.
             </div>
           )}
 
-          <div className="flex items-start gap-3 rounded-2xl border border-slate-300/40 bg-surface-container-low p-4">
+          <div className="flex items-start gap-3 rounded-lg border border-slate-300/40 bg-surface-container-low p-4">
             <Icon name="verified_user" className="mt-0.5 text-[20px] text-primary" />
             <p className="font-body-sm leading-relaxed text-body-sm text-on-surface-variant">
               Sesuai <span className="font-semibold text-primary">PRD FR-E1 s.d FR-E5</span>: Struk reservasi lama
