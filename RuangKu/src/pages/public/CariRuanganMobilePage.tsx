@@ -336,12 +336,7 @@ export function CariRuanganMobilePage() {
                   ))}
                 </div>
 
-                <span
-                  className={cn(
-                    'flex w-fit items-center gap-1 rounded-full px-3 py-1 font-label-sm text-label-sm shadow-sm',
-                    r.kategori === 'Creative Space' ? 'bg-secondary/90 text-on-secondary' : 'bg-primary/90 text-on-primary',
-                  )}
-                >
+                <span className="flex w-fit items-center gap-1 rounded-full bg-primary/90 px-3 py-1 font-label-sm text-label-sm text-on-primary shadow-sm">
                   {r.kategori}
                 </span>
 

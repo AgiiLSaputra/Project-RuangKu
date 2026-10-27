@@ -484,14 +484,7 @@ export function CariRuanganPage() {
                         ))}
                       </div>
 
-                      <span
-                        className={cn(
-                          "flex w-fit items-center gap-1 rounded-full px-3 py-1 font-label-sm text-label-sm",
-                          r.kategori === "Creative Space"
-                            ? "bg-pink-100 text-secondary"
-                            : "bg-purple-50 text-primary",
-                        )}
-                      >
+                      <span className="flex w-fit items-center gap-1 rounded-full bg-purple-50 px-3 py-1 font-label-sm text-label-sm text-primary">
                         <Icon
                           name={IKON_KATEGORI[r.kategori]}
                           className="text-[14px]"

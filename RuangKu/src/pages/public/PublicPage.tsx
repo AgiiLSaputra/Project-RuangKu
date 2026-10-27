@@ -451,11 +451,7 @@ export function PublicPage() {
                       </div>
 
                       <span
-                        className={`mb-1 mt-2 inline-flex w-fit items-center gap-1 rounded-full px-3 py-1 font-label-sm text-xs font-semibold ${
-                          r.kategori === 'Creative Space'
-                            ? 'bg-pink-100 text-secondary'
-                            : 'bg-purple-50 text-primary'
-                        }`}
+                        className="mb-1 mt-2 inline-flex w-fit items-center gap-1 rounded-full bg-purple-50 px-3 py-1 font-label-sm text-xs font-semibold text-primary"
                       >
                         <Icon name={IKON_KATEGORI[r.kategori]} className="text-[14px]" />
                         {r.kategori}
