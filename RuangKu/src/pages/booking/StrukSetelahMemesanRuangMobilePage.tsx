@@ -406,7 +406,7 @@ export function StrukSetelahMemesanRuangMobilePage() {
             <div className="flex items-center gap-1.5 text-primary">
               <Icon name="info" className="text-[18px]" />
               <span className="font-title-md text-[13px] font-bold">
-                Instruksi Penting SOP RuangKu (FR-E3 &amp; FR-E6):
+                Instruksi Penting SOP RuangKu:
               </span>
             </div>
             <p className="font-body-sm leading-relaxed text-body-sm text-on-surface-variant">

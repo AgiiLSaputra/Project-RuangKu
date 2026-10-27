@@ -419,7 +419,7 @@ export function StrukSetelahMemesanRuanganPage() {
               </span>
               <div className="flex flex-col gap-1 text-left">
                 <span className="font-title-md text-body-sm font-bold text-on-surface">
-                  Instruksi Penting Alur Pembayaran SOP RuangKu (FR-E3 &amp; FR-E6):
+                  Instruksi Penting Alur Pembayaran SOP RuangKu:
                 </span>
                 <p className="font-body-sm leading-relaxed text-body-sm text-on-surface-variant">
                   Pembayaran dilakukan di luar sistem via transfer/instruksi WhatsApp pengelola gedung. Simpan
