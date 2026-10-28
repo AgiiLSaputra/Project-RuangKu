@@ -330,7 +330,7 @@ export function ProsesBandingPage() {
                   <th className="px-space-md py-4 font-semibold">Nama &amp; Peran</th>
                   <th className="px-space-md py-4 font-semibold">Penonaktifan</th>
                   <th className="px-space-md py-4 font-semibold">Pengajuan Banding</th>
-                  <th className="px-space-md py-4 font-semibold">Sisa Waktu (SOP FR-H5)</th>
+                  <th className="px-space-md py-4 font-semibold">Sisa Waktu</th>
                   <th className="px-space-md py-4 font-semibold">Status</th>
                   <th className="px-space-md py-4 text-right font-semibold">Aksi</th>
                 </tr>

@@ -61,7 +61,7 @@ function slaBanding(diajukanPada: string): {
   return {
     sla:
       14 - Math.floor(umur) <= 0
-        ? 'Tenggang Lewat (SOP FR-H5)'
+        ? 'Tenggang Lewat'
         : `Hari ke-${Math.min(14, Math.floor(umur) + 1)} dari 14 Hari`,
     slaNada: 14 - umur <= 1 ? 'etalase' : 'proses',
     tenggang: 14 - umur <= 1,
