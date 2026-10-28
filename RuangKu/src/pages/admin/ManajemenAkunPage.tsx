@@ -589,19 +589,7 @@ export function ManajemenAkunPage() {
                 </tbody>
               </table>
             </div>
-            <div className="flex flex-col items-center justify-between gap-space-sm bg-purple-50/40 p-space-md sm:flex-row">
-              <span className="text-body-sm text-slate-500">
-                Menampilkan{" "}
-                <span className="font-semibold text-on-surface">
-                  {ringkasHalaman.dari} -{" "}
-                  {Math.min(ringkasHalaman.sampai, ringkasHalaman.total)}
-                </span>{" "}
-                dari{" "}
-                <span className="font-semibold text-on-surface">
-                  {ringkasHalaman.total}
-                </span>{" "}
-                akun terdaftar
-              </span>
+            <div className="flex flex-col items-center justify-between gap-space-sm bg-purple-50/40 p-space-md sm:flex-row sm:justify-end">
               <Paginasi
                 halaman={ringkasHalaman.halaman}
                 jumlahHalaman={ringkasHalaman.jumlahHalaman}

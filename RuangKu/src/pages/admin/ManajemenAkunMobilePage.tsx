@@ -409,14 +409,7 @@ export function ManajemenAkunMobilePage() {
             />
           ))
         )}
-        <div className="flex flex-col items-center justify-between gap-space-sm px-1 pt-1 sm:flex-row">
-          <span className="text-body-sm text-slate-500">
-            Menampilkan{' '}
-            <span className="font-semibold text-on-surface">
-              {ringkasHalaman.dari} - {Math.min(ringkasHalaman.sampai, ringkasHalaman.total)}
-            </span>{' '}
-            dari <span className="font-semibold text-on-surface">{ringkasHalaman.total}</span> akun
-          </span>
+        <div className="flex flex-col items-center justify-between gap-space-sm px-1 pt-1 sm:flex-row sm:justify-end">
           <Paginasi
             halaman={ringkasHalaman.halaman}
             jumlahHalaman={ringkasHalaman.jumlahHalaman}
