@@ -378,11 +378,6 @@ export function ProsesBandingPage() {
             <span className="h-2 w-2 rounded-full bg-status-available" />
             RuangKu Super Admin v1.0 • Tersambung server (data real-time)
           </span>
-          <span className="flex items-center gap-3 font-label-sm text-label-sm">
-            <span>Zona Waktu Server: WIB (UTC+7)</span>
-            <span>•</span>
-            <span className="font-medium text-primary">SOP FR-H4 &amp; FR-H5 Aktif</span>
-          </span>
         </footer>
       </div>
 
