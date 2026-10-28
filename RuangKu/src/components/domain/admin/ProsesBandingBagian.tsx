@@ -125,7 +125,7 @@ export function FilterPeranPopover({ admin }: { admin: ProsesBanding }) {
                 admin.setFilterBuka(false)
               }}
               className={cn(
-                'flex w-full items-center justify-between gap-2 rounded-xl px-3 py-2 text-left font-title-md text-body-md transition-colors',
+                'flex w-full items-center justify-between gap-2 rounded-md px-3 py-2 text-left font-title-md text-body-md transition-colors',
                 admin.peran === o.id
                   ? 'bg-purple-100 font-semibold text-primary'
                   : 'text-on-surface hover:bg-purple-50',
@@ -181,7 +181,7 @@ export function PanelKonfirmasi({ admin, onTutup }: { admin: ProsesBanding; onTu
 
       <div className="flex flex-col gap-space-md p-space-lg">
         {/* Kartu 1: riwayat penonaktifan */}
-        <div className="flex flex-col gap-space-sm rounded-xl bg-purple-50 p-space-md">
+        <div className="flex flex-col gap-space-sm rounded-md bg-purple-50 p-space-md">
           <div className="flex items-center justify-between gap-2">
             <span className="flex items-center gap-2 font-title-md text-title-md font-semibold text-on-surface">
               <Icon name="history" className="text-[20px] text-status-full" />
@@ -197,7 +197,7 @@ export function PanelKonfirmasi({ admin, onTutup }: { admin: ProsesBanding; onTu
             </span>
             <span className="font-label-md text-label-md font-bold text-on-surface">{b.eksekusi}</span>
           </div>
-          <div className="rounded-xl bg-surface-container-lowest p-3">
+          <div className="rounded-md bg-surface-container-lowest p-3">
             <span className="mb-1 block font-label-sm text-label-sm uppercase tracking-wider text-slate-500">
               Alasan Sistem
             </span>
@@ -208,7 +208,7 @@ export function PanelKonfirmasi({ admin, onTutup }: { admin: ProsesBanding; onTu
         </div>
 
         {/* Kartu 2: alasan banding pemohon */}
-        <div className="flex flex-col gap-space-sm rounded-xl bg-purple-50 p-space-md">
+        <div className="flex flex-col gap-space-sm rounded-md bg-purple-50 p-space-md">
           <span className="flex items-center gap-2 font-title-md text-title-md font-semibold text-on-surface">
             <Icon name="gavel" className="text-[20px] text-primary" />
             Alasan Banding Pemohon
@@ -217,14 +217,14 @@ export function PanelKonfirmasi({ admin, onTutup }: { admin: ProsesBanding; onTu
             Diajukan {b.diajukan}, {b.jam}
           </span>
           {b.diajukan24Jam && (
-            <p className="flex items-start gap-2 rounded-xl bg-status-available-bg p-3 text-body-sm text-status-available">
+            <p className="flex items-start gap-2 rounded-md bg-status-available-bg p-3 text-body-sm text-status-available">
               <Icon name="bolt" className="mt-0.5 shrink-0 text-[18px]" />
               <span>
                 Diajukan dalam 24 jam pertama — peninjauan diprioritaskan sesuai SOP FR-H5.
               </span>
             </p>
           )}
-          <div className="rounded-xl bg-surface-container-lowest p-3">
+          <div className="rounded-md bg-surface-container-lowest p-3">
             <span className="mb-1 block font-label-sm text-label-sm uppercase tracking-wider text-slate-500">
               Pernyataan Pemohon
             </span>
@@ -233,7 +233,7 @@ export function PanelKonfirmasi({ admin, onTutup }: { admin: ProsesBanding; onTu
             </p>
           </div>
           {b.lampiran && (
-            <div className="flex items-center justify-between gap-2 rounded-xl bg-surface-container-lowest p-3">
+            <div className="flex items-center justify-between gap-2 rounded-md bg-surface-container-lowest p-3">
               <span className="flex min-w-0 items-center gap-2">
                 <Icon name="attach_file" className="shrink-0 text-[20px] text-primary" />
                 <span className="flex min-w-0 flex-col">
@@ -248,7 +248,7 @@ export function PanelKonfirmasi({ admin, onTutup }: { admin: ProsesBanding; onTu
             </div>
           )}
           {b.perluUnggahUlang && (
-            <p className="flex items-start gap-2 rounded-xl bg-surface-container-lowest p-3 text-body-sm text-slate-500">
+            <p className="flex items-start gap-2 rounded-md bg-surface-container-lowest p-3 text-body-sm text-slate-500">
               <Icon name="info" className="mt-0.5 shrink-0 text-[18px] text-primary" />
               <span>
                 Jika banding disetujui, unggahan lama tidak otomatis pulih — pemohon perlu
@@ -321,14 +321,14 @@ export function PanelKonfirmasi({ admin, onTutup }: { admin: ProsesBanding; onTu
           </div>
         ) : (
           /* Pengajuan sudah diputus — ringkasan putusan hanya baca */
-          <div className="flex flex-col gap-space-sm rounded-xl bg-purple-50 p-space-md">
+          <div className="flex flex-col gap-space-sm rounded-md bg-purple-50 p-space-md">
             <div className="flex items-center justify-between gap-2">
               <span className="font-title-md text-title-md font-semibold text-on-surface">
                 Hasil Keputusan
               </span>
               <ChipStatusBanding status={b.status} kecil />
             </div>
-            <p className="rounded-xl bg-surface-container-lowest p-3 text-body-sm italic leading-relaxed text-on-surface">
+            <p className="rounded-md bg-surface-container-lowest p-3 text-body-sm italic leading-relaxed text-on-surface">
               &ldquo;{b.putusan?.catatan}&rdquo;
             </p>
             <div className="flex items-center justify-between gap-2 text-body-sm">

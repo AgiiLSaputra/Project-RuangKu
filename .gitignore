@@ -1,0 +1,17 @@
+# Dependensi
+node_modules/
+
+# Hasil build
+server/dist/
+ruangku-app/dist/
+*.tsbuildinfo
+
+# Kredensial
+.env
+
+# Unggahan lokal
+server/uploads/
+
+# Cache & sistem
+.DS_Store
+Thumbs.db
