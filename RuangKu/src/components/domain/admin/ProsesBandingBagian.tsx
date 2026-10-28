@@ -273,9 +273,9 @@ export function PanelKonfirmasi({ admin, onTutup }: { admin: ProsesBanding; onTu
               value={admin.catatan}
               onChange={(e) => admin.setCatatan(e.target.value)}
               rows={4}
-              placeholder="Tulis alasan keputusan (wajib untuk jejak audit FR-H6)..."
+              placeholder="Tulis alasan keputusan..."
               aria-label="Alasan keputusan super admin"
-              className="w-full resize-none rounded-xl bg-purple-50 p-3 text-body-sm text-on-surface shadow-inner placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-primary/20"
+              className="w-full resize-none rounded-md bg-purple-50 p-3 text-body-sm text-on-surface shadow-inner placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-primary/20"
             />
             {admin.galat && (
               <p className="flex items-center gap-1.5 text-body-sm font-medium text-status-full">

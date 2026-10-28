@@ -281,7 +281,7 @@ export function useProsesBanding() {
     const b = terpilih
     if (!b || proses) return
     if (catatan.trim() === '') {
-      setGalat('Tulis alasan keputusan sebelum memproses banding (wajib untuk jejak audit).')
+      setGalat('Tulis alasan keputusan sebelum memproses banding.')
       return
     }
     setGalat('')
