@@ -122,7 +122,7 @@ export function LoginMobilePage() {
                 </p>
               )}
 
-              <div className="flex items-center justify-end pt-1">
+              <div className="flex items-center justify-start pt-1">
                 <button
                   type="button"
                   disabled
