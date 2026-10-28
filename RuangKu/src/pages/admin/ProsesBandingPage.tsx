@@ -163,12 +163,6 @@ export function ProsesBandingPage() {
               <h1 className="font-headline-lg text-headline-lg tracking-tight text-on-surface">
                 Manajemen Banding
               </h1>
-              <span className="rounded-full bg-secondary-fixed px-3 py-1 font-label-sm text-label-sm font-semibold uppercase tracking-wider text-secondary">
-                Modul Kepatuhan
-              </span>
-              <span className="font-label-sm text-label-sm text-slate-500">
-                SOP: FR-H4 • FR-H5 • FR-H6
-              </span>
             </div>
             <p className="text-body-md text-slate-500">
               Tinjau dan proses pengajuan banding dari akun nonaktif sesuai batas waktu mitigasi

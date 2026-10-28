@@ -134,9 +134,6 @@ export function ProsesBandingMobilePage() {
           <h1 className="font-headline-lg-mobile text-headline-lg-mobile tracking-tight text-on-surface">
             Manajemen Banding
           </h1>
-          <span className="rounded-full bg-secondary-fixed px-2.5 py-0.5 font-label-sm text-label-sm font-semibold uppercase tracking-wider text-secondary">
-            Modul Kepatuhan
-          </span>
         </div>
         <p className="text-body-sm text-slate-500">
           Tinjau pengajuan banding akun nonaktif sesuai SOP FR-H4 s.d. FR-H6.
