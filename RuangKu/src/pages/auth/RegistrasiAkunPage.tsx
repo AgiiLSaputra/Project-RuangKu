@@ -414,13 +414,6 @@ export function RegistrasiAkunPage() {
                 />
                 Data Privasi Terjamin
               </span>
-              <span className="flex items-center gap-1.5">
-                <Icon
-                  name="support_agent"
-                  className="text-[16px] text-secondary"
-                />
-                Bantuan CS 24/7
-              </span>
             </div>
           </div>
         </div>

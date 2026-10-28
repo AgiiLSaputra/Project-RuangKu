@@ -122,11 +122,7 @@ export function LoginMobilePage() {
                 </p>
               )}
 
-              <div className="flex items-center justify-between pt-1">
-                <label className="flex cursor-pointer select-none items-center gap-2">
-                  <input type="checkbox" defaultChecked className="h-4 w-4 cursor-pointer accent-primary" />
-                  <span className="font-body-sm text-body-sm text-on-surface-variant">Ingat Saya</span>
-                </label>
+              <div className="flex items-center justify-end pt-1">
                 <button
                   type="button"
                   disabled

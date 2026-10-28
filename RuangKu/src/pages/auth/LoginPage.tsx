@@ -284,13 +284,7 @@ async function handleSubmit(event: FormEvent<HTMLFormElement>) {
                     </p>
                   )}
 
-                  <div className="flex items-center justify-between pt-1">
-                    <label className="flex cursor-pointer select-none items-center gap-2">
-                      <input type="checkbox" className="h-4 w-4 cursor-pointer accent-primary" />
-                      <span className="font-body-md text-body-md text-slate-500 transition-colors hover:text-on-surface">
-                        Ingat Saya
-                      </span>
-                    </label>
+                  <div className="flex items-center justify-end pt-1">
                     <button
                       type="button"
                       disabled

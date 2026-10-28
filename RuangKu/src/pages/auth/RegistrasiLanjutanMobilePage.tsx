@@ -419,7 +419,7 @@ export function RegistrasiLanjutanMobilePage() {
           </form>
 
           {/* Perks */}
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 gap-3">
             <div className="flex items-center gap-2.5 rounded bg-surface-container-lowest p-3 shadow-sm">
               <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-status-available-bg text-status-available">
                 <Icon name="bolt" className="text-[18px]" />
@@ -427,15 +427,6 @@ export function RegistrasiLanjutanMobilePage() {
               <span className="flex min-w-0 flex-col">
                 <span className="font-title-md text-label-md font-bold text-on-surface">Instan Listing</span>
                 <span className="truncate text-body-sm text-[11px] text-slate-500">Langsung sewa</span>
-              </span>
-            </div>
-            <div className="flex items-center gap-2.5 rounded bg-surface-container-lowest p-3 shadow-sm">
-              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-purple-100 text-purple-700">
-                <Icon name="support_agent" className="text-[18px]" />
-              </span>
-              <span className="flex min-w-0 flex-col">
-                <span className="font-title-md text-label-md font-bold text-on-surface">Bantuan 24/7</span>
-                <span className="truncate text-body-sm text-[11px] text-slate-500">Tim kurator siap</span>
               </span>
             </div>
           </div>
