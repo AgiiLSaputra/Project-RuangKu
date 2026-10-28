@@ -571,15 +571,6 @@ export function StatusAkunPage() {
                       </div>
                     </div>
 
-                    <div className="flex items-start gap-2.5 rounded bg-surface-container-low p-3.5 text-body-sm text-slate-500">
-                      <Icon name="history_edu" className="mt-0.5 text-[18px]" />
-                      <span>
-                        <strong className="font-semibold text-on-surface">Kepatuhan Audit Log (FR-H6):</strong> Setiap
-                        proses pengajuan, pengubahan lampiran, serta hasil putusan Super Admin RuangKu akan terekam
-                        otomatis dalam jejak audit digital yang tidak dapat dimanipulasi.
-                      </span>
-                    </div>
-
                     <div className="flex flex-col-reverse items-center justify-between gap-4 pt-3 sm:flex-row">
                       <Link
                         to="/struk"
