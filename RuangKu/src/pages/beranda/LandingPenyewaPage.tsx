@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { Button, ButtonLink } from '../../components/ui/Button'
 import { Icon } from '../../components/ui/Icon'
 import { useKatalogRuangan } from '../../components/domain/room/useRuangan'
@@ -18,6 +18,49 @@ const IKON_KATEGORI: Record<Kategori, string> = {
   Ballroom: 'apartment',
   'Meeting Room': 'meeting_room',
   'Creative Space': 'palette',
+}
+
+/** Langkah "Cara Kerja" — dipakai untuk isi flip card di section kemitraan (isi sama dgn halaman /cara-kerja). */
+const CARA_KERJA_LANGKAH: Record<'penyewa' | 'penyedia', { no: string; judul: string; teks: string }[]> = {
+  penyewa: [
+    {
+      no: '01',
+      judul: '1. Jelajahi & Pilih Ruangan',
+      teks: 'Buka katalog etalase, cek foto venue 4:3, kapasitas peserta, dan cek ketersediaan jadwal pada kalender real-time tanpa perlu login terlebih dahulu.',
+    },
+    {
+      no: '02',
+      judul: '2. Atur Jadwal & Peserta',
+      teks: 'Login akun penyewa, tentukan jam mulai & durasi sewa bebas atau paket harian. Sistem langsung otomatis mengecek bentrok jadwal, jeda steril 2 jam, dan batas kuota.',
+    },
+    {
+      no: '03',
+      judul: '3. Reservasi & Bayar via WhatsApp',
+      teks: 'Slot langsung di-hold sementara. Reservasi pending tercatat dengan Kode Booking resmi dan e-tiket PDF siap unduh. Kirim struk ke kontak WA pengelola untuk transfer aman.',
+    },
+    {
+      no: '04',
+      judul: '4. Pantau Status & Gunakan',
+      teks: 'Pantau status verifikasi pembayaran di dashboard riwayat penyewa hingga approved. Buka kembali struk digital kapan pun dan nikmati kelancaran acara tanpa cemas bentrok.',
+    },
+  ],
+  penyedia: [
+    {
+      no: '01',
+      judul: '1. Daftar & Verifikasi',
+      teks: 'Buat akun mitra penyedia, unggah bukti kepemilikan / foto gedung dan tautan Google Maps (maks. 2MB), lalu tunggu verifikasi kilat dari tim Super Admin RuangKu.',
+    },
+    {
+      no: '02',
+      judul: '2. Atur Ruangan & Jadwal',
+      teks: 'Kelola listing gedung, tetapkan kapasitas kuota peserta, tarif per jam, paket harian khusus, jam buka/tutup operasional, dan jeda pembersihan otomatis secara fleksibel.',
+    },
+    {
+      no: '03',
+      judul: '3. Kelola Reservasi Masuk',
+      teks: 'Terima reservasi booking baru, verifikasi bukti transfer yang dikirim penyewa lewat WhatsApp, lalu klik Setujui atau Tolak dengan alasan transparan langsung dari dashboard.',
+    },
+  ],
 }
 
 const STATISTIK = [
@@ -106,6 +149,8 @@ export function LandingPenyewaPage() {
   const [lokasi, setLokasi] = useState(CITIES[0])
   const [tanggalSewa, setTanggalSewa] = useState('Besok, 24 Okt 2026')
   const [kapasitas, setKapasitas] = useState(KAPASITAS_FILTER[2])
+  const [caraKerjaFlip, setCaraKerjaFlip] = useState(false)
+  const [caraKerjaAlur, setCaraKerjaAlur] = useState<'penyewa' | 'penyedia'>('penyewa')
 
   const katalog = useKatalogRuangan({ kategori: kategori === 'Semua' ? undefined : kategori })
   const daftarRuangan = katalog.ruangan
@@ -566,19 +611,31 @@ export function LandingPenyewaPage() {
                   >
                     Daftar Jadi Penyedia Sekarang
                   </ButtonLink>
-                  <Link
-                    to="/cara-kerja"
+                  <button
+                    type="button"
+                    onClick={() => setCaraKerjaFlip((v) => !v)}
+                    aria-pressed={caraKerjaFlip}
                     className="inline-flex h-14 items-center gap-2 rounded-full bg-surface-container-lowest/15 px-6 font-title-md text-sm font-semibold text-on-primary transition-colors hover:bg-surface-container-lowest/25"
                   >
                     <Icon name="help" className="text-[18px]" />
-                    Pelajari Cara Kerja
-                  </Link>
+                    {caraKerjaFlip ? 'Tutup Cara Kerja' : 'Pelajari Cara Kerja'}
+                  </button>
                 </div>
               </div>
 
-              {/* Mini dashboard estimasi */}
+              {/* Mini dashboard estimasi — kartu bisa flip ke isi "Cara Kerja" (tetap di halaman ini) */}
               <div className="flex justify-center lg:col-span-4 lg:justify-end">
-                <div className="w-full max-w-[280px] rounded-lg bg-surface-container-lowest/95 p-5 text-on-surface shadow-card-elevated backdrop-blur-md">
+                <div className="relative w-full max-w-[280px]" style={{ perspective: '1000px' }}>
+                  <div
+                    className="relative transition-transform duration-700 ease-in-out"
+                    style={{ transformStyle: 'preserve-3d', transform: caraKerjaFlip ? 'rotateY(180deg)' : 'rotateY(0deg)' }}
+                  >
+                    {/* Wajah depan — mini dashboard estimasi (asli) */}
+                    <div
+                      aria-hidden={caraKerjaFlip}
+                      className="rounded-lg bg-surface-container-lowest/95 p-5 text-on-surface shadow-card-elevated backdrop-blur-md"
+                      style={{ backfaceVisibility: 'hidden', pointerEvents: caraKerjaFlip ? 'none' : 'auto' }}
+                    >
                   <div className="mb-4 flex items-center justify-between">
                     <span className="font-title-md text-xs font-bold text-slate-500">Estimasi Pendapatan Mitra</span>
                     <span className="rounded-full bg-status-available-bg px-2 py-0.5 text-[10px] font-bold text-status-available">
@@ -597,6 +654,92 @@ export function LandingPenyewaPage() {
                   <div className="flex items-center gap-2 font-label-sm text-[10px] text-slate-500">
                     <span className="h-2 w-2 rounded-full bg-status-available" />
                     <span>Pembayaran langsung ditransfer H+1</span>
+                  </div>
+                    </div>
+
+                    {/* Wajah belakang — isi halaman Cara Kerja, ukuran kartu tetap sama */}
+                    <div
+                      aria-hidden={!caraKerjaFlip}
+                      className="absolute inset-0 flex flex-col overflow-y-auto rounded-lg bg-surface-container-lowest/95 p-4 text-on-surface shadow-card-elevated backdrop-blur-md"
+                      style={{
+                        backfaceVisibility: 'hidden',
+                        transform: 'rotateY(180deg)',
+                        pointerEvents: caraKerjaFlip ? 'auto' : 'none',
+                      }}
+                    >
+                      <div className="mb-2 flex items-center justify-between gap-2">
+                        <span className="font-title-md text-xs font-bold text-slate-500">Cara Kerja RuangKu</span>
+                        <button
+                          type="button"
+                          onClick={() => setCaraKerjaFlip(false)}
+                          aria-label="Tutup kartu Cara Kerja"
+                          className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-purple-50 text-primary transition-colors hover:bg-purple-100"
+                        >
+                          <Icon name="close" className="text-[14px]" />
+                        </button>
+                      </div>
+                      <p className="mb-2 text-[10px] leading-relaxed text-slate-500">
+                        Reservasi ruangan jadi lebih mudah, transparan, dan bebas ribet — dalam beberapa langkah terarah
+                        yang terintegrasi langsung dengan pengelola gedung.
+                      </p>
+
+                      {/* Segmented alur Penyewa / Penyedia — sama dgn halaman Cara Kerja */}
+                      <div className="mb-2 inline-flex shrink-0 items-center gap-0.5 self-start rounded-full bg-purple-50 p-0.5">
+                        <button
+                          type="button"
+                          aria-pressed={caraKerjaAlur === 'penyewa'}
+                          onClick={() => setCaraKerjaAlur('penyewa')}
+                          className={`rounded-full px-2.5 py-1 text-[10px] font-semibold transition-colors ${
+                            caraKerjaAlur === 'penyewa'
+                              ? 'bg-primary text-on-primary shadow-sm'
+                              : 'text-slate-500 hover:text-on-surface'
+                          }`}
+                        >
+                          Untuk Penyewa
+                        </button>
+                        <button
+                          type="button"
+                          aria-pressed={caraKerjaAlur === 'penyedia'}
+                          onClick={() => setCaraKerjaAlur('penyedia')}
+                          className={`rounded-full px-2.5 py-1 text-[10px] font-semibold transition-colors ${
+                            caraKerjaAlur === 'penyedia'
+                              ? 'bg-primary text-on-primary shadow-sm'
+                              : 'text-slate-500 hover:text-on-surface'
+                          }`}
+                        >
+                          Untuk Penyedia
+                        </button>
+                      </div>
+
+                      <ol className="flex flex-col gap-1.5">
+                        {CARA_KERJA_LANGKAH[caraKerjaAlur].map((l) => (
+                          <li key={l.no} className="flex gap-2 rounded bg-purple-50 p-2">
+                            <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-purple-100 font-title-md text-[9px] font-bold text-primary">
+                              {l.no}
+                            </span>
+                            <div className="min-w-0">
+                              <p className="font-title-md text-[10px] font-bold leading-snug text-on-surface">
+                                {l.judul}
+                              </p>
+                              <p className="mt-0.5 text-[9px] leading-snug text-slate-500">{l.teks}</p>
+                            </div>
+                          </li>
+                        ))}
+                      </ol>
+
+                      {/* Banner sorotan alur — sama dgn banner di halaman Cara Kerja */}
+                      <div className="mt-2 flex shrink-0 items-center gap-1.5 rounded bg-purple-100/70 p-2">
+                        <Icon
+                          name={caraKerjaAlur === 'penyewa' ? 'info' : 'payments'}
+                          className="text-[14px] text-primary"
+                        />
+                        <p className="text-[9px] leading-snug text-slate-500">
+                          {caraKerjaAlur === 'penyewa'
+                            ? 'Slot Tersimpan Aman Selama 2 Jam — setelah reservasi diajukan, slot otomatis dikunci.'
+                            : '100% Pembayaran Langsung ke Rekening Anda — tanpa potongan komisi sepihak.'}
+                        </p>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
