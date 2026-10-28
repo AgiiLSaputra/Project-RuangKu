@@ -252,7 +252,7 @@ export function PanelKonfirmasi({ admin, onTutup }: { admin: ProsesBanding; onTu
               <Icon name="info" className="mt-0.5 shrink-0 text-[18px] text-primary" />
               <span>
                 Jika banding disetujui, unggahan lama tidak otomatis pulih — pemohon perlu
-                mengunggah ulang (SOP FR-H3).
+                mengunggah ulang.
               </span>
             </p>
           )}
