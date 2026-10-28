@@ -10,7 +10,7 @@ import { useAuth } from '../../context/AuthContext'
 
 const TABS_DASAR: { key: StatusKey; label: string }[] = [
   { key: 'email', label: 'Email' },
-  { key: 'verification', label: 'Super Admin' },
+  { key: 'verification', label: 'Admin' },
 ]
 
 interface MobState {
@@ -47,7 +47,7 @@ const STATE: Record<StatusKey, MobState> = {
     infoCls: 'bg-status-available-bg',
     reasonColor: 'text-status-available',
     borderCls: 'border-status-available/15',
-    reasonTitle: 'Keputusan Kurasi Super Admin:',
+    reasonTitle: 'Keputusan Kurasi Admin:',
     reasonDesc:
       'KTP dan Legalitas Properti Anda terverifikasi lengkap dan konsisten dengan data lapangan — akun aktif tanpa catatan khusus.',
     timer: 'Etalase ruang: tayang di katalog',
@@ -64,7 +64,7 @@ const STATE: Record<StatusKey, MobState> = {
     pojokIcon: 'priority_high',
     badgeCls: 'bg-status-occupied-bg text-status-occupied',
     badgeText: 'Menunggu Verifikasi',
-    heading: 'Verifikasi Super Admin',
+    heading: 'Verifikasi Admin',
     infoCls: 'bg-status-occupied-bg',
     reasonColor: 'text-status-occupied',
     borderCls: 'border-status-occupied/15',
@@ -186,7 +186,7 @@ export function StatusAkunMobilePage() {
     navigate('/masuk')
   }
 
-  /** Tab keputusan hanya tampil setelah keputusan Super Admin: Diterima atau Ditolak. */
+  /** Tab keputusan hanya tampil setelah keputusan Admin: Diterima atau Ditolak. */
   function tabsUrut(): { key: StatusKey; label: string }[] {
     if (tab === 'disetujui') return [...TABS_DASAR, { key: 'disetujui', label: 'Diterima' }]
     if (tab === 'ditolak') return [...TABS_DASAR, { key: 'ditolak', label: 'Ditolak' }]

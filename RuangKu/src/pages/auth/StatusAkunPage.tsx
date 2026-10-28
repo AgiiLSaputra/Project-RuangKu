@@ -51,11 +51,11 @@ const STATE: Record<StatusKey, DeskState> = {
     sub: (
       <>
         Selamat! Berkas legalitas Anda telah lolos kurasi{' '}
-        <strong className="font-semibold text-on-surface">Super Admin RuangKu</strong>. Akun Anda kini aktif dan
+        <strong className="font-semibold text-on-surface">Admin RuangKu</strong>. Akun Anda kini aktif dan
         etalase ruangan siap tayang di katalog.
       </>
     ),
-    reasonTitle: 'Keputusan Kurasi Super Admin:',
+    reasonTitle: 'Keputusan Kurasi Admin:',
     reasonBadge: 'Disetujui',
     reasonWrap: 'bg-status-available-bg',
     reasonColor: 'text-status-available',
@@ -99,12 +99,12 @@ const STATE: Record<StatusKey, DeskState> = {
     showKatalog: false,
   },
   verification: {
-    pill: 'Status Akun: Dalam Review Super Admin (FR-A4)',
+    pill: 'Status Akun: Dalam Review Admin (FR-A4)',
     pillDot: 'bg-status-occupied',
     icon: 'admin_panel_settings',
     blob: 'bg-status-occupied-bg',
     iconColor: 'text-status-occupied',
-    heading: 'Verifikasi Super Admin',
+    heading: 'Verifikasi Admin',
     sub: (
       <>
         Berkas legalitas gedung Anda sedang ditinjau kurator internal RuangKu. Akun otomatis aktif di katalog
@@ -234,7 +234,7 @@ export function StatusAkunPage() {
     navigate('/masuk')
   }
 
-  /** Tab keputusan hanya tampil setelah keputusan Super Admin: Diterima atau Ditolak. */
+  /** Tab keputusan hanya tampil setelah keputusan Admin: Diterima atau Ditolak. */
   function tabsUrut(): { key: StatusKey; label: string }[] {
     if (tab === 'disetujui') return [...TABS_DASAR, { key: 'disetujui', label: 'Diterima' }]
     if (tab === 'ditolak') return [...TABS_DASAR, { key: 'ditolak', label: 'Ditolak' }]
@@ -443,7 +443,7 @@ export function StatusAkunPage() {
                     <p className="text-body-sm leading-relaxed text-on-surface-variant">
                       <strong className="font-semibold text-primary">Perlindungan Etalase (FR-H5):</strong> Jika banding
                       diajukan dalam kurun 24 jam pertama penonaktifan, seluruh listing etalase ruangan Anda akan
-                      diproteksi dari penghapusan permanen hingga keputusan akhir Super Admin diterbitkan.
+                      diproteksi dari penghapusan permanen hingga keputusan akhir Admin diterbitkan.
                     </p>
                   </div>
 
@@ -592,7 +592,7 @@ export function StatusAkunPage() {
                           </>
                         ) : (
                           <>
-                            <span>Kirim Banding ke Super Admin</span>
+                            <span>Kirim Banding ke Admin</span>
                             <Icon name="arrow_forward" className="text-[20px]" />
                           </>
                         )}
@@ -611,7 +611,7 @@ export function StatusAkunPage() {
                           <p className="text-body-sm text-slate-500">
                             Nomor Registrasi Banding:{' '}
                             <strong className="font-label-md text-label-md text-on-surface">{kodeBanding}</strong>.
-                            Super Admin akan meninjau dalam 1x24 jam kerja.
+                            Admin akan meninjau dalam 1x24 jam kerja.
                           </p>
                         </div>
                       </div>

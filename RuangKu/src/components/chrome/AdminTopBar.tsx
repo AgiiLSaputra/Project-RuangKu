@@ -44,7 +44,7 @@ export function AdminTopBar({ buka, onBuka }: { buka: boolean; onBuka: () => voi
                 Konsol Admin
               </span>
               <span className="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant">
-                Super Admin
+                Admin
               </span>
             </span>
           </Link>

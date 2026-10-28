@@ -130,7 +130,7 @@ export function VerifikasiPenyediaPage() {
               Beranda
             </Link>
             <Icon name="chevron_right" className="text-[14px] text-outline-variant" />
-            <span>Super Admin</span>
+            <span>Admin</span>
             <Icon name="chevron_right" className="text-[14px] text-outline-variant" />
             <span className="font-medium text-primary">Verifikasi Penyedia</span>
           </nav>
@@ -692,7 +692,7 @@ export function VerifikasiPenyediaPage() {
                     </span>
                     <span className="text-body-sm leading-relaxed text-slate-500">
                       Seluruh tindakan persetujuan dan penolakan dicatat permanen di Audit Log
-                      terenkripsi beserta nama akun Super Admin (Admin Utama Sistem), alamat IP,
+                      terenkripsi beserta nama akun Admin (Admin Utama Sistem), alamat IP,
                       dan stempel waktu UTC+7. Keputusan bersifat mengikat.
                     </span>
                   </span>

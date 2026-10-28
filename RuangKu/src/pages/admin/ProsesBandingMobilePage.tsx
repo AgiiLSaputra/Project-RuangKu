@@ -330,7 +330,7 @@ export function ProsesBandingMobilePage() {
       <footer className="flex flex-col items-center gap-1 text-slate-500">
         <span className="flex items-center gap-2 font-label-sm text-label-sm">
           <span className="h-2 w-2 rounded-full bg-status-available" />
-          RuangKu Super Admin v1.0 • Tersambung server (data real-time)
+          RuangKu Admin v1.0 • Tersambung server (data real-time)
         </span>
       </footer>
     </div>

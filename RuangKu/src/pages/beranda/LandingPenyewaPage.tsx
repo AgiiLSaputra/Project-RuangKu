@@ -48,7 +48,7 @@ const CARA_KERJA_LANGKAH: Record<'penyewa' | 'penyedia', { no: string; judul: st
     {
       no: '01',
       judul: '1. Daftar & Verifikasi',
-      teks: 'Buat akun mitra penyedia, unggah bukti kepemilikan / foto gedung dan tautan Google Maps (maks. 2MB), lalu tunggu verifikasi kilat dari tim Super Admin RuangKu.',
+      teks: 'Buat akun mitra penyedia, unggah bukti kepemilikan / foto gedung dan tautan Google Maps (maks. 2MB), lalu tunggu verifikasi kilat dari tim Admin RuangKu.',
     },
     {
       no: '02',

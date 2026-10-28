@@ -166,7 +166,7 @@ export function AkunDinonaktifkanPage() {
                 </h1>
                 <p className="mt-2.5 max-w-xl font-body-lg text-body-lg text-slate-500">
                   Akses reservasi publik dan pengelolaan ruangan Anda saat ini dibekukan oleh{' '}
-                  <strong className="font-semibold text-on-surface">Super Admin RuangKu</strong> sesuai ketentuan
+                  <strong className="font-semibold text-on-surface">Admin RuangKu</strong> sesuai ketentuan
                   kepatuhan SOP FR-H1/FR-H2.
                 </p>
               </div>
@@ -179,7 +179,7 @@ export function AkunDinonaktifkanPage() {
                   </span>
                   <div className="flex-1">
                     <div className="mb-1.5 flex flex-wrap items-center justify-between gap-2">
-                      <span className="font-title-md text-title-md text-error">Alasan Penonaktifan Resmi (Super Admin):</span>
+                      <span className="font-title-md text-title-md text-error">Alasan Penonaktifan Resmi (Admin):</span>
                       <Badge tone="neutral" className="bg-white/60 text-on-surface">
                         Pelanggaran Ringan-Sedang
                       </Badge>
@@ -236,7 +236,7 @@ export function AkunDinonaktifkanPage() {
                   <p className="text-body-sm leading-relaxed text-on-surface-variant">
                     <strong className="font-semibold text-primary">Perlindungan Etalase (FR-H5):</strong> Jika banding
                     diajukan dalam kurun 24 jam pertama penonaktifan, seluruh listing etalase ruangan Anda akan
-                    diproteksi dari penghapusan permanen hingga keputusan akhir Super Admin diterbitkan.
+                    diproteksi dari penghapusan permanen hingga keputusan akhir Admin diterbitkan.
                   </p>
                 </div>
 
@@ -355,7 +355,7 @@ export function AkunDinonaktifkanPage() {
                         </>
                       ) : (
                         <>
-                          <span>Kirim Banding ke Super Admin</span>
+                          <span>Kirim Banding ke Admin</span>
                           <Icon name="arrow_forward" className="text-[20px]" />
                         </>
                       )}
@@ -374,7 +374,7 @@ export function AkunDinonaktifkanPage() {
                         <p className="text-body-sm text-slate-500">
                           Nomor Registrasi Banding:{' '}
                           <strong className="font-label-md text-label-md text-on-surface">{banding.ref}</strong>.
-                          Super Admin akan meninjau dalam 1x24 jam kerja (tenggang {banding.sisaHari ?? 14} hari —
+                          Admin akan meninjau dalam 1x24 jam kerja (tenggang {banding.sisaHari ?? 14} hari —
                           FR-H5).
                         </p>
                       </div>

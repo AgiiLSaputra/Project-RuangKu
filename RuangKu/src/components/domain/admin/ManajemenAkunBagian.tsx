@@ -311,7 +311,7 @@ export function PanelAkun({ admin, onTutup }: { admin: ManajemenAkun; onTutup?: 
                 htmlFor="catatan-banding"
                 className="font-label-md text-label-md font-semibold text-slate-500"
               >
-                Catatan Keputusan Super Admin
+                Catatan Keputusan Admin
               </label>
               <textarea
                 id="catatan-banding"

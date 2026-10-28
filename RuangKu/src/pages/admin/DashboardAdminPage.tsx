@@ -141,7 +141,7 @@ function BarisTugas({ t, onTinjau }: { t: TugasAdmin; onTinjau: (t: TugasAdmin) 
 }
 
 /**
- * Konsol dashboard super admin — mockup Dasboard.html (FR-G1, FR-G3, FR-I1).
+ * Konsol dashboard admin — mockup Dasboard.html (FR-G1, FR-G3, FR-I1).
  * Sidebar & hamburger diatur oleh `DashboardAdminLayout`.
  */
 export function DashboardAdminPage() {
@@ -166,7 +166,7 @@ export function DashboardAdminPage() {
                 Beranda
               </Link>
               <Icon name="chevron_right" className="text-[14px] text-outline-variant" />
-              <span>Super Admin</span>
+              <span>Admin</span>
               <Icon name="chevron_right" className="text-[14px] text-outline-variant" />
               <span className="font-medium text-primary">Dashboard Ringkasan</span>
             </nav>
@@ -293,7 +293,7 @@ export function DashboardAdminPage() {
             <div className="space-y-0.5">
               <div className="flex flex-wrap items-center gap-2">
                 <span className="font-title-md text-title-md font-semibold text-on-surface">
-                  Protokol Audit &amp; Integritas Operasional Super Admin
+                  Protokol Audit &amp; Integritas Operasional Admin
                 </span>
                 <span className="rounded-full bg-white/80 px-2.5 py-0.5 font-label-sm text-label-sm font-semibold uppercase tracking-wide text-primary">
                   SOP Aktif
@@ -421,7 +421,7 @@ export function DashboardAdminPage() {
         <footer className="flex flex-col items-center justify-between gap-2 pt-2 text-slate-500 sm:flex-row">
           <span className="flex items-center gap-2 font-label-sm text-label-sm">
             <span className="h-2 w-2 rounded-full bg-status-available" />
-            RuangKu Super Admin v1.0 • Tersambung server (data real-time)
+            RuangKu Admin v1.0 • Tersambung server (data real-time)
           </span>
           <span className="flex items-center gap-3 font-label-sm text-label-sm">
             <span>Zona Waktu Server: WIB (UTC+7)</span>

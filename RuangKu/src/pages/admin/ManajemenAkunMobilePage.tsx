@@ -165,7 +165,7 @@ function KartuAkunM({
 }
 
 /**
- * Halaman Manajemen Akun super admin — varian mobile.
+ * Halaman Manajemen Akun admin — varian mobile.
  * Banding mendesak & daftar akun di atas, panel detail di bawah (satu kolom).
  */
 export function ManajemenAkunMobilePage() {
@@ -182,7 +182,7 @@ export function ManajemenAkunMobilePage() {
             Beranda
           </button>
           <Icon name="chevron_right" className="text-[14px] text-outline-variant" />
-          <span>Super Admin</span>
+          <span>Admin</span>
           <Icon name="chevron_right" className="text-[14px] text-outline-variant" />
           <span className="font-medium text-primary">Manajemen Akun</span>
         </nav>
@@ -191,7 +191,7 @@ export function ManajemenAkunMobilePage() {
             Manajemen Akun Pengguna
           </h1>
           <span className="rounded-full bg-purple-100 px-2.5 py-0.5 font-label-sm text-label-sm font-semibold uppercase tracking-wider text-primary">
-            Super Admin Control
+            Admin Control
           </span>
         </div>
         <p className="text-body-sm leading-relaxed text-slate-500">
@@ -313,7 +313,7 @@ export function ManajemenAkunMobilePage() {
               Banding Aktif &amp; Mendesak
             </span>
             <span className="text-body-sm text-slate-500">
-              Keputusan Super Admin sebelum tenggat kadaluarsa otomatis
+              Keputusan Admin sebelum tenggat kadaluarsa otomatis
             </span>
           </span>
         </div>
@@ -440,7 +440,7 @@ export function ManajemenAkunMobilePage() {
       <footer className="flex flex-col items-center gap-1 pt-1 text-slate-500">
         <span className="flex items-center gap-2 font-label-sm text-label-sm">
           <span className="h-2 w-2 rounded-full bg-status-available" />
-          RuangKu Super Admin v1.0 • Tersambung server (data real-time)
+          RuangKu Admin v1.0 • Tersambung server (data real-time)
         </span>
         <span className="font-label-sm text-label-sm">FR-G2 &amp; FR-G3 Aktif • WIB (UTC+7)</span>
       </footer>

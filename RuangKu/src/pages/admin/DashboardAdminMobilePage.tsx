@@ -130,7 +130,7 @@ function KartuTugas({ t, onTinjau }: { t: TugasAdmin; onTinjau: (t: TugasAdmin) 
 }
 
 /**
- * Konsol dashboard super admin (mobile) — mockup Dasboard.html.
+ * Konsol dashboard admin (mobile) — mockup Dasboard.html.
  * Sidebar & hamburger diatur oleh `DashboardAdminLayout`.
  */
 export function DashboardAdminMobilePage() {
@@ -153,7 +153,7 @@ export function DashboardAdminMobilePage() {
             Beranda
           </Link>
           <Icon name="chevron_right" className="text-[14px] text-outline-variant" />
-          <span>Super Admin</span>
+          <span>Admin</span>
           <Icon name="chevron_right" className="text-[14px] text-outline-variant" />
           <span className="font-medium text-primary">Dashboard</span>
         </nav>
@@ -372,7 +372,7 @@ export function DashboardAdminMobilePage() {
       <footer className="flex flex-col items-center justify-between gap-2 border-t border-purple-100 pt-4 text-slate-500">
         <span className="flex items-center gap-2 font-label-sm text-label-sm">
           <span className="h-2 w-2 rounded-full bg-status-available" />
-          RuangKu Super Admin v1.0 • Tersambung server (data real-time)
+          RuangKu Admin v1.0 • Tersambung server (data real-time)
         </span>
         <span className="flex items-center gap-3 font-label-sm text-label-sm">
           <span>Zona Waktu: WIB (UTC+7)</span>

@@ -206,7 +206,7 @@ export function DetailRuanganPage() {
             <div className="flex flex-wrap items-center gap-space-xs">
               <span className="inline-flex items-center gap-1 rounded-full bg-status-available-bg px-3 py-1 font-title-md text-label-md text-status-available">
                 <Icon name="verified_user" filled className="text-[16px]" />
-                Terverifikasi Resmi Super Admin
+                Terverifikasi Resmi Admin
               </span>
               <span className="inline-flex items-center gap-1 rounded-full bg-purple-100 px-3 py-1 font-title-md text-label-md text-primary">
                 <Icon

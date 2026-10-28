@@ -135,7 +135,7 @@ function dariApi(b: BarisBandingApi): Banding {
     putusan: b.putusanPada
       ? {
           waktu: `${tanggalSingkat(b.putusanPada)}, ${jamWib(new Date(b.putusanPada))} WIB`,
-          oleh: b.putusanOleh ?? 'Super Admin',
+          oleh: b.putusanOleh ?? 'Admin',
           catatan: b.catatanKeputusan ?? '',
         }
       : undefined,
@@ -145,7 +145,7 @@ function dariApi(b: BarisBandingApi): Banding {
 /**
  * State halaman Manajemen Banding (SOP FR-H4, FR-H5, FR-H6) — data nyata dari
  * `GET /api/admin/banding`, keputusan via `PATCH /api/admin/banding/:id/putusan`.
- * Panel konfirmasi keputusan super admin, catatan wajib sebagai jejak audit.
+ * Panel konfirmasi keputusan admin, catatan wajib sebagai jejak audit.
  * Dipakai bersama desktop & mobile.
  */
 export function useProsesBanding() {

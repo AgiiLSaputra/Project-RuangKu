@@ -404,7 +404,7 @@ export function RegistrasiLanjutanMobilePage() {
               </span>
               <p className="text-body-sm leading-relaxed text-on-surface-variant">
                 Status akun akan menjadi{' '}
-                <strong className="font-semibold text-on-surface">&quot;Menunggu Verifikasi&quot;</strong> Super Admin
+                <strong className="font-semibold text-on-surface">&quot;Menunggu Verifikasi&quot;</strong> Admin
                 RuangKu setelah formulir ini dikirim. Waktu review rata-rata 1×24 jam.
               </p>
             </div>

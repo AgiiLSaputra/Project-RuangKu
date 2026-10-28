@@ -473,7 +473,7 @@ export function AppRoutes() {
         }
       />
 
-      {/* Konsol super admin — mockup Dasboard.html (sidebar, desktop + mobile).
+      {/* Konsol admin — mockup Dasboard.html (sidebar, desktop + mobile).
           Admin login langsung mendarat di sini, bukan ke katalog. */}
       <Route
         path="/admin"
@@ -505,7 +505,7 @@ export function AppRoutes() {
           </RequireAdmin>
         }
       />
-      {/* Manajemen akun super admin — mockup MaAkun.html (FR-G2, FR-G3). */}
+      {/* Manajemen akun admin — mockup MaAkun.html (FR-G2, FR-G3). */}
       <Route
         path="/admin/manajemen-akun"
         element={
@@ -522,7 +522,7 @@ export function AppRoutes() {
         }
       />
 
-      {/* Proses banding super admin — mockup ProsesBanding.html + SidebarAcc.html (SOP FR-H4 s.d. FR-H6). */}
+      {/* Proses banding admin — mockup ProsesBanding.html + SidebarAcc.html (SOP FR-H4 s.d. FR-H6). */}
       <Route
         path="/admin/banding"
         element={

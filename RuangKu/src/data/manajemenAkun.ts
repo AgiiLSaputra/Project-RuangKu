@@ -86,7 +86,7 @@ export const AKUN_AWAL: Akun[] = [
     audit: [
       '28 Sep 2026 — Akun mitra lolos verifikasi awal dan etalase tayang (FR-G1)',
       '10 Okt 2026 — Flag otomatis: dokumen NIB & TDUP kedaluwarsa (FR-I2)',
-      '12 Okt 2026 — Akun dinonaktifkan manual oleh Super Admin (FR-G2)',
+      '12 Okt 2026 — Akun dinonaktifkan manual oleh Admin (FR-G2)',
       '13 Okt 2026 — Pengajuan banding diterima sistem & masuk antrean (FR-G3)',
     ],
   },
@@ -133,7 +133,7 @@ export const AKUN_AWAL: Akun[] = [
     audit: [
       '05 Okt 2026 — Akun terdaftar via email',
       '08 Okt 2026 — Peringatan spam laporan anomali (FR-I2)',
-      '09 Okt 2026 — Akun dinonaktifkan manual oleh Super Admin (FR-G2)',
+      '09 Okt 2026 — Akun dinonaktifkan manual oleh Admin (FR-G2)',
     ],
   },
   {
@@ -199,7 +199,7 @@ export const AKUN_AWAL: Akun[] = [
     audit: [
       '05 Feb 2026 — Akun mitra terverifikasi & etalase tayang (FR-G1)',
       '14 Okt 2026 — Flag tunggakan biaya platform (FR-I2)',
-      '16 Okt 2026 — Akun dibekukan sementara oleh Super Admin (FR-G2)',
+      '16 Okt 2026 — Akun dibekukan sementara oleh Admin (FR-G2)',
       '18 Okt 2026 — Pengajuan banding diterima sistem (FR-G3)',
     ],
   },

@@ -3,7 +3,7 @@ import { Navigate, useLocation } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
 
 /**
- * Rute khusus peran admin / super admin (konsol admin, mis. /admin).
+ * Rute khusus peran admin / admin (konsol admin, mis. /admin).
  * - Belum login → lempar ke /masuk (bawa tujuan semula).
  * - Sudah login tapi bukan admin → lempar ke katalog /beranda.
  */

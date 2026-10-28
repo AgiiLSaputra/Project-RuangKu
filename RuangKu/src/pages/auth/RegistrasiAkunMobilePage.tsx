@@ -166,7 +166,7 @@ export function RegistrasiAkunMobilePage() {
                   ) : (
                     <span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-surface-container px-2 py-0.5 font-label-sm text-label-sm text-on-surface-variant">
                       <Icon name="verified_user" className="text-[13px] text-tertiary" />
-                      Super Admin
+                      Admin
                     </span>
                   )}
                 </span>

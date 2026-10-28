@@ -255,12 +255,12 @@ export function PanelKonfirmasi({ admin, onTutup }: { admin: ProsesBanding; onTu
           )}
         </div>
 
-        {/* Keputusan super admin — hanya untuk pengajuan yang masih menunggu */}
+        {/* Keputusan admin — hanya untuk pengajuan yang masih menunggu */}
         {b.status === 'menunggu' ? (
           <div className="flex flex-col gap-space-sm">
             <div className="flex items-center justify-between gap-2">
               <span className="font-title-md text-title-md font-semibold text-on-surface">
-                Keputusan Super Admin
+                Keputusan Admin
               </span>
               <span className="font-label-sm text-label-sm font-semibold text-status-full">
                 * Wajib Diisi
@@ -271,7 +271,7 @@ export function PanelKonfirmasi({ admin, onTutup }: { admin: ProsesBanding; onTu
               onChange={(e) => admin.setCatatan(e.target.value)}
               rows={4}
               placeholder="Tulis alasan keputusan..."
-              aria-label="Alasan keputusan super admin"
+              aria-label="Alasan keputusan admin"
               className="w-full resize-none rounded-md bg-purple-50 p-3 text-body-sm text-on-surface shadow-inner placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-primary/20"
             />
             {admin.galat && (

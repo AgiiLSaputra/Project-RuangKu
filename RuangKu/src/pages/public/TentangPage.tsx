@@ -66,7 +66,7 @@ const PILAR = [
     teks: 'Sistem penguncian transaksi atomik database dengan jeda pembersihan sanitasi 2 jam pasti (FR-C6).',
   },
   {
-    judul: 'Registrasi Dua Peran dengan Verifikasi Super Admin',
+    judul: 'Registrasi Dua Peran dengan Verifikasi Admin',
     teks: 'Perlindungan ganda bagi penyewa dan penyedia; bebas akun bodong dan venue fiktif.',
   },
   {

@@ -115,7 +115,7 @@ export function VerifikasiPenyediaMobilePage() {
             Beranda
           </button>
           <Icon name="chevron_right" className="text-[14px] text-outline-variant" />
-          <span>Super Admin</span>
+          <span>Admin</span>
           <Icon name="chevron_right" className="text-[14px] text-outline-variant" />
           <span className="font-medium text-primary">Verifikasi</span>
         </nav>
@@ -620,7 +620,7 @@ export function VerifikasiPenyediaMobilePage() {
                   </span>
                   <span className="text-body-sm leading-relaxed text-slate-500">
                     Seluruh persetujuan dan penolakan dicatat permanen di Audit Log terenkripsi
-                    beserta nama akun Super Admin, alamat IP, dan stempel waktu UTC+7.
+                    beserta nama akun Admin, alamat IP, dan stempel waktu UTC+7.
                   </span>
                 </span>
               </section>

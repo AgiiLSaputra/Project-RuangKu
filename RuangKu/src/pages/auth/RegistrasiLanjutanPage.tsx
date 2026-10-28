@@ -188,7 +188,7 @@ export function RegistrasiLanjutanPage() {
                   Lengkapi Bukti &amp; Legalitas Gedung
                 </h1>
                 <p className="max-w-[680px] font-body-lg text-body-lg text-slate-500">
-                  Verifikasi oleh Super Admin memastikan gedung Anda terpercaya,
+                  Verifikasi oleh Admin memastikan gedung Anda terpercaya,
                   sah, dan siap menerima reservasi publik tanpa kendala
                   operasional.
                 </p>
@@ -617,7 +617,7 @@ export function RegistrasiLanjutanPage() {
                       Privasi &amp; Jaminan Enkripsi
                     </span>
                     <p className="mt-0.5 text-body-md text-on-surface-variant">
-                      Data Anda dienkripsi aman. Setelah dikirim, Super Admin
+                      Data Anda dienkripsi aman. Setelah dikirim, Admin
                       akan meninjau kelayakan berkas dalam 1x24 jam kerja
                       (FR-A4). Gedung akan langsung aktif di katalog reservasi
                       setelah disetujui.
@@ -678,7 +678,7 @@ export function RegistrasiLanjutanPage() {
                   name="verified_user"
                   className="text-[18px] text-primary"
                 />
-                Tinjauan Super Admin 24 Jam
+                Tinjauan Admin 24 Jam
               </span>
               <span className="h-1.5 w-1.5 rounded-full bg-slate-300" />
               <span className="flex items-center gap-1.5 font-label-md text-label-md">

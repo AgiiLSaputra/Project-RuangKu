@@ -28,7 +28,7 @@ export function ModalAkunNonaktif() {
             Akun Anda Dinonaktifkan
           </h2>
           <p className="max-w-sm font-body-md text-body-md text-slate-500">
-            Akses reservasi dan pengelolaan ruangan dibekukan oleh Super Admin sesuai SOP FR-H1. Keluar dari akun atau
+            Akses reservasi dan pengelolaan ruangan dibekukan oleh Admin sesuai SOP FR-H1. Keluar dari akun atau
             ajukan banding untuk pemulihan.
           </p>
         </div>

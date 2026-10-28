@@ -51,7 +51,7 @@ const LANGKAH_PENYEDIA: Langkah[] = [
   {
     no: '01',
     judul: '1. Daftar & Verifikasi',
-    teks: 'Buat akun mitra penyedia, unggah bukti kepemilikan / foto gedung dan tautan Google Maps (maks. 2MB), lalu tunggu verifikasi kilat dari tim Super Admin RuangKu.',
+    teks: 'Buat akun mitra penyedia, unggah bukti kepemilikan / foto gedung dan tautan Google Maps (maks. 2MB), lalu tunggu verifikasi kilat dari tim Admin RuangKu.',
     ikon: 'badge',
     panel: 'bg-purple-50 text-primary',
     badge: { teks: 'Verifikasi Cepat 1x24 Jam', kelas: 'bg-purple-50 text-primary', ikon: 'verified_user' },

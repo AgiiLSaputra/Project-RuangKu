@@ -121,7 +121,7 @@ function BarisBanding({
 }
 
 /**
- * Halaman Manajemen Banding super admin — mockup `ProsesBanding.html` (SOP
+ * Halaman Manajemen Banding admin — mockup `ProsesBanding.html` (SOP
  * FR-H4, FR-H5, FR-H6). Panel konfirmasi keputusan tampil sebagai slide-over
  * dari kanan (mockup `SidebarAcc.html`); varian mobile meletakkannya di bawah.
  */
@@ -155,7 +155,7 @@ export function ProsesBandingPage() {
                 Beranda
               </Link>
               <Icon name="chevron_right" className="text-[14px] text-outline-variant" />
-              <span>Super Admin</span>
+              <span>Admin</span>
               <Icon name="chevron_right" className="text-[14px] text-outline-variant" />
               <span className="font-medium text-primary">Manajemen Banding</span>
             </nav>
@@ -376,7 +376,7 @@ export function ProsesBandingPage() {
         <footer className="flex flex-col items-center justify-between gap-2 pt-2 text-slate-500 sm:flex-row">
           <span className="flex items-center gap-2 font-label-sm text-label-sm">
             <span className="h-2 w-2 rounded-full bg-status-available" />
-            RuangKu Super Admin v1.0 • Tersambung server (data real-time)
+            RuangKu Admin v1.0 • Tersambung server (data real-time)
           </span>
         </footer>
       </div>

@@ -258,7 +258,7 @@ function BarisAkun({
 }
 
 /**
- * Halaman Manajemen Akun super admin — mockup `MaAkun.html` (FR-G2, FR-G3).
+ * Halaman Manajemen Akun admin — mockup `MaAkun.html` (FR-G2, FR-G3).
  * Seksi "Banding Aktif & Mendesak" diletakkan di atas tabel master-detail
  * supaya pengajuan mendesak langsung terlihat.
  */
@@ -289,7 +289,7 @@ export function ManajemenAkunPage() {
                 name="chevron_right"
                 className="text-[14px] text-outline-variant"
               />
-              <span>Super Admin</span>
+              <span>Admin</span>
               <Icon
                 name="chevron_right"
                 className="text-[14px] text-outline-variant"
@@ -301,7 +301,7 @@ export function ManajemenAkunPage() {
                 Manajemen Akun Pengguna
               </h1>
               <span className="rounded-full bg-purple-100 px-3 py-1 font-label-sm text-label-sm font-semibold uppercase tracking-wider text-primary">
-                Super Admin Control
+                Admin Control
               </span>
             </div>
             <p className="text-body-md text-slate-500">
@@ -454,7 +454,7 @@ export function ManajemenAkunPage() {
                   Banding Aktif &amp; Mendesak
                 </span>
                 <span className="text-body-sm text-slate-500">
-                  Perlu peninjauan dan keputusan Super Admin sebelum tenggat
+                  Perlu peninjauan dan keputusan Admin sebelum tenggat
                   waktu kadaluarsa otomatis
                 </span>
               </span>
@@ -625,7 +625,7 @@ export function ManajemenAkunPage() {
         <footer className="flex flex-col items-center justify-between gap-2 pt-2 text-slate-500 sm:flex-row">
           <span className="flex items-center gap-2 font-label-sm text-label-sm">
             <span className="h-2 w-2 rounded-full bg-status-available" />
-            RuangKu Super Admin v1.0 
+            RuangKu Admin v1.0 
           </span>
           <span className="flex items-center gap-3 font-label-sm text-label-sm">
             <span>Zona Waktu Server: WIB (UTC+7)</span>

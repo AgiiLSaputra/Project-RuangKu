@@ -217,7 +217,7 @@ export function ModalNonaktif({ admin }: { admin: ManajemenAkun }) {
         </div>
 
         <p className="mt-space-md text-body-sm leading-relaxed text-slate-500">
-          Tindakan ini dicatat di Audit Log terenkripsi (FR-I1) atas nama Super Admin dan tidak
+          Tindakan ini dicatat di Audit Log terenkripsi (FR-I1) atas nama Admin dan tidak
           dapat dibatalkan dari antarmuka.
         </p>
 
@@ -304,7 +304,7 @@ export function ModalAuditTrail({ admin }: { admin: ManajemenAkun }) {
 
         <p className="mt-space-md rounded-xl bg-purple-50 p-3 text-body-sm leading-relaxed text-slate-500">
           Audit Log terenkripsi bersifat append-only: setiap entri baru menempel permanen dan tidak
-          dapat diubah atau dihapus oleh siapa pun, termasuk Super Admin (FR-I1).
+          dapat diubah atau dihapus oleh siapa pun, termasuk Admin (FR-I1).
         </p>
 
         <div className="mt-space-lg flex justify-end">

@@ -44,7 +44,7 @@ const METRIK = [
 const PILAR = [
   'Katalog Ruangan & Jadwal Real-Time ke Publik',
   'Anti Bentrok Jadwal & Kuota Otomatis (jeda steril 2 jam SOP FR-C6)',
-  'Registrasi Dua Peran dengan Verifikasi Super Admin',
+  'Registrasi Dua Peran dengan Verifikasi Admin',
   'Harga Otomatis & Struk PDF Resmi',
 ]
 
