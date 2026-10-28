@@ -187,9 +187,6 @@ export function PanelKonfirmasi({ admin, onTutup }: { admin: ProsesBanding; onTu
               <Icon name="history" className="text-[20px] text-status-full" />
               Riwayat Penonaktifan
             </span>
-            <span className="rounded-full bg-purple-100 px-2.5 py-0.5 font-label-sm text-label-sm font-semibold text-primary">
-              SOP FR-G2
-            </span>
           </div>
           <div>
             <span className="block font-label-sm text-label-sm uppercase tracking-wider text-slate-500">
