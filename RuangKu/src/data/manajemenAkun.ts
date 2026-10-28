@@ -100,7 +100,7 @@ export const AKUN_AWAL: Akun[] = [
     terdaftar: '18 Sep 2026',
     status: 'aktif',
     audit: [
-      '18 Sep 2026 — Akun terdaftar via email (FR-A2)',
+      '18 Sep 2026 — Akun terdaftar via email',
       '18 Sep 2026 — Verifikasi email otomatis berhasil',
       '20 Okt 2026 — Reservasi RU-2041 terkonfirmasi otomatis',
     ],
@@ -131,7 +131,7 @@ export const AKUN_AWAL: Akun[] = [
     terdaftar: '05 Okt 2026',
     status: 'nonaktif',
     audit: [
-      '05 Okt 2026 — Akun terdaftar via email (FR-A2)',
+      '05 Okt 2026 — Akun terdaftar via email',
       '08 Okt 2026 — Peringatan spam laporan anomali (FR-I2)',
       '09 Okt 2026 — Akun dinonaktifkan manual oleh Super Admin (FR-G2)',
     ],
@@ -163,7 +163,7 @@ export const AKUN_AWAL: Akun[] = [
     terdaftar: '10 Okt 2026',
     status: 'aktif',
     audit: [
-      '10 Okt 2026 — Akun terdaftar via email (FR-A2)',
+      '10 Okt 2026 — Akun terdaftar via email',
       '10 Okt 2026 — Verifikasi email otomatis berhasil',
     ],
   },
@@ -178,7 +178,7 @@ export const AKUN_AWAL: Akun[] = [
     status: 'nonaktif',
     bandingId: 'banding-87901',
     audit: [
-      '22 Jul 2026 — Akun terdaftar via email (FR-A2)',
+      '22 Jul 2026 — Akun terdaftar via email',
       '05 Okt 2026 — Flag anomali: tiga reservasi dibatalkan mendadak (FR-I2)',
       '08 Okt 2026 — Akun dinonaktifkan otomatis oleh sistem (FR-G2)',
       '11 Okt 2026 — Pengajuan banding diterima sistem (FR-G3)',
@@ -213,7 +213,7 @@ export const AKUN_AWAL: Akun[] = [
     terdaftar: '27 Sep 2026',
     status: 'aktif',
     audit: [
-      '27 Sep 2026 — Akun terdaftar via email (FR-A2)',
+      '27 Sep 2026 — Akun terdaftar via email',
       '27 Sep 2026 — Verifikasi email otomatis berhasil',
     ],
   },

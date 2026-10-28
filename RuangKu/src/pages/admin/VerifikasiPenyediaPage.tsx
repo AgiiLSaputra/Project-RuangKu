@@ -349,7 +349,7 @@ export function VerifikasiPenyediaPage() {
                       </h2>
                       <span className="inline-flex items-center gap-1 rounded-full bg-status-available-bg px-2.5 py-0.5 font-label-sm text-label-sm font-semibold text-status-available">
                         <Icon name="verified" className="text-[14px]" />
-                        Email Terverifikasi (FR-A2)
+                        Email Terverifikasi
                       </span>
                       <span className="rounded-full bg-status-occupied-bg px-2.5 py-0.5 font-label-sm text-label-sm font-semibold text-status-occupied">
                         Menunggu Verifikasi (FR-A4)

@@ -278,8 +278,7 @@ export function DashboardAdminPage() {
               <>
                 <strong className="font-semibold text-primary">
                   {stat ? stat.penyewaCatatan : 'memuat…'}
-                </strong>{' '}
-                (FR-A2)
+                </strong>
               </>
             }
           />
