@@ -229,10 +229,7 @@ export function RuanganSayaPage() {
           <div className="min-w-0 flex-1">
             <div className="flex flex-wrap items-center gap-space-xs">
               <span className="font-title-md font-semibold text-title-md text-on-surface">
-                Standard Kepatuhan Provider (FR-F1 &amp; FR-F2)
-              </span>
-              <span className="rounded-full bg-surface-container-lowest px-2 py-0.5 font-label-sm text-label-sm font-semibold text-primary">
-                Otomatisasi Sistem
+                Standard Kepatuhan Provider
               </span>
             </div>
             <p className="mt-0.5 font-body-sm text-body-sm text-on-surface-variant">
