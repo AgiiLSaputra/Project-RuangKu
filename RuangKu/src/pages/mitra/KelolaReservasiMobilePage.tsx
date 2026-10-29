@@ -190,14 +190,6 @@ export function KelolaReservasiMobilePage() {
         <div className="flex items-center gap-space-sm pt-1">
           <button
             type="button"
-            onClick={() => kelola.setManual(true)}
-            className="inline-flex flex-1 items-center justify-center gap-2 rounded-full bg-cta px-space-md py-3 font-title-md text-title-md text-white shadow-cta transition-all active:scale-95"
-          >
-            <Icon name="add_circle" className="text-[20px]" />
-            <span>Buat Booking Manual</span>
-          </button>
-          <button
-            type="button"
             onClick={kelola.eksporCsv}
             aria-label="Ekspor CSV"
             className="inline-flex items-center justify-center gap-1.5 rounded-full bg-purple-100 px-space-md py-3 font-title-md text-title-md text-primary transition-all active:scale-95"

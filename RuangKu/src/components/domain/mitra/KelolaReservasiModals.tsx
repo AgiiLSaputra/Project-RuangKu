@@ -1,15 +1,13 @@
 import { useState } from 'react'
 import { type ReservasiMasuk } from '../../../data/kelolaReservasi'
-import type { BarisListingMitra } from '../../../services/mitra'
 import { rp } from '../../../lib/format'
 import { cn } from '../../../lib/cn'
 import { Icon } from '../../ui/Icon'
 import { Overlay } from '../../ui/Overlay'
 import { Field, Select, TextArea } from '../../ui/Field'
-import type { FormManual, FormUsulanJadwal, KelolaReservasi } from './useKelolaReservasi'
+import type { FormUsulanJadwal, KelolaReservasi } from './useKelolaReservasi'
 
 const OPSI_JAM = Array.from({ length: 13 }, (_, i) => `${String(i + 8).padStart(2, '0')}:00`)
-const OPSI_DURASI = Array.from({ length: 12 }, (_, i) => i + 1)
 
 const KELAS_TOMBOL_SEMI =
   'inline-flex h-11 items-center justify-center gap-2 rounded-full px-space-md font-title-md text-title-md font-semibold transition-all active:scale-[0.98]'
@@ -207,16 +205,6 @@ function ModalBuktiTransfer({
   )
 }
 
-const FORM_AWAL: FormManual = {
-  ruanganId: '',
-  nama: '',
-  organisasi: '',
-  tanggal: '',
-  jamMulai: '09:00',
-  durasiJam: 4,
-  tamu: 20,
-}
-
 const FORM_USULAN_AWAL: FormUsulanJadwal = { tanggal: '', jamMulai: '09:00', catatan: '' }
 
 /** Modal usulan perubahan jadwal (FR-D1) — usul tanggal & jam mulai baru, durasi tetap. */
@@ -352,160 +340,6 @@ function ModalUsulanJadwal({
   )
 }
 
-/** Modal booking manual mitra — masuk sebagai Pending (verifikasi FR-F3). */
-function ModalBookingManual({
-  open,
-  onTutup,
-  onSimpan,
-  opsiRuangan,
-  infoRuangan,
-}: {
-  open: boolean
-  onTutup: () => void
-  onSimpan: (form: FormManual) => boolean
-  /** Opsi ruangan dari listing server milik mitra. */
-  opsiRuangan: Array<{ id: string; label: string }>
-  infoRuangan: (id: string) => BarisListingMitra | null
-}) {
-  const [form, setForm] = useState<FormManual>(FORM_AWAL)
-  const [galat, setGalat] = useState('')
-
-  const info = infoRuangan(form.ruanganId)
-  const total = (info?.tarifPerJam ?? 0) * form.durasiJam
-
-  const simpan = () => {
-    if (form.ruanganId === '') return setGalat('Pilih ruangan terlebih dahulu.')
-    if (form.nama.trim() === '') return setGalat('Nama penyewa wajib diisi.')
-    if (form.tanggal === '') return setGalat('Tanggal acara wajib dipilih.')
-    if (form.tamu < 1) return setGalat('Jumlah tamu minimal 1 orang.')
-    if (!onSimpan(form))
-      setGalat('Booking manual belum tersambung ke server — fitur ini mengikuti pembaruan berikutnya.')
-  }
-
-  return (
-    <Overlay open={open} onClose={onTutup} labelledBy="judul-manual">
-      <div className="px-6 pb-8 pt-5 md:px-0 md:pb-0 md:pt-6">
-        <div className="flex items-center gap-space-md pr-10">
-          <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-purple-100 text-primary">
-            <Icon name="edit_calendar" className="text-[22px]" />
-          </span>
-          <span className="flex min-w-0 flex-col">
-            <span id="judul-manual" className="font-headline-sm text-headline-sm font-semibold text-on-surface">
-              Buat Booking Manual
-            </span>
-            <span className="text-body-sm text-slate-500">Reservasi dicatat sebagai Pending untuk verifikasi.</span>
-          </span>
-        </div>
-
-        <div className="mt-space-md grid grid-cols-1 gap-space-md sm:grid-cols-2">
-          <Select
-            label="Ruangan"
-            required
-            value={form.ruanganId}
-            onChange={(e) => setForm({ ...form, ruanganId: e.target.value })}
-            className="sm:col-span-2"
-          >
-            {opsiRuangan
-              .filter((o) => o.id !== 'semua')
-              .map((o) => (
-                <option key={o.id} value={o.id}>
-                  {o.label}
-                </option>
-              ))}
-          </Select>
-          <Field
-            label="Nama Penyewa"
-            required
-            placeholder="Contoh: Alana Pradita"
-            value={form.nama}
-            onChange={(e) => setForm({ ...form, nama: e.target.value })}
-          />
-          <Field
-            label="Organisasi"
-            placeholder="Opsional"
-            value={form.organisasi}
-            onChange={(e) => setForm({ ...form, organisasi: e.target.value })}
-          />
-          <Field
-            label="Tanggal Acara"
-            required
-            type="date"
-            value={form.tanggal}
-            onChange={(e) => setForm({ ...form, tanggal: e.target.value })}
-          />
-          <Field
-            label="Perkiraan Jumlah Tamu"
-            required
-            type="number"
-            min={1}
-            value={form.tamu}
-            onChange={(e) => setForm({ ...form, tamu: Number(e.target.value) })}
-          />
-          <Select
-            label="Jam Mulai"
-            value={form.jamMulai}
-            onChange={(e) => setForm({ ...form, jamMulai: e.target.value })}
-          >
-            {OPSI_JAM.map((j) => (
-              <option key={j} value={j}>
-                {j} WIB
-              </option>
-            ))}
-          </Select>
-          <Select
-            label="Durasi"
-            value={form.durasiJam}
-            onChange={(e) => setForm({ ...form, durasiJam: Number(e.target.value) })}
-          >
-            {OPSI_DURASI.map((d) => (
-              <option key={d} value={d}>
-                {d} Jam
-              </option>
-            ))}
-          </Select>
-        </div>
-
-        <div className="mt-space-md flex items-center justify-between gap-space-sm rounded-xl bg-purple-100 p-space-md">
-          <span className="flex flex-col">
-            <span className="font-label-sm text-label-sm uppercase tracking-wider text-slate-500">
-              Total Estimasi
-            </span>
-            <span className="text-body-sm text-on-surface-variant">
-              {info ? `${rp(info.tarifPerJam)} × ${form.durasiJam} jam` : 'Pilih ruangan'}
-            </span>
-          </span>
-          <span className="font-label-md text-label-md font-bold text-primary">{rp(total)}</span>
-        </div>
-
-        {galat && (
-          <p className="mt-space-sm flex items-center gap-1 text-body-sm font-medium text-status-full">
-            <Icon name="error" className="text-[16px]" />
-            {galat}
-          </p>
-        )}
-
-        <div className="mt-space-lg flex flex-col-reverse gap-space-sm sm:flex-row sm:justify-end">
-          <button
-            type="button"
-            onClick={onTutup}
-            className={cn(KELAS_TOMBOL_SEMI, 'bg-white text-slate-500 shadow-sm hover:text-on-surface')}
-          >
-            Batal
-          </button>
-          <button
-            type="button"
-            onClick={simpan}
-            className={cn(KELAS_TOMBOL_SEMI, 'bg-cta text-white shadow-cta hover:opacity-90')}
-          >
-            <Icon name="add_circle" className="text-[18px]" />
-            Simpan sebagai Pending
-          </button>
-        </div>
-      </div>
-    </Overlay>
-  )
-}
-
 /** Kumpulan modal halaman Kelola Reservasi — varian desktop & mobile memakai satu set sama. */
 export function KelolaReservasiModals({ kelola }: { kelola: KelolaReservasi }) {
   return (
@@ -527,14 +361,6 @@ export function KelolaReservasiModals({ kelola }: { kelola: KelolaReservasi }) {
         reservasi={kelola.tolak}
         onTutup={() => kelola.setTolak(null)}
         onKonfirmasi={kelola.konfirmasiTolak}
-      />
-      <ModalBookingManual
-        key={`manual-${kelola.manual ? 'buka' : 'tutup'}`}
-        open={kelola.manual}
-        onTutup={() => kelola.setManual(false)}
-        onSimpan={kelola.tambahManual}
-        opsiRuangan={kelola.opsiRuangan}
-        infoRuangan={kelola.infoRuangan}
       />
       {/* key = kode: reset form usulan setiap ganti reservasi (FR-D1). */}
       <ModalUsulanJadwal

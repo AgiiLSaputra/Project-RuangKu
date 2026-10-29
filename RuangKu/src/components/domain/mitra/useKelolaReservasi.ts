@@ -19,18 +19,6 @@ import {
 /** Jumlah baris per halaman tabel desktop. */
 export const UKURAN_HALAMAN = 6
 
-/** Isi form "Buat Booking Manual". */
-export interface FormManual {
-  ruanganId: string
-  nama: string
-  organisasi: string
-  /** Nilai `<input type="date">` (YYYY-MM-DD). */
-  tanggal: string
-  jamMulai: string
-  durasiJam: number
-  tamu: number
-}
-
 /** Isi form "Usulkan Jadwal Baru" — durasi tetap mengikuti reservasi (FR-D1). */
 export interface FormUsulanJadwal {
   /** Nilai `<input type="date">` (YYYY-MM-DD). */
@@ -58,7 +46,7 @@ export function ikonKategori(kategori: string | undefined): string {
 
 /**
  * State Kelola Reservasi (mitra): daftar baris, filter/pencarian, paginasi,
- * aksi status (FR-F3), modal tolak/bukti/booking manual, dan ekspor CSV.
+ * aksi status (FR-F3), modal tolak/bukti/usulan jadwal, dan ekspor CSV.
  * Dipakai bersama oleh varian desktop & mobile.
  */
 export function useKelolaReservasi() {
@@ -75,7 +63,6 @@ export function useKelolaReservasi() {
 
   const [tolak, setTolak] = useState<ReservasiMasuk | null>(null)
   const [bukti, setBukti] = useState<ReservasiMasuk | null>(null)
-  const [manual, setManual] = useState(false)
   const [usul, setUsul] = useState<ReservasiMasuk | null>(null)
 
   const pesanGalat = (err: unknown) =>
@@ -266,13 +253,6 @@ export function useKelolaReservasi() {
     }
   }
 
-  /**
-   * Booking manual mitra — fitur masih belum tersambung ke server (tidak ada
-   * endpoint `POST /reservasi` untuk mitra), jadi jangan membuat baris palsu.
-   * Kembalikan `false`; modal menampakkan pesan "belum tersambung".
-   */
-  const tambahManual = (_f: FormManual) => false
-
   /** Ekspor baris terfilter ke CSV (pemisah titik-koma, siap Excel). */
   const eksporCsv = () => {
     const kepala = [
@@ -348,9 +328,6 @@ export function useKelolaReservasi() {
     konfirmasiTolak,
     bukti,
     setBukti,
-    manual,
-    setManual,
-    tambahManual,
     usul,
     setUsul,
     kirimUsulan,

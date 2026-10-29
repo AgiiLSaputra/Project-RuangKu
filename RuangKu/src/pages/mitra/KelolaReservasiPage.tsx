@@ -225,14 +225,6 @@ export function KelolaReservasiPage() {
                 <Icon name="download" className="text-[20px]" />
                 <span>Ekspor Jadwal (.csv)</span>
               </button>
-              <button
-                type="button"
-                onClick={() => kelola.setManual(true)}
-                className="inline-flex items-center gap-2 rounded-full bg-cta px-space-md py-2.5 font-title-md text-title-md text-white shadow-cta transition-all hover:opacity-90"
-              >
-                <Icon name="add_circle" className="text-[20px]" />
-                <span>Buat Booking Manual</span>
-              </button>
             </div>
           </div>
         </section>
