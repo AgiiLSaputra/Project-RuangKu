@@ -1,5 +1,6 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from 'react'
 import { api, ACARA_AKUN_NONAKTIF } from '../lib/api'
+import { LayarMulai } from '../components/ui/LayarMulai'
 
 export type Peran = 'penyewa' | 'penyedia' | 'admin'
 export type StatusAkun = 'aktif' | 'menunggu' | 'ditolak' | 'nonaktif'
@@ -91,11 +92,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   )
 
   if (memeriksa) {
-    return (
-      <div className="flex min-h-screen items-center justify-center bg-purple-50" role="status" aria-live="polite">
-        <p className="text-body-md text-slate-500">Memuat sesi...</p>
-      </div>
-    )
+    // Layar loading awal — visualnya sama dengan splash di index.html.
+    return <LayarMulai pesan="Memuat sesi..." />
   }
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>

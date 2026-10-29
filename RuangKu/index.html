@@ -17,7 +17,43 @@
     <title>RuangKu — Sewa Ruangan & Gedung</title>
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <!-- Splash loading awal: tampil selama JS + sesi dimuat, diganti React saat render pertama. -->
+      <div
+        style="
+          position: fixed;
+          inset: 0;
+          z-index: 100;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          gap: 10px;
+          background: #fcf8ff;
+          font-family: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
+        "
+        role="status"
+        aria-live="polite"
+      >
+        <img src="/LogoRuangku.png" alt="" style="height: 56px; object-fit: contain" />
+        <span style="font-size: 24px; font-weight: 800; letter-spacing: -0.02em; color: #1a1930">
+          Ruang<span style="color: #5341cd">Ku</span>
+        </span>
+        <div
+          style="
+            width: 34px;
+            height: 34px;
+            margin-top: 8px;
+            border: 3px solid #e4dfff;
+            border-top-color: #5341cd;
+            border-radius: 50%;
+            animation: rk-spin 0.8s linear infinite;
+          "
+        ></div>
+        <p style="margin: 4px 0 0; font-size: 14px; color: #474554">Menyiapkan RuangKu...</p>
+      </div>
+      <style>@keyframes rk-spin { to { transform: rotate(360deg); } }</style>
+    </div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
