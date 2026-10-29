@@ -284,7 +284,7 @@ export function KelolaReservasiMobilePage() {
                 nilai={kelola.ruangan}
                 onPilih={kelola.ubahRuangan}
                 label="Filter ruangan"
-                className="h-11 w-full justify-between bg-purple-100 px-4 font-label-sm text-label-sm font-semibold text-primary shadow-sm"
+                className="h-11 w-full justify-between bg-purple-100 px-4 font-body-md text-body-md font-semibold text-primary shadow-sm"
               />
             </div>
             <button

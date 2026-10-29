@@ -216,7 +216,7 @@ export function RuanganSayaPage() {
               nilai={urut}
               onPilih={(id) => setUrut(id as Urutan)}
               label="Urutkan listing"
-              className="h-10 bg-purple-50 pr-3 pl-4 font-title-md text-body-md text-on-surface hover:bg-surface-container"
+              className="h-10 bg-purple-50 pr-3 pl-4 font-body-md text-body-md text-on-surface hover:bg-surface-container"
             />
           </div>
         </div>

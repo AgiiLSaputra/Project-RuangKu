@@ -59,7 +59,7 @@ export function Dropdown({
         aria-expanded={buka}
         onClick={() => setBuka((v) => !v)}
         className={cn(
-          'flex h-12 w-full items-center justify-between gap-2 rounded border border-outline-variant bg-white px-4 text-left text-body-md transition-shadow focus:border-primary focus:outline-none focus:shadow-focus',
+          'flex h-12 w-full items-center justify-between gap-2 rounded border border-outline-variant bg-white px-4 text-left font-body-md text-body-md transition-shadow focus:border-primary focus:outline-none focus:shadow-focus',
           !terpilih && 'text-outline',
         )}
       >
@@ -85,7 +85,7 @@ export function Dropdown({
                   setBuka(false)
                 }}
                 className={cn(
-                  'flex w-full items-center justify-between gap-2 px-4 py-2.5 text-left text-body-md transition-colors hover:bg-purple-50',
+                  'flex w-full items-center justify-between gap-2 px-4 py-2.5 text-left font-body-md text-[14px] transition-colors hover:bg-purple-50',
                   o.nilai === value ? 'bg-purple-50 font-semibold text-primary' : 'text-on-surface',
                 )}
               >

@@ -320,7 +320,7 @@ export function KelolaReservasiPage() {
               nilai={kelola.ruangan}
               onPilih={kelola.ubahRuangan}
               label="Filter ruangan"
-              className="h-11 bg-purple-50 px-4 font-title-md text-body-md text-on-surface hover:bg-surface-container"
+              className="h-11 bg-purple-50 px-4 font-body-md text-body-md text-on-surface hover:bg-surface-container"
             />
           </div>
         </section>

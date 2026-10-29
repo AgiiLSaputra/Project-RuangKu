@@ -523,13 +523,13 @@ export function KelolaReservasiModals({ kelola }: { kelola: KelolaReservasi }) {
         }}
       />
       <ModalTolakReservasi
-        key={kelola.tolak?.kode ?? 'tutup'}
+        key={`tolak-${kelola.tolak?.kode ?? 'tutup'}`}
         reservasi={kelola.tolak}
         onTutup={() => kelola.setTolak(null)}
         onKonfirmasi={kelola.konfirmasiTolak}
       />
       <ModalBookingManual
-        key={kelola.manual ? 'buka' : 'tutup'}
+        key={`manual-${kelola.manual ? 'buka' : 'tutup'}`}
         open={kelola.manual}
         onTutup={() => kelola.setManual(false)}
         onSimpan={kelola.tambahManual}
@@ -538,7 +538,7 @@ export function KelolaReservasiModals({ kelola }: { kelola: KelolaReservasi }) {
       />
       {/* key = kode: reset form usulan setiap ganti reservasi (FR-D1). */}
       <ModalUsulanJadwal
-        key={kelola.usul?.kode ?? 'tutup'}
+        key={`usul-${kelola.usul?.kode ?? 'tutup'}`}
         reservasi={kelola.usul}
         onTutup={() => kelola.setUsul(null)}
         onKirim={kelola.kirimUsulan}

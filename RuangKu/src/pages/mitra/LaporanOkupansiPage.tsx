@@ -144,7 +144,7 @@ export function LaporanOkupansiPage() {
               onPilih={laporan.pilihPeriode}
               label="Pilih periode laporan"
               ikonKiri="calendar_month"
-              className="h-11 border border-purple-100 bg-surface-container-lowest px-4 font-title-md text-title-md font-semibold text-on-surface shadow-sm hover:border-purple-200 hover:shadow-md"
+              className="h-11 border border-purple-100 bg-surface-container-lowest px-4 font-body-md text-body-md font-semibold text-on-surface shadow-sm hover:border-purple-200 hover:shadow-md"
             />
             <button
               type="button"

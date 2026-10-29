@@ -196,7 +196,7 @@ export function LaporanOkupansiMobilePage() {
           onPilih={laporan.pilihPeriode}
           label="Pilih periode laporan"
           ikonKiri="calendar_month"
-          className="h-10 border border-purple-100 bg-white px-3 font-title-md text-title-md font-semibold text-on-surface shadow-sm"
+          className="h-10 border border-purple-100 bg-white px-3 font-body-md text-body-md font-semibold text-on-surface shadow-sm"
         />
         <button
           type="button"

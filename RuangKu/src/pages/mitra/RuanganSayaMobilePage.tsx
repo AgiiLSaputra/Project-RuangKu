@@ -198,7 +198,7 @@ export function RuanganSayaMobilePage() {
             onPilih={(id) => setUrut(id as Urutan)}
             label="Urutkan listing"
             ikonKiri="tune"
-            className="h-11 bg-surface-container-lowest pr-3 pl-3.5 font-label-md text-label-md text-on-surface shadow-sm active:bg-surface-container-high"
+            className="h-11 bg-surface-container-lowest pr-3 pl-3.5 font-body-md text-body-md text-on-surface shadow-sm active:bg-surface-container-high"
           />
         </div>
       </section>
