@@ -85,8 +85,14 @@ export function DetailRuanganPage() {
   const foto = (ruangan.foto.length > 0 ? ruangan.foto : GALLERY).slice(0, 4);
   const srcFoto = foto[Math.min(fotoAktif, foto.length - 1)];
 
-  const info = infoPaket(paketId);
-  const harga = hargaPaket(ruangan, paketId);
+  /** Paket aktif: id pilihan pengguna bila ada di ruangan ini, jika tidak Full Day, lalu paket pertama. */
+  const paketAktif =
+    ruangan.paket.find((p) => p.id === paketId) ??
+    ruangan.paket.find((p) => p.id === "fullday") ??
+    ruangan.paket[0];
+  const idPaketAktif = paketAktif?.id ?? "";
+  const info = infoPaket(idPaketAktif);
+  const harga = hargaPaket(ruangan, idPaketAktif);
   const slots = slotTanggal(bulan, tanggal);
 
   const totalHari = hariDalamBulan(bulan);
@@ -107,7 +113,7 @@ export function DetailRuanganPage() {
   const pesan = () => {
     if (isAuthenticated) {
       const tanggalIso = `2026-${String(bulan + 1).padStart(2, '0')}-${String(tanggal).padStart(2, '0')}`;
-      navigate(`/reservasi/${ruangan.id}/form`, { state: { tanggal: tanggalIso, paketId } });
+      navigate(`/reservasi/${ruangan.id}/form`, { state: { tanggal: tanggalIso, paketId: idPaketAktif } });
     } else {
       setPerluLogin(true);
     }
@@ -556,7 +562,7 @@ export function DetailRuanganPage() {
                 Pilih Durasi &amp; Paket Promo:
               </span>
               {ruangan.paket.map((p) => {
-                const aktif = paketId === p.id;
+                const aktif = idPaketAktif === p.id;
                 const d = infoPaket(p.id);
                 return (
                   <label

@@ -1,12 +1,6 @@
 import { api } from '../lib/api'
-import type { Kategori, PaketHarian, Ruangan } from '../data/seed'
-
-interface PaketApi {
-  id: string
-  nama: string
-  jam: number
-  harga: number
-}
+import type { Kategori, Ruangan } from '../data/seed'
+import { paketUntukTampilan, type PaketApi } from '../components/domain/room/infoRuangan'
 
 /** Bentuk satu ruangan dari `GET /api/ruangan` dan `GET /api/ruangan/:id`. */
 interface RuanganApi {
@@ -33,23 +27,6 @@ interface RuanganApi {
   foto: string[]
   fasilitas: string[]
   paket: PaketApi[]
-}
-
-/**
- * Halaman memakai id paket 'flexible' / 'fullday' / 'extended' untuk teks & ringkasan (infoRuangan.ts).
- * Server mengirim paket terurut durasi: bila yang pertama berdurasi 0 ia 'flexible', sisanya
- * 'fullday' lalu 'extended' (sama seperti urutan di data tiruan). ID asli dari server disimpan di
- * `idServer` dan dipakai saat memesan.
- */
-function paketUntukTampilan(daftar: PaketApi[]): PaketHarian[] {
-  const ids = daftar[0]?.jam === 0 ? ['flexible', 'fullday', 'extended'] : ['fullday', 'extended']
-  return daftar.map((p, i) => ({
-    id: ids[i] ?? `paket-${i + 1}`,
-    nama: p.nama,
-    jam: p.jam,
-    harga: p.harga,
-    idServer: p.id,
-  }))
 }
 
 /** Ubah data server menjadi bentuk `Ruangan` yang dipakai halaman. `id` = slug, sama seperti di data tiruan. */
