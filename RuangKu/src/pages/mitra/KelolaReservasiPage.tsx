@@ -284,14 +284,14 @@ export function KelolaReservasiPage() {
                   onClick={() => kelola.ubahFilter(f.id)}
                   className={cn(
                     'inline-flex shrink-0 items-center gap-1.5 rounded-full px-4 py-2 font-title-md text-title-md transition-all',
-                    aktif ? cn(f.dasar, 'shadow-sm') : cn(f.dasar, f.sorot),
+                    aktif ? 'bg-primary text-on-primary shadow-sm' : cn(f.dasar, f.sorot),
                   )}
                 >
                   <span>{f.label}</span>
                   <span
                     className={cn(
                       'flex h-5 min-w-5 items-center justify-center rounded-full px-1 font-label-sm text-label-sm font-semibold',
-                      aktif ? 'bg-white/25' : 'bg-white/70',
+                      aktif ? 'bg-white/25' : 'bg-white',
                     )}
                   >
                     {jumlah}

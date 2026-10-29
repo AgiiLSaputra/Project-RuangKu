@@ -43,50 +43,18 @@ export interface ReservasiMasuk {
   usulanJadwal?: UsulanJadwal
 }
 
-/** Meta chip filter — warna memakai token status dari `theme.css`. */
+/** Gaya chip filter — semua status memakai warna netral (abu-abu) yang sama. */
+const CHIP_DASAR = 'bg-slate-200 text-on-surface'
+const CHIP_SOROT = 'hover:bg-primary hover:text-on-primary'
+
 export const FILTER_MASUK: Array<{ id: FilterMasuk; label: string; dasar: string; sorot: string }> = [
-  {
-    id: 'semua',
-    label: 'Semua',
-    dasar: 'bg-purple-100 text-primary',
-    sorot: 'hover:bg-primary-container hover:text-on-primary',
-  },
-  {
-    id: 'pending',
-    label: 'Pending',
-    dasar: 'bg-status-occupied-bg text-status-occupied',
-    sorot: 'hover:bg-status-occupied hover:text-white',
-  },
-  {
-    id: 'approved',
-    label: 'Approved',
-    dasar: 'bg-status-available-bg text-status-available',
-    sorot: 'hover:bg-status-available hover:text-white',
-  },
-  {
-    id: 'completed',
-    label: 'Completed',
-    dasar: 'bg-purple-100 text-primary',
-    sorot: 'hover:bg-primary hover:text-white',
-  },
-  {
-    id: 'rejected',
-    label: 'Rejected',
-    dasar: 'bg-error-container text-on-error-container',
-    sorot: 'hover:bg-error hover:text-white',
-  },
-  {
-    id: 'cancelled',
-    label: 'Cancelled',
-    dasar: 'bg-status-full-bg text-status-full',
-    sorot: 'hover:bg-status-full hover:text-white',
-  },
-  {
-    id: 'expired',
-    label: 'Expired',
-    dasar: 'bg-status-blocked-bg text-status-blocked',
-    sorot: 'hover:bg-status-blocked hover:text-white',
-  },
+  { id: 'semua', label: 'Semua', dasar: CHIP_DASAR, sorot: CHIP_SOROT },
+  { id: 'pending', label: 'Pending', dasar: CHIP_DASAR, sorot: CHIP_SOROT },
+  { id: 'approved', label: 'Approved', dasar: CHIP_DASAR, sorot: CHIP_SOROT },
+  { id: 'completed', label: 'Completed', dasar: CHIP_DASAR, sorot: CHIP_SOROT },
+  { id: 'rejected', label: 'Rejected', dasar: CHIP_DASAR, sorot: CHIP_SOROT },
+  { id: 'cancelled', label: 'Cancelled', dasar: CHIP_DASAR, sorot: CHIP_SOROT },
+  { id: 'expired', label: 'Expired', dasar: CHIP_DASAR, sorot: CHIP_SOROT },
 ]
 
 /** Warna avatar inisial mengikuti status baris. */
