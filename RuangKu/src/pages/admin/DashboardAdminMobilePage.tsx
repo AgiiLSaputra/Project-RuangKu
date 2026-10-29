@@ -252,26 +252,23 @@ export function DashboardAdminMobilePage() {
         />
       </section>
 
-      {/* 3. Banner protokol audit */}
+      {/* 3. Banner protokol keamanan */}
       <section className="space-y-3 rounded-2xl bg-gradient-to-r from-purple-100 via-surface-container-high to-pink-100 p-space-md shadow-card">
         <div className="flex items-center gap-3">
           <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-surface-container-lowest shadow-sm">
             <Icon name="shield_person" className="text-[22px] text-primary" />
           </span>
           <span className="font-title-md text-title-md font-semibold text-on-surface">
-            Protokol Audit &amp; Integritas Operasional
-          </span>
-          <span className="ml-auto shrink-0 rounded-full bg-white/80 px-2 py-0.5 font-label-sm text-label-sm font-semibold uppercase tracking-wide text-primary">
-            SOP Aktif
+            Protokol Keamanan &amp; Integritas Operasional
           </span>
         </div>
         <p className="text-body-sm leading-relaxed text-slate-500">
           Seluruh tindakan verifikasi penyedia (FR-G1), pemrosesan banding (FR-G3), dan penonaktifan
-          akun (FR-G2) tercatat permanen di Audit Log terenkripsi (FR-I1).
+          akun (FR-G2) divalidasi server, sehingga status akun dan antrean selalu tersinkron di konsol admin.
         </p>
         <span className="flex items-center gap-1.5 font-label-sm text-label-sm text-slate-500">
           <span className="h-2 w-2 rounded-full bg-status-available" />
-          Log Real-time Tersambung
+          Sinkron Real-time
         </span>
       </section>
 

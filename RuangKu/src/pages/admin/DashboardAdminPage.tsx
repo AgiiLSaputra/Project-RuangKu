@@ -270,7 +270,7 @@ export function DashboardAdminPage() {
           />
         </section>
 
-        {/* 3. Banner protokol audit */}
+        {/* 3. Banner protokol keamanan */}
         <section className="flex flex-col items-start justify-between gap-4 rounded-2xl bg-gradient-to-r from-purple-100 via-surface-container-high to-pink-100 p-space-md shadow-card md:flex-row md:items-center">
           <div className="flex items-center gap-4">
             <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-surface-container-lowest shadow-sm">
@@ -279,21 +279,19 @@ export function DashboardAdminPage() {
             <div className="space-y-0.5">
               <div className="flex flex-wrap items-center gap-2">
                 <span className="font-title-md text-title-md font-semibold text-on-surface">
-                  Protokol Audit &amp; Integritas Operasional Admin
-                </span>
-                <span className="rounded-full bg-white/80 px-2.5 py-0.5 font-label-sm text-label-sm font-semibold uppercase tracking-wide text-primary">
-                  SOP Aktif
+                  Protokol Keamanan &amp; Integritas Operasional Admin
                 </span>
               </div>
               <p className="text-body-sm text-slate-500">
                 Seluruh tindakan verifikasi penyedia (FR-G1), pemrosesan banding (FR-G3), dan
-                penonaktifan akun (FR-G2) tercatat permanen di Audit Log terenkripsi (FR-I1).
+                penonaktifan akun (FR-G2) divalidasi server, sehingga status akun dan antrean selalu
+                tersinkron di seluruh halaman konsol admin.
               </p>
             </div>
           </div>
           <span className="flex shrink-0 items-center gap-1.5 font-label-sm text-label-sm text-slate-500">
             <span className="h-2 w-2 rounded-full bg-status-available" />
-            Log Real-time Tersambung
+            Sinkron Real-time
           </span>
         </section>
 
