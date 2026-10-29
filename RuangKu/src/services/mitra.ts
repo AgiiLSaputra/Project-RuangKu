@@ -79,6 +79,16 @@ export async function ambilLaporanMitra(
   return api<LaporanMitra>(`/mitra/laporan?${t.toString()}`)
 }
 
+/** Kinerja bulan berjalan per ruangan (bagian `kinerja` di `GET /api/mitra/listing`). */
+export interface KinerjaListingServer {
+  periode: string
+  jumlahReservasi: number
+  jamTerpesan: number
+  pendapatan: number
+  /** `null` bila bulan lalu belum ada reservasi (persentase tak bermakna). */
+  naikPersen: number | null
+}
+
 /** Satu baris listing ruangan milik penyedia (`GET /api/mitra/listing`). */
 export interface BarisListingMitra {
   id: string
@@ -87,10 +97,19 @@ export interface BarisListingMitra {
   nama: string
   kategori: string
   kota: string
+  provinsi?: string
+  alamat?: string
+  gedung?: string | null
   statusListing: string
+  kapasitasMin?: number
   kapasitasMax: number
   tarifPerJam: number
+  rating?: number
+  ulasan?: number
   foto: string[]
+  /** Nama paket harian, urut durasi. */
+  paket?: string[]
+  kinerja?: KinerjaListingServer
 }
 
 /**
@@ -112,9 +131,14 @@ export interface RingkasanListing {
   kapasitas: number
 }
 
+/** Daftar + ringkasan seluruh ruangan milik penyedia yang login. */
+export async function ambilDaftarListingMitra(): Promise<DaftarListingMitra> {
+  return api<DaftarListingMitra>('/mitra/listing')
+}
+
 /** Daftar seluruh ruangan milik penyedia yang login. */
 export async function ambilListingMitra(): Promise<BarisListingMitra[]> {
-  const data = await api<DaftarListingMitra>('/mitra/listing')
+  const data = await ambilDaftarListingMitra()
   return data.listing
 }
 

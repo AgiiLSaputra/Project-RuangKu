@@ -1,13 +1,9 @@
-import { useMemo, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { Icon } from '../../components/ui/Icon'
 import { SortSelect, type OpsiPilihan } from '../../components/ui/SortSelect'
+import { useRuanganSaya, type FilterStatus, type Urutan } from '../../components/domain/mitra/useRuanganSaya'
 import { cn } from '../../lib/cn'
 import { rp } from '../../lib/format'
-import { LISTING, type StatusListing } from '../../data/ruanganSaya'
-
-type FilterStatus = 'semua' | StatusListing
-type Urutan = 'populer' | 'kapasitas' | 'tarif-naik' | 'tarif-turun' | 'terbaru'
 
 const FILTER: Array<{ id: FilterStatus; label: string }> = [
   { id: 'semua', label: 'Semua' },
@@ -29,20 +25,11 @@ const LENCANA_FILTER: Record<FilterStatus, string> = {
   tenggang: 'bg-status-occupied-bg text-status-occupied',
 }
 
-const JUMLAH = {
-  total: LISTING.length,
-  aktif: LISTING.filter((r) => r.status === 'aktif').length,
-  tenggang: LISTING.filter((r) => r.status === 'tenggang').length,
-  kapasitas: LISTING.reduce((n, r) => n + r.pax, 0),
-}
-
-const hitungFilter = (id: FilterStatus) =>
-  id === 'semua' ? JUMLAH.total : id === 'aktif' ? JUMLAH.aktif : JUMLAH.tenggang
-
-const METRIK = [
+/** Kartu metrik ringkas — angkanya dari ringkasan server. */
+const metrikDari = (jumlah: { total: number; aktif: number; tenggang: number; kapasitas: number }) => [
   {
     label: 'Total Ruangan',
-    angka: JUMLAH.total,
+    angka: jumlah.total,
     satuan: 'Unit terdaftar',
     ikon: 'domain',
     panel: 'bg-purple-100 text-primary',
@@ -50,7 +37,7 @@ const METRIK = [
   },
   {
     label: 'Siap Dipesan',
-    angka: JUMLAH.aktif,
+    angka: jumlah.aktif,
     satuan: 'Tayang di etalase',
     ikon: 'check_circle',
     panel: 'bg-status-available-bg text-status-available',
@@ -58,7 +45,7 @@ const METRIK = [
   },
   {
     label: 'Masa Tenggang',
-    angka: JUMLAH.tenggang,
+    angka: jumlah.tenggang,
     satuan: 'Pending aktifasi',
     ikon: 'hourglass_top',
     panel: 'bg-status-occupied-bg text-status-occupied',
@@ -66,7 +53,7 @@ const METRIK = [
   },
   {
     label: 'Total Kapasitas',
-    angka: JUMLAH.kapasitas,
+    angka: jumlah.kapasitas,
     satuan: 'Pax simultan',
     ikon: 'groups',
     panel: 'bg-pink-100 text-secondary',
@@ -82,24 +69,9 @@ const TAUTAN: Array<{ label: string; to: string }> = [
 
 export function RuanganSayaPage() {
   const navigate = useNavigate()
-  const [filter, setFilter] = useState<FilterStatus>('semua')
-  const [cari, setCari] = useState('')
-  const [urut, setUrut] = useState<Urutan>('populer')
-
-  const daftar = useMemo(() => {
-    const kata = cari.trim().toLowerCase()
-    const hasil = LISTING.filter(
-      (r) =>
-        (filter === 'semua' || r.status === filter) &&
-        (kata === '' || r.nama.toLowerCase().includes(kata)),
-    )
-    const urutkan = [...hasil]
-    if (urut === 'kapasitas') urutkan.sort((a, b) => b.pax - a.pax)
-    else if (urut === 'tarif-naik') urutkan.sort((a, b) => a.tarifPerJam - b.tarifPerJam)
-    else if (urut === 'tarif-turun') urutkan.sort((a, b) => b.tarifPerJam - a.tarifPerJam)
-    else if (urut === 'terbaru') urutkan.reverse()
-    return urutkan
-  }, [filter, cari, urut])
+  const { memuat, galat, muat, ringkasan, daftar, filter, setFilter, cari, setCari, urut, setUrut, hitungFilter } =
+    useRuanganSaya()
+  const metrik = metrikDari(ringkasan)
 
   return (
     <div className="relative w-full overflow-hidden bg-purple-50 px-4 pb-12 pt-6 sm:px-6">
@@ -124,7 +96,7 @@ export function RuanganSayaPage() {
               <div className="flex items-center gap-space-sm">
                 <h1 className="font-headline-lg text-headline-lg tracking-tight text-on-surface">Ruangan Saya</h1>
                 <span className="rounded-full bg-purple-100 px-space-sm py-0.5 font-label-sm text-label-sm font-semibold text-primary shadow-sm">
-                  {JUMLAH.total} Listing
+                  {ringkasan.total} Listing
                 </span>
               </div>
               <p className="mt-1 max-w-2xl font-body-md text-body-md text-slate-500">
@@ -145,7 +117,7 @@ export function RuanganSayaPage() {
 
         {/* Baris metrik ringkas */}
         <div className="grid grid-cols-1 gap-space-md sm:grid-cols-2 lg:grid-cols-4">
-          {METRIK.map((m) => (
+          {metrik.map((m) => (
             <div
               key={m.label}
               className="flex items-center gap-space-md rounded-2xl bg-surface-container-lowest p-space-md shadow-[0_4px_20px_-2px_rgba(108,92,231,0.06)] transition-shadow hover:shadow-md"
@@ -244,6 +216,19 @@ export function RuanganSayaPage() {
           </div>
         </div>
 
+        {galat && (
+          <div className="flex flex-wrap items-center justify-between gap-space-sm rounded-2xl bg-status-blocked-bg px-space-md py-3 shadow-sm">
+            <span className="font-label-md text-label-md font-semibold text-status-full">Gagal memuat ruangan: {galat}</span>
+            <button
+              type="button"
+              onClick={muat}
+              className="rounded-full bg-status-full px-4 py-1.5 font-title-md text-title-md font-semibold text-white transition-all hover:opacity-90"
+            >
+              Coba Lagi
+            </button>
+          </div>
+        )}
+
         {/* Grid kartu ruangan */}
         <div className="grid grid-cols-1 items-stretch gap-space-lg md:grid-cols-2 xl:grid-cols-3">
           {daftar.map((r) => (
@@ -253,14 +238,20 @@ export function RuanganSayaPage() {
             >
               {/* Media kartu */}
               <div className="relative aspect-video w-full overflow-hidden bg-purple-100">
-                <img
-                  src={r.foto}
-                  alt={r.nama}
-                  className={cn(
-                    'h-full w-full object-cover transition-transform duration-500 group-hover:scale-105',
-                    r.status === 'tenggang' && 'opacity-80 grayscale-[20%]',
-                  )}
-                />
+                {r.foto ? (
+                  <img
+                    src={r.foto}
+                    alt={r.nama}
+                    className={cn(
+                      'h-full w-full object-cover transition-transform duration-500 group-hover:scale-105',
+                      r.status === 'tenggang' && 'opacity-80 grayscale-[20%]',
+                    )}
+                  />
+                ) : (
+                  <div className="flex h-full w-full items-center justify-center">
+                    <Icon name="image" className="text-[40px] text-primary/40" />
+                  </div>
+                )}
                 <div
                   className={cn(
                     'absolute inset-0 bg-gradient-to-t to-transparent',
@@ -278,7 +269,7 @@ export function RuanganSayaPage() {
                   ) : (
                     <span className="inline-flex items-center gap-1.5 rounded-full bg-status-occupied-bg px-3 py-1 font-label-sm text-label-sm font-semibold text-status-occupied shadow-sm backdrop-blur-md">
                       <Icon name="timer" className="text-[14px]" />
-                      Masa Tenggang {r.tenggang?.totalJam} Jam
+                      Masa Tenggang
                     </span>
                   )}
                 </div>
@@ -364,7 +355,7 @@ export function RuanganSayaPage() {
                         {r.kinerja.terpesanJam} Jam Terpesan
                       </span>
                     ) : (
-                      <span className="font-label-sm text-label-sm text-slate-500">Ruangan Diistirahatkan</span>
+                      <span className="font-label-sm text-label-sm text-slate-500">Belum ada reservasi</span>
                     )}
                   </div>
                 </div>
@@ -428,9 +419,15 @@ export function RuanganSayaPage() {
           {daftar.length === 0 && (
             <div className="col-span-full flex flex-col items-center gap-space-sm rounded-2xl bg-surface-container-lowest p-space-xl text-center shadow-[0_4px_20px_-2px_rgba(108,92,231,0.06)]">
               <Icon name="search_off" className="text-[32px] text-slate-500" />
-              <p className="font-title-md text-title-md text-on-surface">Ruangan tidak ditemukan</p>
+              <p className="font-title-md text-title-md text-on-surface">
+                {memuat ? 'Memuat ruangan...' : galat ? 'Gagal memuat ruangan' : 'Ruangan tidak ditemukan'}
+              </p>
               <p className="font-body-sm text-body-sm text-slate-500">
-                Coba kata kunci lain atau ubah filter status.
+                {memuat
+                  ? 'Mengambil daftar ruangan milik Anda dari server.'
+                  : galat
+                    ? 'Periksa koneksi lalu coba lagi.'
+                    : 'Coba kata kunci lain atau ubah filter status.'}
               </p>
             </div>
           )}

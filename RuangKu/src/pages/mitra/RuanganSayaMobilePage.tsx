@@ -1,13 +1,9 @@
-import { useMemo, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { Icon } from '../../components/ui/Icon'
 import { SortSelect, type OpsiPilihan } from '../../components/ui/SortSelect'
+import { useRuanganSaya, type FilterStatus, type Urutan } from '../../components/domain/mitra/useRuanganSaya'
 import { cn } from '../../lib/cn'
 import { rp } from '../../lib/format'
-import { LISTING, type StatusListing } from '../../data/ruanganSaya'
-
-type FilterStatus = 'semua' | StatusListing
-type Urutan = 'populer' | 'kapasitas' | 'tarif-naik' | 'tarif-turun' | 'terbaru'
 
 const FILTER: Array<{ id: FilterStatus; label: string }> = [
   { id: 'semua', label: 'Semua' },
@@ -23,16 +19,6 @@ const OPSI_URUTAN: OpsiPilihan[] = [
   { id: 'terbaru', label: 'Terbaru' },
 ]
 
-const JUMLAH = {
-  total: LISTING.length,
-  aktif: LISTING.filter((r) => r.status === 'aktif').length,
-  tenggang: LISTING.filter((r) => r.status === 'tenggang').length,
-  kapasitas: LISTING.reduce((n, r) => n + r.pax, 0),
-}
-
-const hitungFilter = (id: FilterStatus) =>
-  id === 'semua' ? JUMLAH.total : id === 'aktif' ? JUMLAH.aktif : JUMLAH.tenggang
-
 const TAUTAN: Array<{ label: string; to: string }> = [
   { label: 'Panduan Mitra', to: '/cara-kerja' },
   { label: 'Kebijakan SOP', to: '/kebijakan-privasi' },
@@ -41,29 +27,13 @@ const TAUTAN: Array<{ label: string; to: string }> = [
 
 export function RuanganSayaMobilePage() {
   const navigate = useNavigate()
-  const [filter, setFilter] = useState<FilterStatus>('semua')
-  const [cari, setCari] = useState('')
-  const [urut, setUrut] = useState<Urutan>('populer')
-
-  const daftar = useMemo(() => {
-    const kata = cari.trim().toLowerCase()
-    const hasil = LISTING.filter(
-      (r) =>
-        (filter === 'semua' || r.status === filter) &&
-        (kata === '' || r.nama.toLowerCase().includes(kata)),
-    )
-    const urutkan = [...hasil]
-    if (urut === 'kapasitas') urutkan.sort((a, b) => b.pax - a.pax)
-    else if (urut === 'tarif-naik') urutkan.sort((a, b) => a.tarifPerJam - b.tarifPerJam)
-    else if (urut === 'tarif-turun') urutkan.sort((a, b) => b.tarifPerJam - a.tarifPerJam)
-    else if (urut === 'terbaru') urutkan.reverse()
-    return urutkan
-  }, [filter, cari, urut])
+  const { memuat, galat, muat, ringkasan, daftar, filter, setFilter, cari, setCari, urut, setUrut, hitungFilter } =
+    useRuanganSaya()
 
   const metrik = [
     {
       label: 'Total Ruangan',
-      angka: JUMLAH.total,
+      angka: ringkasan.total,
       satuan: 'Unit',
       ikon: 'apartment',
       panel: 'bg-purple-100 text-primary',
@@ -72,7 +42,7 @@ export function RuanganSayaMobilePage() {
     },
     {
       label: 'Siap Dipesan',
-      angka: JUMLAH.aktif,
+      angka: ringkasan.aktif,
       satuan: 'Tayang',
       ikon: 'check_circle',
       panel: 'bg-status-available-bg text-status-available',
@@ -81,16 +51,16 @@ export function RuanganSayaMobilePage() {
     },
     {
       label: 'Masa Tenggang',
-      angka: JUMLAH.tenggang,
+      angka: ringkasan.tenggang,
       satuan: 'Listing',
       ikon: 'hourglass_top',
       panel: 'bg-status-occupied-bg text-status-occupied',
-      kaki: `Tersisa ${LISTING.find((r) => r.tenggang)?.tenggang?.sisaJam ?? 0} jam`,
+      kaki: 'Perlu aktivasi',
       kakiCls: 'font-semibold text-status-occupied',
     },
     {
       label: 'Total Kapasitas',
-      angka: JUMLAH.kapasitas,
+      angka: ringkasan.kapasitas,
       satuan: 'Pax',
       ikon: 'groups',
       panel: 'bg-pink-100 text-secondary',
@@ -109,7 +79,7 @@ export function RuanganSayaMobilePage() {
               Ruangan Saya
             </h1>
             <span className="inline-flex items-center rounded-full bg-surface-container-high px-2.5 py-0.5 font-label-sm text-label-sm text-primary">
-              {JUMLAH.total} Listing
+              {ringkasan.total} Listing
             </span>
           </div>
           <button
@@ -219,6 +189,19 @@ export function RuanganSayaMobilePage() {
         </div>
       </section>
 
+      {galat && (
+        <section className="flex items-center justify-between gap-space-sm rounded-2xl bg-status-blocked-bg p-3 shadow-sm">
+          <span className="font-body-sm font-semibold text-status-full">Gagal memuat ruangan: {galat}</span>
+          <button
+            type="button"
+            onClick={muat}
+            className="shrink-0 rounded-full bg-status-full px-3 py-1.5 font-label-md text-label-md font-semibold text-white"
+          >
+            Coba Lagi
+          </button>
+        </section>
+      )}
+
       {/* 5. Daftar kartu ruangan */}
       <section className="flex flex-col gap-4">
         {daftar.map((r) => (
@@ -228,11 +211,17 @@ export function RuanganSayaMobilePage() {
           >
             {/* Media & lencana */}
             <div className="relative h-44 w-full overflow-hidden rounded-2xl shadow-inner">
-              <img
-                src={r.foto}
-                alt={r.nama}
-                className={cn('h-full w-full object-cover', r.status === 'tenggang' && 'grayscale-[30%]')}
-              />
+              {r.foto ? (
+                <img
+                  src={r.foto}
+                  alt={r.nama}
+                  className={cn('h-full w-full object-cover', r.status === 'tenggang' && 'grayscale-[30%]')}
+                />
+              ) : (
+                <div className="flex h-full w-full items-center justify-center bg-purple-100">
+                  <Icon name="image" className="text-[40px] text-primary/40" />
+                </div>
+              )}
               <div
                 className={cn(
                   'absolute inset-0 bg-gradient-to-t to-transparent',
@@ -252,7 +241,7 @@ export function RuanganSayaMobilePage() {
                 ) : (
                   <Icon name="hourglass_empty" className="text-[14px]" />
                 )}
-                {r.status === 'aktif' ? 'Aktif' : `Masa Tenggang ${r.tenggang?.totalJam} Jam`}
+                {r.status === 'aktif' ? 'Aktif' : 'Masa Tenggang'}
               </span>
               <span className="absolute bottom-2.5 left-3 font-label-sm font-semibold tracking-wider text-pink-300 uppercase">
                 {r.kategori}
@@ -379,8 +368,16 @@ export function RuanganSayaMobilePage() {
         {daftar.length === 0 && (
           <div className="flex flex-col items-center gap-space-sm rounded-3xl bg-surface-container-lowest p-space-xl text-center shadow-sm">
             <Icon name="search_off" className="text-[32px] text-slate-500" />
-            <p className="font-title-md text-title-md text-on-surface">Ruangan tidak ditemukan</p>
-            <p className="font-body-sm text-body-sm text-slate-500">Coba kata kunci lain atau ubah filter status.</p>
+            <p className="font-title-md text-title-md text-on-surface">
+              {memuat ? 'Memuat ruangan...' : galat ? 'Gagal memuat ruangan' : 'Ruangan tidak ditemukan'}
+            </p>
+            <p className="font-body-sm text-body-sm text-slate-500">
+              {memuat
+                ? 'Mengambil daftar ruangan milik Anda dari server.'
+                : galat
+                  ? 'Periksa koneksi lalu coba lagi.'
+                  : 'Coba kata kunci lain atau ubah filter status.'}
+            </p>
           </div>
         )}
       </section>
