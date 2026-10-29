@@ -317,32 +317,16 @@ export function RuanganSayaMobilePage() {
               </div>
             )}
 
-            {/* Aksi */}
-            <div className="grid grid-cols-3 gap-2 pt-1">
+            {/* Aksi — nonaktifkan/aktifkan & hapus ada di halaman Edit */}
+            <div className="grid grid-cols-2 gap-2 pt-1">
               <button
                 type="button"
+                onClick={() => navigate(`/ruangan-saya/${r.id}/edit`)}
                 className="flex items-center justify-center gap-1 rounded-full bg-purple-50 py-2.5 font-label-md text-label-md text-primary transition-all active:scale-95"
               >
                 <Icon name="edit" className="text-[16px]" />
                 Edit
               </button>
-              {r.status === 'aktif' ? (
-                <button
-                  type="button"
-                  className="flex items-center justify-center gap-1 rounded-full bg-status-full-bg py-2.5 font-label-md text-label-md text-status-full transition-all active:scale-95"
-                >
-                  <Icon name="pause_circle" className="text-[16px]" />
-                  Nonaktif
-                </button>
-              ) : (
-                <button
-                  type="button"
-                  className="flex items-center justify-center gap-1 rounded-full bg-status-available-bg py-2.5 font-label-md font-semibold text-label-md text-status-available transition-all active:scale-95"
-                >
-                  <Icon name="play_circle" className="text-[16px]" />
-                  Aktifkan
-                </button>
-              )}
               {r.status === 'aktif' ? (
                 <Link
                   to={`/ruangan/${r.ruanganId}`}

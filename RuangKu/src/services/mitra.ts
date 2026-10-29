@@ -177,6 +177,63 @@ export async function buatRuanganServer(data: DataBuatRuangan): Promise<HasilBua
   )
 }
 
+/** Detail satu ruangan milik mitra (`GET /api/mitra/ruangan/:id`) untuk form Edit Ruangan. */
+export interface DetailRuanganMitra {
+  id: string
+  slug: string
+  kode: string
+  nama: string
+  kategori: string
+  gedung: string | null
+  alamat: string
+  kota: string
+  provinsi: string
+  linkMaps: string | null
+  kapasitasMin: number
+  kapasitasMax: number
+  tarifPerJam: number
+  deskripsi: string
+  jamBuka: string
+  jamTutup: string
+  statusListing: 'aktif' | 'tenggang'
+}
+
+export async function ambilRuanganMitra(id: string): Promise<DetailRuanganMitra> {
+  const data = await api<{ ruangan: DetailRuanganMitra }>(`/mitra/ruangan/${encodeURIComponent(id)}`)
+  return data.ruangan
+}
+
+/** Data perubahan ruangan — semua opsional, hanya yang dikirim yang diubah. */
+export interface DataUbahRuangan {
+  nama?: string
+  kategori?: string
+  gedung?: string
+  alamat?: string
+  kota?: string
+  provinsi?: string
+  linkMaps?: string
+  kapasitasMin?: number
+  kapasitasMax?: number
+  tarifPerJam?: number
+  deskripsi?: string
+  jamBuka?: string
+  jamTutup?: string
+  statusListing?: 'aktif' | 'tenggang'
+}
+
+/** Simpan perubahan ruangan (`PATCH /api/mitra/ruangan/:id`). */
+export async function ubahRuanganServer(id: string, data: DataUbahRuangan): Promise<HasilBuatRuangan> {
+  return api<{ ruangan: HasilBuatRuangan }>(`/mitra/ruangan/${encodeURIComponent(id)}`, {
+    method: 'PATCH',
+    body: data,
+  }).then((hasil) => hasil.ruangan)
+}
+
+/** Hapus ruangan (`DELETE /api/mitra/ruangan/:id`); ditolak 409 bila sudah ada reservasi. */
+export async function hapusRuanganServer(id: string): Promise<void> {
+  await api<{ id: string }>(`/mitra/ruangan/${encodeURIComponent(id)}`, { method: 'DELETE' })
+}
+
 /** Unggah foto pilihan pengguna ke ruangan (multipart, maks 4 berkas per ruangan). */
 export async function unggahFotoRuanganServer(id: string, berkas: File[]): Promise<void> {
   if (berkas.length === 0) return

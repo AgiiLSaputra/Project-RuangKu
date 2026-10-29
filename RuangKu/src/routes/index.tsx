@@ -119,6 +119,9 @@ const TambahRuanganPage = lazy(() =>
 const TambahRuanganMobilePage = lazy(() =>
   import('../pages/mitra/TambahRuanganMobilePage').then((m) => ({ default: m.TambahRuanganMobilePage })),
 )
+const EditRuanganPage = lazy(() =>
+  import('../pages/mitra/EditRuanganPage').then((m) => ({ default: m.EditRuanganPage })),
+)
 const PengaturanPenyediaPage = lazy(() =>
   import('../pages/mitra/PengaturanPenyediaPage').then((m) => ({ default: m.PengaturanPenyediaPage })),
 )
@@ -420,6 +423,19 @@ export function AppRoutes() {
             <Page>
               <DashboardPenyediaLayout>
                 <ResponsivePage desktop={<TambahRuanganPage />} mobile={<TambahRuanganMobilePage />} />
+              </DashboardPenyediaLayout>
+            </Page>
+          </RequirePenyedia>
+        }
+      />
+      {/* Edit / nonaktifkan / hapus ruangan mitra. */}
+      <Route
+        path="/ruangan-saya/:id/edit"
+        element={
+          <RequirePenyedia>
+            <Page>
+              <DashboardPenyediaLayout>
+                <EditRuanganPage />
               </DashboardPenyediaLayout>
             </Page>
           </RequirePenyedia>

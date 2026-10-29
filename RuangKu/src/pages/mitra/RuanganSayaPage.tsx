@@ -362,35 +362,15 @@ export function RuanganSayaPage() {
 
                 {/* Aksi kartu */}
                 <div className="mt-space-md flex items-center justify-between gap-space-xs border-t border-purple-100 pt-space-lg">
-                  <div className="flex items-center gap-space-xs">
-                    <button
-                      type="button"
-                      title="Edit Detail & Fasilitas"
-                      className="inline-flex items-center gap-1 rounded-full bg-surface px-3 py-1.5 font-title-md text-title-md text-on-surface transition-colors hover:bg-purple-100"
-                    >
-                      <Icon name="edit" className="text-[16px] text-primary" />
-                      <span>Edit</span>
-                    </button>
-                    {r.status === 'aktif' ? (
-                      <button
-                        type="button"
-                        title="Nonaktifkan Listing Sementara"
-                        className="inline-flex items-center gap-1 rounded-full bg-surface px-3 py-1.5 font-title-md text-title-md text-error transition-colors hover:bg-error-container/40"
-                      >
-                        <Icon name="pause_circle" className="text-[16px]" />
-                        <span>Nonaktifkan</span>
-                      </button>
-                    ) : (
-                      <button
-                        type="button"
-                        title="Aktifkan Kembali Listing"
-                        className="inline-flex items-center gap-1 rounded-full bg-status-available-bg px-3.5 py-1.5 font-title-md text-title-md font-medium text-status-available shadow-sm transition-all hover:bg-status-available hover:text-on-primary"
-                      >
-                        <Icon name="play_circle" className="text-[16px]" />
-                        <span>Aktifkan</span>
-                      </button>
-                    )}
-                  </div>
+                  <button
+                    type="button"
+                    onClick={() => navigate(`/ruangan-saya/${r.id}/edit`)}
+                    title="Edit data, status etalase, atau hapus ruangan"
+                    className="inline-flex items-center gap-1 rounded-full bg-surface px-3 py-1.5 font-title-md text-title-md text-on-surface transition-colors hover:bg-purple-100"
+                  >
+                    <Icon name="edit" className="text-[16px] text-primary" />
+                    <span>Edit</span>
+                  </button>
                   {r.status === 'aktif' ? (
                     <Link
                       to={`/ruangan/${r.ruanganId}`}
