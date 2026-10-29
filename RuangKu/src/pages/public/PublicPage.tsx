@@ -231,7 +231,6 @@ export function PublicPage() {
 
                 <div className="flex items-center justify-between border-b border-purple-100 pb-3">
                   <div>
-                    <span className="font-label-sm text-label-sm text-slate-500">Hai, Alana Pradita 👋</span>
                     <p className="font-title-md text-body-md font-bold text-on-surface">Jadwal Reservasi</p>
                   </div>
                   <span className="flex h-8 w-8 items-center justify-center rounded-full bg-purple-100 text-primary">
