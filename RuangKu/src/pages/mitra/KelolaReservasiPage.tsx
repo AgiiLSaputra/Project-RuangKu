@@ -209,10 +209,6 @@ export function KelolaReservasiPage() {
                 <h1 className="font-headline-lg text-headline-lg tracking-tight text-on-surface">
                   Kelola Reservasi Masuk
                 </h1>
-                <span className="inline-flex items-center gap-1.5 rounded-full bg-status-occupied-bg px-3 py-1 font-label-md text-label-md font-semibold text-status-occupied">
-                  <span className="h-2 w-2 animate-pulse rounded-full bg-status-occupied" />
-                  {kelola.perluProses} Reservasi Perlu Diproses
-                </span>
               </div>
               <p className="mt-1 max-w-3xl font-body-md text-body-md text-slate-500">
                 Tinjau bukti pembayaran di luar sistem, konfirmasi jadwal, atau perbarui status pemesanan sesuai

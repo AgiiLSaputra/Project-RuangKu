@@ -182,10 +182,6 @@ export function KelolaReservasiMobilePage() {
           <h1 className="font-headline-lg-mobile text-headline-lg-mobile tracking-tight text-on-surface">
             Kelola Reservasi
           </h1>
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-status-occupied-bg px-3 py-1 font-label-sm text-label-sm font-semibold text-status-occupied shadow-sm">
-            <span className="h-2 w-2 animate-pulse rounded-full bg-status-occupied" />
-            {kelola.perluProses} Perlu Diproses
-          </span>
         </div>
         <p className="font-body-sm leading-relaxed text-body-sm text-on-surface-variant">
           Tinjau bukti pembayaran transfer di luar sistem, konfirmasi jadwal, atau perbarui status pemesanan sesuai
