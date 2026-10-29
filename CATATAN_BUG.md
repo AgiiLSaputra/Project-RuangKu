@@ -3,7 +3,7 @@
 > Dokumen ini mencatat **bug yang pernah ditemukan dan sudah diperbaiki**, plus
 > aturan supaya tidak terulang. Perbarui tabel ini setiap kali ada bug di-fix.
 >
-> **Terakhir diperbarui: 26 Oktober 2026**
+> **Terakhir diperbarui: 29 Oktober 2026**
 
 ---
 
@@ -15,6 +15,7 @@
 | 2 | **Kelola Reservasi blank putih** — `daftarRuangan.map is not a function` | 26 Okt 2026 | ✅ **Sudah fix** | `RuangKu/src/services/mitra.ts` |
 | 3 | **Tanpa ErrorBoundary** — galat render → layar putih polos tanpa pesan | 26 Okt 2026 | ✅ **Sudah fix** | baru `RuangKu/src/components/ui/ErrorBoundary.tsx`, `RuangKu/src/App.tsx` |
 | 4 | **Foto/dokumen verifikasi tidak tampil di panel admin** (register penyedia & detail admin error 500) | 25 Okt 2026 | ✅ **Sudah fix** | `server/src/db/schema.ts`, `server/src/db/migrations/0005_verifikasi_bkas_di_db.sql`, `auth.controller.ts`, `auth.service.ts`, `admin.service.ts`, `errorHandler.ts`, `RuangKu/src/components/domain/admin/VerifikasiModals.tsx` |
+| 5 | **Foto ruangan tidak bisa dipilih** di wizard Tambah Ruangan (pratinjau kosong, tanpa pesan) | 29 Okt 2026 | ✅ **Sudah fix** | `RuangKu/src/components/domain/mitra/useTambahRuangan.ts`, `RuangKu/src/pages/mitra/TambahRuanganPage.tsx`, `RuangKu/src/pages/mitra/TambahRuanganMobilePage.tsx` |
 
 ---
 
@@ -67,6 +68,36 @@
 - **Verifikasi:** daftar pengajuan berfoto → foto & dokumen tampil di panel →
   setujui/tolak → baris foto/dokumen terhapus, `server/uploads/` bersih.
 
+### Bug 5 — Foto ruangan tidak bisa dipilih (wizard Tambah Ruangan)
+- **Gejala:** di form Tambah Ruangan, pengguna memilih berkas foto tetapi
+  pratinjau tetap kosong dan tidak ada pesan apa pun.
+- **Penyebab (berlapis):**
+  1. `pilihFoto()` meng-iterasi `FileList` **di dalam** updater `setFoto`,
+     sementara halaman langsung menjalankan `input.value = ''` yang
+     **mengosongkan FileList itu** (FileList bersifat hidup). Kalau React
+     menunda updater, perulangannya membaca daftar kosong → tidak ada foto
+     dan tidak ada pesan (cabang `if (!berkas?.length) return` senyap).
+  2. Area unggah menjanjikan "Tarik & lepas", tetapi **tidak ada handler
+     drag & drop** — menjatuhkan berkas tidak melakukan apa pun.
+  3. Foto jepretan HP (>5 MB) ditolak; satu-satunya pemberitahuan adalah
+     toast 3 detik yang mudah terlewat.
+  4. Berkas tanpa `type` (mis. dari Drive/WhatsApp) ditolak walau ekstensinya JPG.
+  5. Kegagalan unggah saat "Terbitkan" hanya `console.error` — pengguna tetap
+     melihat pesan "berhasil diterbitkan".
+- **Perbaikan:**
+  1. `FileList` disalin ke array **sebelum** `setFoto` (di hook maupun `onChange`).
+  2. Handler `onDragOver`/`onDragLeave`/`onDrop` ditambahkan di area unggah.
+  3. Foto >5 MB **dikompres otomatis** (canvas, maks. 1600 px, JPEG 0.85).
+  4. Tipe berkas ditebak dari ekstensi bila `file.type` kosong.
+  5. Alasan penolakan ditampilkan **menetap** di bawah kolom foto
+     (`galatFoto`), bukan toast; kegagalan unggah saat terbit juga dilaporkan.
+- **Verifikasi (sudah dijalankan 29 Okt 2026):**
+  - Dev lokal + Chrome headless: klik file PNG → pratinjau muncul;
+    seret-lepas → pratinjau muncul; file 6 MB → otomatis jadi `.jpg` dan diterima;
+    file `.txt` → pesan menetap `"bukan-foto.txt" bukan JPG, PNG, atau WebP.`
+  - API lokal: `POST /api/mitra/ruangan/:id/foto` → **201**, `GET` URL foto →
+    **200 image/png**, `DELETE` foto → **200**, `GET` lagi → **404** (bersih).
+
 ---
 
 ## ⚠️ JANGAN DIULANG
@@ -83,6 +114,9 @@
    skema kompatibel dua arah).
 5. **Sebelum push, jalankan:** typecheck + build frontend, dan tes backend.
 6. **Setiap selesai fix:** isi baris baru di tabel atas + tulis cara verifikasi.
+7. **Jangan iterasi `FileList` di dalam updater `setState`** — `FileList` hidup dan
+   langsung kosong ketika `input.value = ''`; salin dulu ke array (`Array.from`)
+   di event handler (pelajaran bug #5).
 
 ---
 

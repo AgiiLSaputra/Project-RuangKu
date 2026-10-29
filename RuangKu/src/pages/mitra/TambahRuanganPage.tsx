@@ -51,6 +51,7 @@ function JudulSeksi({ label, aksi }: { label: ReactNode; aksi?: ReactNode }) {
 export function TambahRuanganPage() {
   const [hover, setHover] = useState(false)
   const [tagAktif, setTagAktif] = useState(false)
+  const [seretFoto, setSeretFoto] = useState(false)
   const navigate = useNavigate()
   const f = useTambahRuangan()
 
@@ -195,25 +196,54 @@ export function TambahRuanganPage() {
                     multiple
                     className="hidden"
                     onChange={(e) => {
-                      f.pilihFoto(e.target.files)
+                      // Salin daftar berkas dulu — `e.target.files` jadi kosong begitu value di-reset.
+                      const pilihan = Array.from(e.target.files ?? [])
                       e.target.value = ''
+                      f.pilihFoto(pilihan)
                     }}
                   />
-                  <button
-                    type="button"
-                    onClick={klikFoto}
-                    className="flex w-full flex-col items-center justify-center gap-space-xs rounded-2xl border-2 border-dashed border-purple-300 bg-purple-50/50 py-space-xl transition-colors hover:border-primary hover:bg-purple-50"
+                  <div
+                    onDragOver={(e) => {
+                      e.preventDefault()
+                      setSeretFoto(true)
+                    }}
+                    onDragLeave={() => setSeretFoto(false)}
+                    onDrop={(e) => {
+                      e.preventDefault()
+                      setSeretFoto(false)
+                      void f.pilihFoto(e.dataTransfer.files)
+                    }}
                   >
-                    <span className="flex h-12 w-12 items-center justify-center rounded-full bg-purple-100 text-primary">
-                      <Icon name="cloud_upload" className="text-[24px]" />
-                    </span>
-                    <span className="font-title-md text-body-md text-primary">
-                      Tarik &amp; lepas atau klik untuk unggah foto Anda
-                    </span>
-                    <span className="text-body-sm text-slate-500">
-                      JPG/PNG/WebP, maksimal 5 MB per berkas — diunggah saat ruangan diterbitkan
-                    </span>
-                  </button>
+                    <button
+                      type="button"
+                      onClick={klikFoto}
+                      className={cn(
+                        'flex w-full flex-col items-center justify-center gap-space-xs rounded-2xl border-2 border-dashed border-purple-300 bg-purple-50/50 py-space-xl transition-colors hover:border-primary hover:bg-purple-50',
+                        seretFoto && 'border-primary bg-purple-100',
+                      )}
+                    >
+                      <span className="flex h-12 w-12 items-center justify-center rounded-full bg-purple-100 text-primary">
+                        <Icon name="cloud_upload" className="text-[24px]" />
+                      </span>
+                      <span className="font-title-md text-body-md text-primary">
+                        Tarik &amp; lepas atau klik untuk unggah foto Anda
+                      </span>
+                      <span className="text-body-sm text-slate-500">
+                        JPG/PNG/WebP, maksimal 5 MB per berkas — diunggah saat ruangan diterbitkan
+                      </span>
+                    </button>
+                  </div>
+
+                  {f.galatFoto.length > 0 && (
+                    <ul className="flex flex-col gap-1.5 rounded-md bg-red-50 p-3 text-body-sm text-status-full">
+                      {f.galatFoto.map((g, i) => (
+                        <li key={`${g}-${i}`} className="flex items-start gap-2">
+                          <Icon name="error" className="mt-0.5 shrink-0 text-[16px]" />
+                          <span>{g}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
 
                   <div className="grid grid-cols-2 gap-space-sm sm:grid-cols-4">
                     {f.foto.map((foto, i) => (

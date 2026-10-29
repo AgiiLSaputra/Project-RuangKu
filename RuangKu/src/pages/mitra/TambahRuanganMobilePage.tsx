@@ -156,8 +156,10 @@ export function TambahRuanganMobilePage() {
               multiple
               className="hidden"
               onChange={(e) => {
-                f.pilihFoto(e.target.files)
+                // Salin daftar berkas dulu — `e.target.files` jadi kosong begitu value di-reset.
+                const pilihan = Array.from(e.target.files ?? [])
                 e.target.value = ''
+                f.pilihFoto(pilihan)
               }}
             />
             <button
@@ -201,6 +203,17 @@ export function TambahRuanganMobilePage() {
                 </button>
               )}
             </div>
+
+            {f.galatFoto.length > 0 && (
+              <ul className="flex flex-col gap-1.5 rounded-md bg-red-50 p-3 text-body-sm text-status-full">
+                {f.galatFoto.map((g, i) => (
+                  <li key={`${g}-${i}`} className="flex items-start gap-2">
+                    <Icon name="error" className="mt-0.5 shrink-0 text-[16px]" />
+                    <span>{g}</span>
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
 
           {/* Identitas */}

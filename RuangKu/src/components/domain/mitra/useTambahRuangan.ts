@@ -27,6 +27,44 @@ const PESAN_TERBIT = 'Selamat! Ruangan Anda berhasil diterbitkan.'
 
 const ukuranMb = (berkas: File) => berkas.size / (1024 * 1024)
 
+/** Cadangan tipe berkas dari ekstensi — sebagian berkas (Drive/WhatsApp) datang tanpa `type`. */
+const TIPE_DARI_EKSTENSI: Record<string, string> = {
+  jpg: 'image/jpeg',
+  jpeg: 'image/jpeg',
+  png: 'image/png',
+  webp: 'image/webp',
+}
+
+const tipeFoto = (berkas: File) =>
+  berkas.type || TIPE_DARI_EKSTENSI[berkas.name.split('.').pop()?.toLowerCase() ?? ''] || ''
+
+/**
+ * Perkecil foto yang melebihi batas (jepretan HP bisa 6-12 MB) lewat canvas,
+ * supaya pengguna tidak perlu menyunting sendiri dulu sebelum mengunggah.
+ */
+async function kompresFoto(berkas: File): Promise<File> {
+  try {
+    const bitmap = await createImageBitmap(berkas)
+    const sisiTerpanjang = Math.max(bitmap.width, bitmap.height)
+    const skala = sisiTerpanjang > 1600 ? 1600 / sisiTerpanjang : 1
+    const kanvas = document.createElement('canvas')
+    kanvas.width = Math.max(1, Math.round(bitmap.width * skala))
+    kanvas.height = Math.max(1, Math.round(bitmap.height * skala))
+    const ctx = kanvas.getContext('2d')
+    if (!ctx) return berkas
+    ctx.drawImage(bitmap, 0, 0, kanvas.width, kanvas.height)
+    bitmap.close?.()
+    const blob = await new Promise<Blob | null>((selesai) => kanvas.toBlob(selesai, 'image/jpeg', 0.85))
+    if (!blob) return berkas
+    return new File([blob], berkas.name.replace(/\.[^.]+$/, '') + '.jpg', {
+      type: 'image/jpeg',
+      lastModified: Date.now(),
+    })
+  } catch {
+    return berkas
+  }
+}
+
 /** Digit WA dari kolom "+62 …" — dipakai verifikasi kontak & cadangan payload `wa`. */
 const digitWa = (wa: string) => wa.replace(/\D/g, '')
 
@@ -84,6 +122,8 @@ export function useTambahRuangan() {
   const [tutupKhusus, setTutupKhusus] = useState<TutupKhusus[]>(drafAwal?.isi.tutupKhusus ?? DRAF.tutupKhusus)
 
   const [pesan, setPesan] = useState<string | null>(null)
+  /** Alasan berkas foto ditolak — ditampilkan menetap di bawah kolom foto (bukan toast 3 detik). */
+  const [galatFoto, setGalatFoto] = useState<string[]>([])
   const [menerbitkan, setMenerbitkan] = useState(false)
   const timer = useRef<number | undefined>(undefined)
 
@@ -280,7 +320,15 @@ export function useTambahRuangan() {
       try {
         await unggahFotoRuanganServer(ruangan.id, berkasFoto)
       } catch (err) {
+        // Jangan diam-diam: ruangan sudah terbit, tapi pengguna berhak tahu fotonya gagal.
         console.error('[tambahRuangan] unggah foto gagal', err)
+        tampilkanPesan(
+          err instanceof ApiError
+            ? `Ruangan terbit, tetapi foto gagal diunggah: ${err.message}`
+            : 'Ruangan terbit, tetapi foto gagal diunggah. Coba unggah ulang dari halaman Ruangan Saya.',
+        )
+        window.setTimeout(() => navigate('/ruangan-saya'), 2500)
+        return
       }
       tampilkanPesan(PESAN_TERBIT)
       window.setTimeout(() => navigate('/ruangan-saya'), 1200)
@@ -325,32 +373,47 @@ export function useTambahRuangan() {
     else navigate('/ruangan-saya')
   }, [langkah, keLangkah, navigate])
 
-  /** Baca berkas pilihan pengguna → pratinjau blob + simpan File untuk diunggah saat terbit. */
+  /**
+   * Baca berkas pilihan pengguna → pratinjau blob + simpan File untuk diunggah saat terbit.
+   * `FileList` di input itu hidup: begitu `input.value = ''` dijalankan halaman, isinya
+   * langsung kosong. Karena itu berkas disalin ke array biasa SEBELUM state di-set
+   * (React boleh menunda updater state sampai setelah handler selesai).
+   */
   const pilihFoto = useCallback(
-    (berkas: FileList | null) => {
-      if (!berkas?.length) return
-      setFoto((daftar) => {
-        const hasil = [...daftar]
-        for (const berkasSatu of berkas) {
-          if (hasil.length >= MAKS_FOTO) {
-            tampilkanPesan(`Maksimal ${MAKS_FOTO} foto per ruangan.`)
-            break
-          }
-          if (!TIPE_FOTO_DITERIMA.includes(berkasSatu.type)) {
-            tampilkanPesan('Foto harus berformat JPG, PNG, atau WebP.')
-            continue
-          }
-          if (ukuranMb(berkasSatu) > MAKS_UKURAN_FOTO_MB) {
-            tampilkanPesan(`Ukuran foto melebihi batas ${MAKS_UKURAN_FOTO_MB} MB.`)
-            continue
-          }
-          const nama = berkasSatu.name
-          hasil.push({ src: URL.createObjectURL(berkasSatu), nama, berkas: berkasSatu })
+    async (berkas: FileList | readonly File[] | null) => {
+      const pilihan = berkas ? Array.from(berkas) : []
+      if (!pilihan.length) return
+
+      const tolak: string[] = []
+      const siap: FotoDraft[] = []
+
+      for (const asli of pilihan) {
+        if (foto.length + siap.length >= MAKS_FOTO) {
+          tolak.push(`Maksimal ${MAKS_FOTO} foto per ruangan — "${asli.name}" tidak ikut.`)
+          continue
         }
-        return hasil
-      })
+        if (!TIPE_FOTO_DITERIMA.includes(tipeFoto(asli))) {
+          tolak.push(`"${asli.name}" bukan JPG, PNG, atau WebP.`)
+          continue
+        }
+        // Foto besar (jepretan HP) diperkecil otomatis supaya tetap bisa dipakai.
+        const berkasSiap = ukuranMb(asli) > MAKS_UKURAN_FOTO_MB ? await kompresFoto(asli) : asli
+        if (ukuranMb(berkasSiap) > MAKS_UKURAN_FOTO_MB) {
+          tolak.push(
+            `"${asli.name}" ${ukuranMb(berkasSiap).toFixed(1)} MB — maksimal ${MAKS_UKURAN_FOTO_MB} MB.`,
+          )
+          continue
+        }
+        siap.push({ src: URL.createObjectURL(berkasSiap), nama: berkasSiap.name, berkas: berkasSiap })
+      }
+
+      if (siap.length) setFoto((daftar) => [...daftar, ...siap].slice(0, MAKS_FOTO))
+      setGalatFoto(tolak)
+      if (!siap.length && tolak.length) {
+        tampilkanPesan('Foto tidak bisa dipakai — lihat keterangan di bawah kolom foto.')
+      }
     },
-    [tampilkanPesan],
+    [foto.length, tampilkanPesan],
   )
 
   /** Foto hasil unggahan pengguna (punya berkas) — gambar untuk payload unggah. */
@@ -484,6 +547,7 @@ export function useTambahRuangan() {
     foto,
     pilihFoto,
     hapusFoto,
+    galatFoto,
     sisaSlotFoto,
     terbitkan,
     fasilitas,
