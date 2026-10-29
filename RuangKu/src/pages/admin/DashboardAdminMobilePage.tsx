@@ -138,12 +138,6 @@ export function DashboardAdminMobilePage() {
   const { ringkas } = admin
   const stat = admin.kartuDarurat
 
-  /** Quick Review (FR-G1): lompat ke antrean verifikasi penyedia. */
-  const quickReview = () => {
-    admin.setTab('verifikasi')
-    document.getElementById('antrean-admin')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-  }
-
   return (
     <div className="space-y-6 pb-6 pt-4">
       {/* 1. Judul halaman + aksi */}
@@ -172,14 +166,6 @@ export function DashboardAdminMobilePage() {
           >
             <Icon name="download" className="text-[18px]" />
             Unduh Laporan Audit
-          </button>
-          <button
-            type="button"
-            onClick={quickReview}
-            className={cn(KELAS_TOMBOL, 'h-11 w-full bg-cta px-4 text-white shadow-cta')}
-          >
-            <Icon name="bolt" className="text-[18px]" />
-            Quick Review (FR-G1)
           </button>
         </div>
       </section>
