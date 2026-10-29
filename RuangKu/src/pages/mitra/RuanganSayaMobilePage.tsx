@@ -239,9 +239,6 @@ export function RuanganSayaMobilePage() {
                   r.status === 'tenggang' ? 'from-inverse-surface/85' : 'from-inverse-surface/80',
                 )}
               />
-              <span className="absolute top-3 left-3 rounded-full bg-inverse-surface/80 px-2.5 py-1 font-label-sm text-label-sm text-inverse-on-surface backdrop-blur-md">
-                {r.lokasi}
-              </span>
               <span
                 className={cn(
                   'absolute top-3 right-3 flex items-center gap-1 rounded-full px-2.5 py-1 font-label-sm font-semibold shadow-sm',

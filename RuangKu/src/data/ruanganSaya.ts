@@ -23,7 +23,6 @@ export interface ListingMitra {
   ruanganId: string
   nama: string
   kategori: string
-  lokasi: string
   foto: string
   status: StatusListing
   pax: number
@@ -44,7 +43,6 @@ export const LISTING: ListingMitra[] = [
     ruanganId: 'grand-ballroom-sudirman',
     nama: 'Horizon Grand Ballroom & Event Hall',
     kategori: 'Ballroom & Konferensi',
-    lokasi: 'Lantai 3 • Gedung A',
     foto: IMG.ballroom,
     status: 'aktif',
     pax: 350,
@@ -58,7 +56,6 @@ export const LISTING: ListingMitra[] = [
     ruanganId: 'inovasi-meeting-boardroom',
     nama: 'Executive Boardroom Suite A',
     kategori: 'Meeting Room VIP',
-    lokasi: 'Lantai 2 • Gedung B',
     foto: IMG.boardroom,
     status: 'aktif',
     pax: 25,
@@ -72,7 +69,6 @@ export const LISTING: ListingMitra[] = [
     ruanganId: 'creative-hall-dago',
     nama: 'Skyline Creative Hub & Studio',
     kategori: 'Creative Studio & Workshop',
-    lokasi: 'Lantai 4 • Roof Loft',
     foto: IMG.creative,
     status: 'tenggang',
     pax: 45,
@@ -87,7 +83,6 @@ export const LISTING: ListingMitra[] = [
     ruanganId: 'panorama-executive-room',
     nama: 'The Grand Atrium Convention Hall',
     kategori: 'Auditorium & Pameran',
-    lokasi: 'Lantai 1 • Sayap Barat',
     foto: IMG.convention,
     status: 'aktif',
     pax: 200,

@@ -282,9 +282,6 @@ export function RuanganSayaPage() {
                     </span>
                   )}
                 </div>
-                <span className="absolute top-3 right-3 rounded-full bg-surface-container-lowest/90 px-2.5 py-1 font-label-sm text-label-sm font-semibold text-on-surface shadow-sm backdrop-blur-md">
-                  {r.lokasi}
-                </span>
                 <div className="absolute right-3 bottom-3 left-3">
                   <span
                     className={cn(

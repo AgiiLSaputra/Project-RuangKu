@@ -14,7 +14,7 @@ export interface ReservasiMasuk {
   organisasi: string
   /** Nomor WhatsApp internasional tanpa '+' — tautan `wa.me`. */
   wa: string
-  /** Id listing mitra pada `ruanganSaya.ts` (nama, pax, tarif & lokasi diambil dari sana). */
+  /** Id listing mitra pada `ruanganSaya.ts` (nama, pax & tarif diambil dari sana). */
   ruanganId: string
   /** Fallback nama ruangan dari server, bila id tidak ada di `ruanganSaya.ts`. */
   ruanganNama?: string
