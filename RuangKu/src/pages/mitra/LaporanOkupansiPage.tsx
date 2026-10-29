@@ -123,10 +123,6 @@ export function LaporanOkupansiPage() {
                 <span className="text-slate-300">/</span>
                 <span className="font-medium text-primary">Laporan &amp; Analitik</span>
               </nav>
-              <span className="inline-flex items-center gap-2 rounded-full border border-purple-100 bg-surface-container-low px-3 py-1 shadow-sm">
-                <Icon name="business" className="text-[16px] text-primary" />
-                <span className="font-title-md text-title-md font-semibold text-on-surface">{TENANT}</span>
-              </span>
             </div>
             <h1 className="font-headline-lg text-headline-lg tracking-tight text-on-surface">
               Laporan Performa &amp; Okupansi
