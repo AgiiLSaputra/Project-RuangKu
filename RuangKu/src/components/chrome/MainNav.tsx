@@ -54,7 +54,7 @@ export function MainNav() {
   return (
     <nav
       aria-label="Navigasi utama"
-      className="mx-auto hidden min-w-0 items-center gap-1 rounded-full border border-purple-300/70 bg-purple-50/80 p-1.5 shadow-sm md:flex"
+      className="ml-8 hidden min-w-0 items-center gap-1 rounded-full border border-purple-300/70 bg-purple-50/80 p-1.5 shadow-sm md:flex"
     >
       {tautan.map((t) => (
         <NavLink key={t.to} to={t.to} end={t.to === '/'} className={({ isActive }) => itemCls(isActive)}>
