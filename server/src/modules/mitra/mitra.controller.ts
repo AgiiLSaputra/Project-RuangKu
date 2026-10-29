@@ -30,6 +30,20 @@ export async function ubah(req: FastifyRequest, reply: FastifyReply) {
   return reply.send({ ok: true, data: { ruangan } });
 }
 
+/** Detail satu ruangan milik mitra untuk form Edit Ruangan. */
+export async function detail(req: FastifyRequest, reply: FastifyReply) {
+  const { id } = validasi(idRuanganParamSchema, req.params);
+  const ruangan = await service.detailRuangan(req.authUser!, id);
+  return reply.send({ ok: true, data: { ruangan } });
+}
+
+/** Hapus ruangan milik mitra (ditolak bila sudah punya riwayat reservasi). */
+export async function hapus(req: FastifyRequest, reply: FastifyReply) {
+  const { id } = validasi(idRuanganParamSchema, req.params);
+  const hasil = await service.hapusRuangan(req.authUser!, id);
+  return reply.send({ ok: true, data: hasil });
+}
+
 /** Daftar ruangan mitra + kinerja bulan berjalan (halaman Ruangan Saya / dashboard mitra). */
 export async function listing(req: FastifyRequest, reply: FastifyReply) {
   const data = await laporanService.daftarListing(req.authUser!);

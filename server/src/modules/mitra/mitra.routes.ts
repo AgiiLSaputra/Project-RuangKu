@@ -6,7 +6,9 @@ export async function mitraRoutes(app: FastifyInstance) {
   const penyedia = { preHandler: [app.requireAuth, app.requirePeran('penyedia')] };
 
   app.post('/ruangan', penyedia, c.buat);
+  app.get('/ruangan/:id', penyedia, c.detail);
   app.patch('/ruangan/:id', penyedia, c.ubah);
+  app.delete('/ruangan/:id', penyedia, c.hapus);
 
   // Dashboard & laporan (M5)
   app.get('/listing', penyedia, c.listing);

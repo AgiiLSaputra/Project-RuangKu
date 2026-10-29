@@ -4,6 +4,7 @@ import { db } from '../../config/db';
 import {
   fasilitas as fasilitasMaster,
   paketHarian,
+  reservasi,
   ruangan,
   ruanganFasilitas,
   ruanganFoto,
@@ -160,6 +161,69 @@ export async function buatRuangan(user: AuthUser, input: BuatRuanganInput) {
     if (input.wa) await tx.update(users).set({ wa: input.wa, updatedAt: new Date() }).where(eq(users.id, user.id));
 
     return ringkas(baru);
+  });
+}
+
+/** Detail ruangan milik mitra (halaman Edit Ruangan) — hanya kolom yang bisa diubah. */
+export async function detailRuangan(user: AuthUser, id: string) {
+  const [baris] = await db
+    .select()
+    .from(ruangan)
+    .where(and(eq(ruangan.id, id), eq(ruangan.penyediaId, user.id)))
+    .limit(1);
+  if (!baris) throw new AppError(404, 'RUANGAN_TIDAK_DITEMUKAN', 'Ruangan tidak ditemukan');
+  return {
+    id: baris.id,
+    slug: baris.slug,
+    kode: baris.kode,
+    nama: baris.nama,
+    kategori: baris.kategori,
+    gedung: baris.gedung,
+    alamat: baris.alamat,
+    kota: baris.kota,
+    provinsi: baris.provinsi,
+    linkMaps: baris.linkMaps,
+    kapasitasMin: baris.kapasitasMin,
+    kapasitasMax: baris.kapasitasMax,
+    tarifPerJam: Number(baris.tarifPerJam),
+    deskripsi: baris.deskripsi,
+    jamBuka: baris.jamBuka,
+    jamTutup: baris.jamTutup,
+    statusListing: baris.statusListing,
+  };
+}
+
+/**
+ * Mitra menghapus ruangannya sendiri. Foto/fasilitas/paket/tutup khusus ikut terhapus
+ * lewat `ON DELETE CASCADE`. Ruangan yang sudah punya riwayat reservasi **tidak** dihapus
+ * (FK reservasi → ruangan tanpa cascade) — mitra diarahkan menonaktifkannya saja, supaya
+ * struk & audit reservasi lama tidak hilang.
+ */
+export async function hapusRuangan(user: AuthUser, id: string) {
+  return db.transaction(async (tx) => {
+    const [lama] = await tx
+      .select({ id: ruangan.id })
+      .from(ruangan)
+      .where(and(eq(ruangan.id, id), eq(ruangan.penyediaId, user.id)))
+      .for('update')
+      .limit(1);
+    if (!lama) throw new AppError(404, 'RUANGAN_TIDAK_DITEMUKAN', 'Ruangan tidak ditemukan');
+
+    const [adaReservasi] = await tx
+      .select({ kode: reservasi.kode })
+      .from(reservasi)
+      .where(eq(reservasi.ruanganId, id))
+      .limit(1);
+    if (adaReservasi) {
+      throw new AppError(
+        409,
+        'RUANGAN_PUNYA_RESERVASI',
+        'Ruangan ini sudah memiliki riwayat reservasi sehingga tidak bisa dihapus. Nonaktifkan saja agar hilang dari etalase.',
+      );
+    }
+
+    await tx.delete(ruangan).where(eq(ruangan.id, id));
+    return { id };
   });
 }
 

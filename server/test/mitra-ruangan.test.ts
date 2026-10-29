@@ -2,7 +2,7 @@ import { eq } from 'drizzle-orm';
 import type { FastifyInstance } from 'fastify';
 import { afterAll, beforeAll, beforeEach, describe, expect, it } from 'vitest';
 import { db, pool } from '../src/config/db';
-import { ruangan, users } from '../src/db/schema';
+import { reservasi, ruangan, ruanganFoto, users } from '../src/db/schema';
 import { ambilCookie, bersihkanData, buatApp, buatUserLangsung } from './helpers';
 
 let app: FastifyInstance;
@@ -204,5 +204,108 @@ describe('Mengubah ruangan (mitra)', () => {
     const detail = (await app.inject({ method: 'GET', url: '/api/ruangan/aula-serbaguna-melati' })).json().data.ruangan;
     expect(detail.paket).toHaveLength(1);
     expect(detail.paket[0]).toMatchObject({ nama: 'Sehari Penuh', jam: 8, harga: 1_500_000 });
+  });
+});
+
+describe('Detail ruangan mitra (form edit)', () => {
+  const detail = (cookie: string | undefined, id: string) =>
+    app.inject({ method: 'GET', url: `/api/mitra/ruangan/${id}`, headers: cookie ? { cookie } : {} });
+
+  it('mengembalikan kolom yang bisa diedit, termasuk ruangan berstatus tenggang', async () => {
+    const cookie = await cookieUntuk('mitra@mail.com');
+    const id = (await kirim(cookie, badan())).json().data.ruangan.id;
+    await app.inject({
+      method: 'PATCH',
+      url: `/api/mitra/ruangan/${id}`,
+      headers: { cookie },
+      payload: { statusListing: 'tenggang' },
+    });
+
+    const res = await detail(cookie, id);
+    expect(res.statusCode).toBe(200);
+    expect(res.json().data.ruangan).toMatchObject({
+      id,
+      nama: 'Aula Serbaguna Melati',
+      kategori: 'Meeting Room',
+      alamat: 'Jl. Melati No. 12',
+      kota: 'Bandung',
+      provinsi: 'Jawa Barat',
+      kapasitasMin: 20,
+      kapasitasMax: 80,
+      tarifPerJam: 250_000,
+      jamBuka: '08:00',
+      jamTutup: '21:00',
+      statusListing: 'tenggang',
+    });
+  });
+
+  it('tanpa login 401; penyewa 403; penyedia lain & id asing 404', async () => {
+    const cookie = await cookieUntuk('mitra@mail.com');
+    const id = (await kirim(cookie, badan())).json().data.ruangan.id;
+
+    expect((await detail(undefined, id)).statusCode).toBe(401);
+    const penyewa = await cookieUntuk('sewa@mail.com', 'penyewa');
+    expect((await detail(penyewa, id)).statusCode).toBe(403);
+    const lain = await cookieUntuk('lain@mail.com', 'penyedia');
+    expect((await detail(lain, id)).statusCode).toBe(404);
+    expect((await detail(cookie, '00000000-0000-4000-8000-000000000000')).statusCode).toBe(404);
+  });
+});
+
+describe('Hapus ruangan (mitra)', () => {
+  const hapus = (cookie: string | undefined, id: string) =>
+    app.inject({ method: 'DELETE', url: `/api/mitra/ruangan/${id}`, headers: cookie ? { cookie } : {} });
+
+  it('menghapus ruangan tanpa reservasi beserta foto, fasilitas, dan paketnya', async () => {
+    const cookie = await cookieUntuk('mitra@mail.com');
+    const id = (await kirim(cookie, badan())).json().data.ruangan.id;
+    expect(await db.select().from(ruanganFoto)).toHaveLength(2);
+
+    const res = await hapus(cookie, id);
+    expect(res.statusCode).toBe(200);
+    expect(res.json().data).toEqual({ id });
+
+    expect(await db.select().from(ruangan)).toHaveLength(0);
+    expect(await db.select().from(ruanganFoto)).toHaveLength(0);
+    expect((await katalog()).json().data.ruangan).toHaveLength(0);
+    const detail = await app.inject({ method: 'GET', url: `/api/mitra/ruangan/${id}`, headers: { cookie } });
+    expect(detail.statusCode).toBe(404);
+  });
+
+  it('menolak hapus bila sudah punya riwayat reservasi (409) dan ruangan tetap ada', async () => {
+    const cookie = await cookieUntuk('mitra@mail.com');
+    const dibuat = (await kirim(cookie, badan())).json().data.ruangan as { id: string };
+    const penyewa = await buatUserLangsung({ email: 'sewa@mail.com', peran: 'penyewa' });
+    await db.insert(reservasi).values({
+      kode: 'RK-HAPUS-UJI-1',
+      ruanganId: dibuat.id,
+      penyewaId: penyewa.id,
+      tanggal: '2030-01-10',
+      jamMulai: '09:00',
+      jamSelesai: '13:00',
+      durasiJam: 4,
+      skema: 'Setengah Hari (4 Jam)',
+      total: '900000',
+      status: 'approved',
+      jumlahPeserta: 20,
+      acara: 'Rapat Uji',
+    });
+
+    const res = await hapus(cookie, dibuat.id);
+    expect(res.statusCode).toBe(409);
+    expect(res.json().error.kode).toBe('RUANGAN_PUNYA_RESERVASI');
+    expect(await db.select().from(ruangan)).toHaveLength(1);
+  });
+
+  it('penyedia lain tidak bisa menghapus (404); tanpa login 401; penyewa 403', async () => {
+    const cookie = await cookieUntuk('mitra@mail.com');
+    const id = (await kirim(cookie, badan())).json().data.ruangan.id;
+
+    expect((await hapus(undefined, id)).statusCode).toBe(401);
+    const penyewa = await cookieUntuk('sewa@mail.com', 'penyewa');
+    expect((await hapus(penyewa, id)).statusCode).toBe(403);
+    const lain = await cookieUntuk('lain@mail.com', 'penyedia');
+    expect((await hapus(lain, id)).statusCode).toBe(404);
+    expect(await db.select().from(ruangan)).toHaveLength(1);
   });
 });
