@@ -234,7 +234,7 @@ export function LaporanOkupansiPage() {
             }
             kaki={
               <div className="flex items-center gap-1.5">
-                <span className="rounded-full bg-purple-100 px-2 py-0.5 font-label-sm text-label-sm font-semibold text-primary">
+                <span className="whitespace-nowrap font-label-sm text-label-sm font-semibold text-primary">
                   {ringkasan.selesai} Selesai
                 </span>
                 <span className="text-body-sm text-slate-500">Terverifikasi sistem</span>
