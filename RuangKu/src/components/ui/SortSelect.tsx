@@ -80,7 +80,7 @@ export function SortSelect({ opsi, nilai, onPilih, label, ikonKiri, className }:
                 setBuka(false)
               }}
               className={cn(
-                'flex w-full items-center justify-between gap-2 rounded-xl px-3 py-2.5 text-left font-body-md text-[14px] font-semibold transition-colors',
+                'flex w-full items-center justify-between gap-2 rounded-xl px-3 py-2.5 text-left font-body-md text-body-sm font-semibold transition-colors',
                 o.id === nilai ? 'bg-purple-100 text-primary' : 'text-on-surface-variant hover:bg-purple-50',
               )}
             >

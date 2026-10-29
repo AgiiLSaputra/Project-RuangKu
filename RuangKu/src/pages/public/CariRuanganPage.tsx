@@ -352,7 +352,7 @@ export function CariRuanganPage() {
               </span>
             </div>
             <div className="flex items-center gap-space-xs self-stretch sm:self-auto">
-              <span className="hidden font-label-sm text-label-sm text-slate-500 md:inline">
+              <span className="hidden font-body-md text-body-sm text-slate-500 md:inline">
                 Urutan:
               </span>
               <SortSelect
@@ -360,7 +360,7 @@ export function CariRuanganPage() {
                 nilai={urut}
                 onPilih={(id) => setUrut(id as Urut)}
                 opsi={OPSI_URUT.map((o) => ({ id: o.id, label: o.singkat }))}
-                className="h-9 w-full cursor-pointer bg-purple-50 px-space-md font-title-md text-body-sm text-on-surface sm:w-auto"
+                className="h-9 w-full cursor-pointer bg-purple-50 px-space-md font-body-md text-body-sm text-on-surface sm:w-auto"
               />
             </div>
           </div>

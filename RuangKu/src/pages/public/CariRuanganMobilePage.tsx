@@ -214,7 +214,7 @@ export function CariRuanganMobilePage() {
             nilai={urut}
             onPilih={(id) => setUrut(id as Urut)}
             opsi={OPSI_URUT.map((o) => ({ id: o.id, label: `Urutkan: ${o.singkat}` }))}
-            className="cursor-pointer bg-purple-100 px-2.5 py-1 font-label-md text-label-md text-on-surface"
+            className="cursor-pointer bg-purple-100 px-2.5 py-1 font-body-md text-body-sm text-on-surface"
           />
         </div>
 
