@@ -5,7 +5,7 @@ import { Icon } from '../ui/Icon'
 const TABS = [
   { label: 'Dashboard', to: '/dashboard-penyedia', icon: 'dashboard' },
   { label: 'Ruangan Saya', to: '/ruangan-saya', icon: 'meeting_room' },
-  { label: 'Reservasi', to: '/kelola-reservasi', icon: 'event_available', badge: 3 },
+  { label: 'Reservasi', to: '/kelola-reservasi', icon: 'event_available' },
   { label: 'Laporan', to: '/laporan-okupansi', icon: 'query_stats' },
 ]
 
@@ -29,11 +29,6 @@ export function BottomNavPenyedia() {
               <>
                 <span className="relative flex h-7 w-12 items-center justify-center">
                   <Icon name={t.icon} className="text-[24px]" filled={isActive} />
-                  {t.badge && (
-                    <span className="absolute -top-1 right-1 flex min-w-[18px] items-center justify-center rounded-full bg-status-full px-1.5 py-px text-[10px] font-bold leading-none text-on-primary shadow-sm">
-                      {t.badge}
-                    </span>
-                  )}
                 </span>
                 <span className="text-center leading-tight">{t.label}</span>
               </>

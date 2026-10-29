@@ -27,7 +27,6 @@ export const NAV_DASHBOARD_PENYEDIA: ItemNav[] = [
     label: "Kelola Reservasi",
     to: "/kelola-reservasi",
     ikon: "calendar_month",
-    badge: 3,
   },
   { label: "Laporan Okupansi", to: "/laporan-okupansi", ikon: "bar_chart" },
   { label: "Pengaturan", to: "/pengaturan-penyedia", ikon: "settings" },
