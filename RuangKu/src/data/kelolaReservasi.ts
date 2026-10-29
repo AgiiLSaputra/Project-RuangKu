@@ -43,8 +43,8 @@ export interface ReservasiMasuk {
   usulanJadwal?: UsulanJadwal
 }
 
-/** Gaya chip filter — semua status memakai warna netral (abu-abu) yang sama. */
-const CHIP_DASAR = 'bg-slate-200 text-on-surface'
+/** Gaya chip filter — semua status memakai warna netral yang sama, senada dengan kolom pencarian & filter ruangan. */
+const CHIP_DASAR = 'bg-purple-50 text-on-surface'
 const CHIP_SOROT = 'hover:bg-primary hover:text-on-primary'
 
 export const FILTER_MASUK: Array<{ id: FilterMasuk; label: string; dasar: string; sorot: string }> = [

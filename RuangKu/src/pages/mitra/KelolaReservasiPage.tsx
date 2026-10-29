@@ -291,7 +291,7 @@ export function KelolaReservasiPage() {
                   <span
                     className={cn(
                       'flex h-5 min-w-5 items-center justify-center rounded-full px-1 font-label-sm text-label-sm font-semibold',
-                      aktif ? 'bg-white/25' : 'bg-white',
+                      aktif ? 'bg-white/25' : 'bg-purple-100 text-primary',
                     )}
                   >
                     {jumlah}
