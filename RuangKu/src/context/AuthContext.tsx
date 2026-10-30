@@ -1,5 +1,5 @@
-import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from 'react'
-import { api, ACARA_AKUN_NONAKTIF } from '../lib/api'
+import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
+import { api, ACARA_AKUN_NONAKTIF, ACARA_SESI_BERAKHIR } from '../lib/api'
 import { LayarMulai } from '../components/ui/LayarMulai'
 
 export type Peran = 'penyewa' | 'penyedia' | 'admin'
@@ -22,6 +22,11 @@ interface AuthValue {
   isAuthenticated: boolean
   login: (user: Pengguna) => void
   logout: () => void
+  /**
+   * Menunggu permintaan logout ke server selesai. Halaman login memakainya
+   * supaya respons logout lama tidak menghapus cookie sesi yang baru dibuat.
+   */
+  tungguLogout: () => Promise<void>
   /** Popup "Log Out / Ajukan Banding" tampil bila akun yang bersesi ternyata nonaktif (FR-H1). */
   popupNonaktif: boolean
   tutupPopupNonaktif: () => void
@@ -30,12 +35,23 @@ interface AuthValue {
 const KEY = 'ruangku.auth'
 const AuthContext = createContext<AuthValue | null>(null)
 
+/** Batas tunggu logout sebelum request lama dibatalkan (jangan menahan login selamanya). */
+const BATAS_TUNGGU_LOGOUT_MS = 6000
+
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<Pengguna | null>(null)
   // true selama sesi dari cookie belum dicek ke server; guard rute belum boleh memutuskan.
   const [memeriksa, setMemeriksa] = useState(true)
   // Popup nonaktif bisa diabaikan satu kali (mis. user memilih "Ajukan Banding").
   const [abaikanPopup, setAbaikanPopup] = useState(false)
+  // Request logout yang masih berjalan (ditunggu halaman login sebelum login ulang).
+  const logoutRef = useRef<Promise<void> | null>(null)
+  const pembatalLogoutRef = useRef<AbortController | null>(null)
+  // Pemeriksaan ulang sesi (fokus tab) yang masih berjalan — dibatalkan saat login/logout
+  // supaya respons lamanya tidak menimpa status terbaru.
+  const pembatalPeriksaRef = useRef<AbortController | null>(null)
+  // Naik setiap status sesi berubah; respons lama dengan versi berbeda diabaikan.
+  const versiSesiRef = useRef(0)
 
   // Pulihkan sesi dari cookie httpOnly lewat GET /auth/me. Server memakai
   // requireAuthTermasukNonaktif untuk /auth/me, jadi akun nonaktif yang masih
@@ -67,14 +83,94 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return () => window.removeEventListener(ACARA_AKUN_NONAKTIF, onNonaktif)
   }, [])
 
+  // Sesi sudah tidak berlaku di server (401): buang `user` seketika, jangan
+  // biarkan header masih menampilkan nama akun lama seolah masih login.
+  useEffect(() => {
+    const onSesiBerakhir = () => {
+      versiSesiRef.current += 1
+      setUser(null)
+      setAbaikanPopup(false)
+    }
+    window.addEventListener(ACARA_SESI_BERAKHIR, onSesiBerakhir)
+    return () => window.removeEventListener(ACARA_SESI_BERAKHIR, onSesiBerakhir)
+  }, [])
+
+  // Sinkronkan lagi saat tab/window kembali aktif. Kasus nyata: logout dilakukan
+  // di tab lain (atau cookie kedaluwarsa) sementara tab ini masih menampilkan
+  // "Super Admin". Cek ulang /auth/me → header balik ke tombol "Masuk".
+  useEffect(() => {
+    let aktif = true
+    const periksaUlang = () => {
+      if (document.visibilityState === 'hidden') return
+      pembatalPeriksaRef.current?.abort()
+      const pembatal = new AbortController()
+      pembatalPeriksaRef.current = pembatal
+      const versi = versiSesiRef.current
+      api<{ user: Pengguna }>('/auth/me', { signal: pembatal.signal })
+        .then((data) => {
+          // Abaikan jawaban basi: login/logout bisa terjadi selagi request berjalan.
+          if (aktif && !pembatal.signal.aborted && versi === versiSesiRef.current) setUser(data.user)
+        })
+        // 401 sudah memicu ACARA_SESI_BERAKHIR di lib/api.ts.
+        .catch(() => undefined)
+    }
+    const onVisibility = () => {
+      if (document.visibilityState === 'visible') periksaUlang()
+    }
+    window.addEventListener('focus', periksaUlang)
+    document.addEventListener('visibilitychange', onVisibility)
+    return () => {
+      aktif = false
+      pembatalPeriksaRef.current?.abort()
+      window.removeEventListener('focus', periksaUlang)
+      document.removeEventListener('visibilitychange', onVisibility)
+    }
+  }, [])
+
   const login = useCallback((next: Pengguna) => {
+    // Sesi baru: batalkan pemeriksaan lama agar jawabannya tidak mengembalikan user lama.
+    versiSesiRef.current += 1
+    pembatalPeriksaRef.current?.abort()
     setUser(next)
   }, [])
 
   const logout = useCallback(() => {
+    versiSesiRef.current += 1
+    pembatalPeriksaRef.current?.abort()
     setUser(null)
     setAbaikanPopup(false)
-    void api('/auth/logout', { method: 'POST' }).catch(() => undefined)
+    // Batalkan logout sebelumnya yang belum rampung: kalau responsnya datang
+    // terlambat, ia akan menghapus cookie sesi baru hasil login ulang.
+    pembatalLogoutRef.current?.abort()
+    const pembatal = new AbortController()
+    pembatalLogoutRef.current = pembatal
+    const permintaan = api('/auth/logout', { method: 'POST', signal: pembatal.signal })
+      .then(() => undefined)
+      .catch(() => undefined)
+      .finally(() => {
+        if (logoutRef.current === permintaan) logoutRef.current = null
+        if (pembatalLogoutRef.current === pembatal) pembatalLogoutRef.current = null
+      })
+    logoutRef.current = permintaan
+  }, [])
+
+  const tungguLogout = useCallback(async () => {
+    const tertunda = logoutRef.current
+    if (!tertunda) return
+
+    let jam: number | undefined
+    const batas = new Promise<void>((selesai) => {
+      jam = window.setTimeout(selesai, BATAS_TUNGGU_LOGOUT_MS)
+    })
+    await Promise.race([tertunda, batas])
+    if (jam !== undefined) window.clearTimeout(jam)
+
+    // Masih menggantung setelah batas? Batalkan supaya respons telatnya tidak
+    // menimpa cookie sesi yang baru dibuat oleh login.
+    if (logoutRef.current === tertunda) {
+      pembatalLogoutRef.current?.abort()
+      logoutRef.current = null
+    }
   }, [])
 
   const tutupPopupNonaktif = useCallback(() => setAbaikanPopup(true), [])
@@ -85,10 +181,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       isAuthenticated: user !== null,
       login,
       logout,
+      tungguLogout,
       popupNonaktif: user?.status === 'nonaktif' && !abaikanPopup,
       tutupPopupNonaktif,
     }),
-    [user, login, logout, abaikanPopup, tutupPopupNonaktif],
+    [user, login, logout, tungguLogout, abaikanPopup, tutupPopupNonaktif],
   )
 
   if (memeriksa) {

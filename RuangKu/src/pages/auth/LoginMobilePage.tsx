@@ -18,7 +18,7 @@ const AVATARS = [
 
 export function LoginMobilePage() {
   const navigate = useNavigate()
-  const { login } = useAuth()
+  const { login, tungguLogout } = useAuth()
   const [state, setState] = useState<SubmitState>('idle')
   const [error, setError] = useState('')
   const timers = useRef<number[]>([])
@@ -35,6 +35,9 @@ export function LoginMobilePage() {
     setError('')
     setState('loading')
     try {
+      // Tunggu logout yang mungkin masih berjalan agar cookie sesi baru tidak
+      // ikut terhapus oleh respons logout lama.
+      await tungguLogout()
       const { user } = await api<{ user: Pengguna }>('/auth/login', {
         method: 'POST',
         body: { email, sandi },

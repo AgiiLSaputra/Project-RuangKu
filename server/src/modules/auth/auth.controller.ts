@@ -80,9 +80,12 @@ export async function register(req: FastifyRequest, reply: FastifyReply) {
 
 export async function login(req: FastifyRequest, reply: FastifyReply) {
   const input = validasi(loginSchema, req.body);
-  const { user, jti, kadaluarsa } = await authService.login(input);
+  const { user, jti } = await authService.login(input);
   const token = await reply.jwtSign({ sub: user.id, jti }, { expiresIn: `${env.JWT_EXPIRES_HARI}d` });
-  reply.setCookie(NAMA_COOKIE, token, { ...opsiCookie, expires: kadaluarsa });
+  // Cookie sengaja dibuat SESI BROWSER (tanpa Expires/Max-Age): ditutup browser = cookie
+  // hilang sendiri, jadi buka lagi langsung seperti tamu (tombol "Masuk", bukan nama akun).
+  // "Ingat sampai kapan" dijaga oleh batas sesi di database (`sesi.kadaluarsa`, 7 hari).
+  reply.setCookie(NAMA_COOKIE, token, opsiCookie);
   return reply.send({ ok: true, data: { user } });
 }
 

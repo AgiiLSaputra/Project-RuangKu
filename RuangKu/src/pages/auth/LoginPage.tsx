@@ -42,7 +42,7 @@ const AVATARS = [
 
 export function LoginPage() {
   const navigate = useNavigate()
-  const { login } = useAuth()
+  const { login, tungguLogout } = useAuth()
   const [state, setState] = useState<SubmitState>('idle')
   const [error, setError] = useState('')
   const timers = useRef<number[]>([])
@@ -59,6 +59,9 @@ async function handleSubmit(event: FormEvent<HTMLFormElement>) {
   setError('')
   setState('loading')
   try {
+    // Kalau tombol Keluar baru saja diklik, tunggu logout selesai dulu. Tanpa ini,
+    // respons logout yang telat bisa menghapus cookie sesi hasil login ini.
+    await tungguLogout()
     const { user } = await api<{ user: Pengguna }>('/auth/login', {
       method: 'POST',
       body: { email, sandi },
