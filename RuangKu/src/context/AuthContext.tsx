@@ -57,15 +57,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [kunciLokasi, setKunciLokasi] = useState(lokasi.key);
   if (kunciLokasi !== lokasi.key) {
     setKunciLokasi(lokasi.key);
-    // Hanya di beranda — tempat tidak ada guard yang sedang menunggu flag ini.
     if (baruKeluar && lokasi.pathname === "/") setBaruKeluar(false);
   }
 
-  // Pulihkan sesi dari cookie httpOnly lewat GET /auth/me. Server memakai
-  // requireAuthTermasukNonaktif untuk /auth/me, jadi akun nonaktif yang masih
-  // bersesi tetap dikenali — popup "Log Out / Ajukan Banding" langsung tampil.
   useEffect(() => {
-    localStorage.removeItem(KEY); // sisa sesi lama dari versi sebelumnya
+    localStorage.removeItem(KEY);
     let batal = false;
     api<{ user: Pengguna }>("/auth/me")
       .then((data) => {
@@ -80,8 +76,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     };
   }, []);
 
-  // Akun dinonaktifkan di tengah sesi: request apa pun yang kena 403
-  // AKUN_TIDAK_AKTIF melontarkan acara global — tandai user nonaktif + tampilkan popup.
   useEffect(() => {
     const onNonaktif = () => {
       setUser((sebelumnya) =>
@@ -93,8 +87,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return () => window.removeEventListener(ACARA_AKUN_NONAKTIF, onNonaktif);
   }, []);
 
-  // Sesi sudah tidak berlaku di server (401): buang `user` seketika, jangan
-  // biarkan header masih menampilkan nama akun lama seolah masih login.
   useEffect(() => {
     const onSesiBerakhir = () => {
       versiSesiRef.current += 1;
@@ -106,9 +98,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       window.removeEventListener(ACARA_SESI_BERAKHIR, onSesiBerakhir);
   }, []);
 
-  // Sinkronkan lagi saat tab/window kembali aktif. Kasus nyata: logout dilakukan
-  // di tab lain (atau cookie kedaluwarsa) sementara tab ini masih menampilkan
-  // "Super Admin". Cek ulang /auth/me → header balik ke tombol "Masuk".
   useEffect(() => {
     let aktif = true;
     const periksaUlang = () => {
@@ -119,7 +108,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const versi = versiSesiRef.current;
       api<{ user: Pengguna }>("/auth/me", { signal: pembatal.signal })
         .then((data) => {
-          // Abaikan jawaban basi: login/logout bisa terjadi selagi request berjalan.
           if (
             aktif &&
             !pembatal.signal.aborted &&
@@ -127,7 +115,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           )
             setUser(data.user);
         })
-        // 401 sudah memicu ACARA_SESI_BERAKHIR di lib/api.ts.
         .catch(() => undefined);
     };
     const onVisibility = () => {
@@ -144,7 +131,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const login = useCallback((next: Pengguna) => {
-    // Sesi baru: batalkan pemeriksaan lama agar jawabannya tidak mengembalikan user lama.
     versiSesiRef.current += 1;
     pembatalPeriksaRef.current?.abort();
     setBaruKeluar(false);
@@ -157,8 +143,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setBaruKeluar(true);
     setUser(null);
     setAbaikanPopup(false);
-    // Batalkan logout sebelumnya yang belum rampung: kalau responsnya datang
-    // terlambat, ia akan menghapus cookie sesi baru hasil login ulang.
     pembatalLogoutRef.current?.abort();
     const pembatal = new AbortController();
     pembatalLogoutRef.current = pembatal;
