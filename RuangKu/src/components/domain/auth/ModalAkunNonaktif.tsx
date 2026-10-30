@@ -39,8 +39,8 @@ export function ModalAkunNonaktif() {
             className="w-full"
             onClick={() => {
               tutupPopupNonaktif()
-              logout()
-              navigate('/masuk')
+              logout() // langsung mengantar ke beranda
+              navigate('/', { replace: true })
             }}
           >
             <Icon name="logout" className="text-[18px]" />

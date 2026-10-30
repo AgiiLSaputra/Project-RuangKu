@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Link, NavLink } from 'react-router-dom'
+import { Link, NavLink, useNavigate } from 'react-router-dom'
 import { cn } from '../../lib/cn'
 import { useAuth } from '../../context/AuthContext'
 import { Icon } from '../ui/Icon'
@@ -23,6 +23,7 @@ function menuDrawer(peran?: string) {
 export function PublicHeaderMobile() {
   const [open, setOpen] = useState(false)
   const { isAuthenticated, user, logout } = useAuth()
+  const navigate = useNavigate()
 
   return (
     <>
@@ -111,7 +112,7 @@ export function PublicHeaderMobile() {
             ))}
             <div className="mt-2 border-t border-purple-100 pt-3">
               {isAuthenticated ? (
-                <button type="button" onClick={() => { logout(); setOpen(false) }} className="w-full rounded-full bg-status-full-bg px-4 py-3 text-body-md font-semibold text-status-full">
+                <button type="button" onClick={() => { logout(); navigate('/'); setOpen(false) }} className="w-full rounded-full bg-status-full-bg px-4 py-3 text-body-md font-semibold text-status-full">
                   Keluar dari Akun
                 </button>
               ) : (

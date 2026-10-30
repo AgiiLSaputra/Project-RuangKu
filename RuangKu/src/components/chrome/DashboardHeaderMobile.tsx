@@ -24,6 +24,8 @@ export function DashboardHeaderMobile() {
   const { user, logout } = useAuth()
 
   function keluar() {
+    // logout() menandai `baruKeluar`, jadi guard rute mengarahkan ke beranda
+    // (bukan /masuk) walau navigasi ini sempat kalah cepat.
     logout()
     navigate('/')
   }

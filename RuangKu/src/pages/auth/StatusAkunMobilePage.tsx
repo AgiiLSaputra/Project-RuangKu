@@ -182,8 +182,8 @@ export function StatusAkunMobilePage() {
   }
 
   function keluar() {
-    logout()
-    navigate('/masuk')
+    logout() // langsung mengantar ke beranda
+    navigate('/', { replace: true })
   }
 
   /** Tab keputusan hanya tampil setelah keputusan Admin: Diterima atau Ditolak. */

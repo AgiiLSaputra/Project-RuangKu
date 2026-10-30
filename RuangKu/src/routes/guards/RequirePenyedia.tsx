@@ -8,11 +8,16 @@ import { useAuth } from '../../context/AuthContext'
  * - Sudah login tapi bukan penyedia → lempar ke beranda publik.
  */
 export function RequirePenyedia({ children }: { children: ReactNode }) {
-  const { isAuthenticated, user } = useAuth()
+  const { isAuthenticated, user, baruKeluar } = useAuth()
   const location = useLocation()
 
   if (!isAuthenticated) {
-    return <Navigate to="/masuk" replace state={{ from: location.pathname + location.search }} />
+    // Habis menekan "Keluar" → beranda; sesi mati/kedaluwarsa → halaman masuk.
+    return baruKeluar ? (
+      <Navigate to="/" replace />
+    ) : (
+      <Navigate to="/masuk" replace state={{ from: location.pathname + location.search }} />
+    )
   }
   if (user?.peran !== 'penyedia') {
     return <Navigate to="/" replace />

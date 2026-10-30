@@ -1,4 +1,5 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { api, ACARA_AKUN_NONAKTIF, ACARA_SESI_BERAKHIR } from '../lib/api'
 import { LayarMulai } from '../components/ui/LayarMulai'
 
@@ -30,6 +31,13 @@ interface AuthValue {
   /** Popup "Log Out / Ajukan Banding" tampil bila akun yang bersesi ternyata nonaktif (FR-H1). */
   popupNonaktif: boolean
   tutupPopupNonaktif: () => void
+  /**
+   * True tepat setelah user menekan "Keluar" — sampai halaman beranda tercapai.
+   * Guard rute memakainya untuk mengarahkan ke beranda, bukan ke /masuk.
+   * Berubah false begitu mendarat di beranda supaya akses rute terlindungi
+   * berikutnya sebagai tamu kembali diarahkan ke /masuk.
+   */
+  baruKeluar: boolean
 }
 
 const KEY = 'ruangku.auth'
@@ -39,11 +47,17 @@ const AuthContext = createContext<AuthValue | null>(null)
 const BATAS_TUNGGU_LOGOUT_MS = 6000
 
 export function AuthProvider({ children }: { children: ReactNode }) {
+  // AuthProvider dibungkus <BrowserRouter> (App.tsx), jadi logout boleh langsung
+  // mengantar ke beranda tanpa menunggu guard rute.
+  const navigate = useNavigate()
+  const lokasi = useLocation()
   const [user, setUser] = useState<Pengguna | null>(null)
   // true selama sesi dari cookie belum dicek ke server; guard rute belum boleh memutuskan.
   const [memeriksa, setMemeriksa] = useState(true)
   // Popup nonaktif bisa diabaikan satu kali (mis. user memilih "Ajukan Banding").
   const [abaikanPopup, setAbaikanPopup] = useState(false)
+  // Ditandai saat logout sukarela; guard rute mengarahkan ke beranda (bukan /masuk).
+  const [baruKeluar, setBaruKeluar] = useState(false)
   // Request logout yang masih berjalan (ditunggu halaman login sebelum login ulang).
   const logoutRef = useRef<Promise<void> | null>(null)
   const pembatalLogoutRef = useRef<AbortController | null>(null)
@@ -52,6 +66,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const pembatalPeriksaRef = useRef<AbortController | null>(null)
   // Naik setiap status sesi berubah; respons lama dengan versi berbeda diabaikan.
   const versiSesiRef = useRef(0)
+
+  // Selesai sudah "baruKeluar" begitu halaman berpindah (khususnya mendarat di
+  // beranda): kalau dibiarkan menyala, tamu yang membuka rute terlindungi
+  // berikutnya justru dilempar ke beranda lagi dan tidak pernah sampai ke /masuk.
+  // Pola penyesuaian state saat render (React): bandingkan dengan nilai
+  // sebelumnya, hanya mengubah state komponen ini sendiri.
+  const [kunciLokasi, setKunciLokasi] = useState(lokasi.key)
+  if (kunciLokasi !== lokasi.key) {
+    setKunciLokasi(lokasi.key)
+    // Hanya di beranda — tempat tidak ada guard yang sedang menunggu flag ini.
+    if (baruKeluar && lokasi.pathname === '/') setBaruKeluar(false)
+  }
 
   // Pulihkan sesi dari cookie httpOnly lewat GET /auth/me. Server memakai
   // requireAuthTermasukNonaktif untuk /auth/me, jadi akun nonaktif yang masih
@@ -131,12 +157,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     // Sesi baru: batalkan pemeriksaan lama agar jawabannya tidak mengembalikan user lama.
     versiSesiRef.current += 1
     pembatalPeriksaRef.current?.abort()
+    setBaruKeluar(false)
     setUser(next)
   }, [])
 
   const logout = useCallback(() => {
     versiSesiRef.current += 1
     pembatalPeriksaRef.current?.abort()
+    setBaruKeluar(true)
     setUser(null)
     setAbaikanPopup(false)
     // Batalkan logout sebelumnya yang belum rampung: kalau responsnya datang
@@ -152,7 +180,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         if (pembatalLogoutRef.current === pembatal) pembatalLogoutRef.current = null
       })
     logoutRef.current = permintaan
-  }, [])
+    // Mendarat di beranda, bukan di /masuk. `baruKeluar` menjaga guard rute
+    // tetap memilih beranda walau render guard mendahului navigasi ini.
+    navigate('/', { replace: true })
+  }, [navigate])
 
   const tungguLogout = useCallback(async () => {
     const tertunda = logoutRef.current
@@ -184,8 +215,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       tungguLogout,
       popupNonaktif: user?.status === 'nonaktif' && !abaikanPopup,
       tutupPopupNonaktif,
+      baruKeluar,
     }),
-    [user, login, logout, tungguLogout, abaikanPopup, tutupPopupNonaktif],
+    [user, login, logout, tungguLogout, abaikanPopup, tutupPopupNonaktif, baruKeluar],
   )
 
   if (memeriksa) {

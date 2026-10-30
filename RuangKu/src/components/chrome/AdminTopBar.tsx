@@ -15,6 +15,8 @@ export function AdminTopBar({ buka, onBuka }: { buka: boolean; onBuka: () => voi
   const navigate = useNavigate()
 
   function keluar() {
+    // logout() menandai `baruKeluar`, jadi guard rute mengarahkan ke beranda
+    // (bukan /masuk) walau navigasi ini sempat kalah cepat.
     logout()
     navigate('/')
   }

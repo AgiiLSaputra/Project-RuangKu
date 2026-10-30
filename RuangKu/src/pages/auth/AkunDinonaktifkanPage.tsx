@@ -91,8 +91,8 @@ export function AkunDinonaktifkanPage() {
   }
 
   function keluar() {
-    logout()
-    navigate('/masuk')
+    logout() // langsung mengantar ke beranda
+    navigate('/', { replace: true })
   }
 
   return (
