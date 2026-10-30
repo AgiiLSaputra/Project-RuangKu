@@ -30,11 +30,22 @@ export function PublicHeader() {
         <div className="flex shrink-0 items-center gap-3">
           {isAuthenticated ? (
             <>
-              <Link to={user?.peran === 'penyedia' ? '/dashboard-penyedia' : '/beranda'} className="flex items-center gap-2.5">
-                <span className="flex h-10 w-10 items-center justify-center rounded-full bg-primary text-white">
-                  <Icon name="person" className="text-[22px]" />
+              {/* Tanda akun disamakan dengan AdminTopBar: nama + email di kiri, ikon di kanan. */}
+              <Link
+                to={user?.peran === 'penyedia' ? '/dashboard-penyedia' : '/beranda'}
+                className="flex min-w-0 items-center gap-2.5"
+              >
+                <span className="hidden min-w-0 text-right leading-tight sm:block">
+                  <span className="block truncate font-title-md text-body-sm font-semibold text-on-surface">
+                    {user?.nama}
+                  </span>
+                  <span className="block truncate font-label-sm text-label-sm text-on-surface-variant">
+                    {user?.email}
+                  </span>
                 </span>
-                <span className="hidden text-[13px] font-bold leading-tight text-on-surface lg:block">{user?.nama}</span>
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary text-white">
+                  <Icon name="person" className="text-[18px]" />
+                </span>
               </Link>
 
               <div className="h-6 w-px bg-purple-300/50" />

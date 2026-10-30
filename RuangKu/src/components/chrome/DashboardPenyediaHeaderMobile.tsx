@@ -39,6 +39,14 @@ export function DashboardPenyediaHeaderMobile() {
           </Link>
 
           <div className="flex items-center gap-2">
+            <span className="hidden min-w-0 text-right leading-tight sm:block">
+              <span className="block max-w-[140px] truncate font-title-md text-body-sm font-semibold text-on-surface">
+                {user?.nama ?? 'Penyedia'}
+              </span>
+              <span className="block max-w-[140px] truncate font-label-sm text-label-sm text-on-surface-variant">
+                {user?.email}
+              </span>
+            </span>
             <button
               type="button"
               aria-label="Menu Utama"
@@ -80,13 +88,13 @@ export function DashboardPenyediaHeaderMobile() {
               </button>
             </div>
 
-            <div className="mx-space-lg flex items-center gap-space-md rounded-lg bg-purple-50 p-space-md">
-              <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-primary text-on-primary shadow-sm">
-                <Icon name="person" className="text-[24px]" />
-              </span>
+            <div className="mx-space-lg flex items-center justify-between gap-space-md rounded-lg bg-purple-50 p-space-md">
               <span className="flex min-w-0 flex-col">
                 <span className="truncate font-title-md text-title-md text-on-surface">{user?.nama ?? 'Penyedia'}</span>
-                <span className="truncate text-body-sm text-slate-500">PT Graha Multi Kreasi</span>
+                <span className="truncate text-body-sm text-slate-500">{user?.email}</span>
+              </span>
+              <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-primary text-on-primary shadow-sm">
+                <Icon name="person" className="text-[24px]" />
               </span>
             </div>
 

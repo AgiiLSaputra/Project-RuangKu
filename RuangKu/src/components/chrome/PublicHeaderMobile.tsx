@@ -33,6 +33,16 @@ export function PublicHeaderMobile() {
           </Link>
 
           <div className="flex items-center gap-2">
+            {isAuthenticated && (
+              <span className="hidden min-w-0 text-right leading-tight sm:block">
+                <span className="block max-w-[140px] truncate font-title-md text-body-sm font-semibold text-on-surface">
+                  {user?.nama}
+                </span>
+                <span className="block max-w-[140px] truncate font-label-sm text-label-sm text-on-surface-variant">
+                  {user?.email}
+                </span>
+              </span>
+            )}
             {!isAuthenticated && (
               <Link
                 to="/masuk"
@@ -69,6 +79,19 @@ export function PublicHeaderMobile() {
             className="absolute inset-x-0 top-16 rounded-b-lg border-b border-purple-100 bg-white p-4 shadow-card"
             onClick={(e) => e.stopPropagation()}
           >
+            {isAuthenticated && (
+              <div className="mb-3 flex items-center justify-between gap-3 rounded-lg bg-purple-50 p-3">
+                <span className="flex min-w-0 flex-col">
+                  <span className="truncate font-title-md text-title-md text-on-surface">
+                    {user?.nama}
+                  </span>
+                  <span className="truncate text-body-sm text-slate-500">{user?.email}</span>
+                </span>
+                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary text-white">
+                  <Icon name="person" className="text-[22px]" />
+                </span>
+              </div>
+            )}
             {menuDrawer(user?.peran).map((d) => (
               <NavLink
                 key={d.to}

@@ -43,6 +43,14 @@ export function DashboardHeaderMobile() {
           </Link>
 
           <div className="flex items-center gap-space-xs">
+            <span className="hidden min-w-0 text-right leading-tight sm:block">
+              <span className="block max-w-[140px] truncate font-title-md text-body-sm font-semibold text-on-surface">
+                {user?.nama ?? 'Penyewa'}
+              </span>
+              <span className="block max-w-[140px] truncate font-label-sm text-label-sm text-on-surface-variant">
+                {user?.email}
+              </span>
+            </span>
             <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary text-on-primary">
               <Icon name="person" className="text-[18px]" />
             </span>
@@ -82,12 +90,13 @@ export function DashboardHeaderMobile() {
               </button>
             </div>
 
-            <div className="mx-space-lg flex items-center gap-space-md rounded-lg bg-purple-50 p-space-md">
-              <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-primary text-on-primary shadow-sm">
-                <Icon name="person" className="text-[24px]" />
-              </span>
+            <div className="mx-space-lg flex items-center justify-between gap-space-md rounded-lg bg-purple-50 p-space-md">
               <span className="flex min-w-0 flex-col">
                 <span className="truncate font-title-md text-title-md text-on-surface">{user?.nama ?? 'Penyewa'}</span>
+                <span className="truncate text-body-sm text-slate-500">{user?.email}</span>
+              </span>
+              <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-primary text-on-primary shadow-sm">
+                <Icon name="person" className="text-[24px]" />
               </span>
             </div>
 
