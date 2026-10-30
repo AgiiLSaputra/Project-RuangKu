@@ -240,29 +240,6 @@ export function useDashboardAdmin() {
     void muat()
   }
 
-  /** Unduh laporan audit antrean sebagai CSV (pemisah titik-koma, siap Excel). */
-  const eksporAudit = () => {
-    const kepala = ['Jenis Aksi', 'Nama / Entitas', 'Informasi', 'Detail', 'Waktu', 'Status SLA', 'Antrean']
-    const isi = antrean.map((t) => [
-      t.jenis === 'verifikasi' ? 'Verifikasi Penyedia' : t.jenis === 'banding' ? 'Pengajuan Banding' : 'Audit & Flagging',
-      t.nama,
-      t.sub,
-      t.detail,
-      `${t.waktu} WIB`,
-      t.sla,
-      t.aksi,
-    ])
-    const csv = [kepala, ...isi]
-      .map((baris) => `"${baris.map((sel) => sel.replace(/"/g, '""')).join('"')}"`)
-      .join('\r\n')
-    const url = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8;' }))
-    const tautan = document.createElement('a')
-    tautan.href = url
-    tautan.download = 'laporan-audit-antrean.csv'
-    tautan.click()
-    URL.revokeObjectURL(url)
-  }
-
   return {
     tugas,
     tab,
@@ -277,7 +254,6 @@ export function useDashboardAdmin() {
     ditinjau,
     setDitinjau,
     selesaikanTugas,
-    eksporAudit,
     tabOpsi: TAB_ADMIN,
     memuat,
     galatMuat,

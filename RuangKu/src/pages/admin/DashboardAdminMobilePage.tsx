@@ -158,16 +158,6 @@ export function DashboardAdminMobilePage() {
           Pantau pengajuan mitra penyedia baru, eskalasi banding akun nonaktif, serta integritas
           aktivitas seluruh ekosistem RuangKu secara real-time.
         </p>
-        <div className="flex flex-col gap-2 pt-1">
-          <button
-            type="button"
-            onClick={admin.eksporAudit}
-            className={cn(KELAS_TOMBOL, 'h-11 w-full bg-purple-50 px-4 text-primary shadow-sm')}
-          >
-            <Icon name="download" className="text-[18px]" />
-            Unduh Laporan Audit
-          </button>
-        </div>
       </section>
 
       {/* Banner memuat / galat dari server */}

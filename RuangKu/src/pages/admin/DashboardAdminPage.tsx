@@ -172,20 +172,6 @@ export function DashboardAdminPage() {
               aktivitas seluruh ekosistem RuangKu secara real-time.
             </p>
           </div>
-
-          <div className="flex shrink-0 flex-wrap items-center gap-3">
-            <button
-              type="button"
-              onClick={admin.eksporAudit}
-              className={cn(
-                KELAS_TOMBOL,
-                'h-11 bg-purple-50 px-5 text-primary shadow-sm hover:bg-purple-100',
-              )}
-            >
-              <Icon name="download" className="text-[18px]" />
-              Unduh Laporan Audit
-            </button>
-          </div>
         </section>
 
         {/* Banner memuat / galat dari server */}
