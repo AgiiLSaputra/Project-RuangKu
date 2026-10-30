@@ -158,8 +158,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           pembatalLogoutRef.current = null;
       });
     logoutRef.current = permintaan;
-    // Mendarat di beranda, bukan di /masuk. `baruKeluar` menjaga guard rute
-    // tetap memilih beranda walau render guard mendahului navigasi ini.
     navigate("/", { replace: true });
   }, [navigate]);
 
@@ -173,9 +171,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     });
     await Promise.race([tertunda, batas]);
     if (jam !== undefined) window.clearTimeout(jam);
-
-    // Masih menggantung setelah batas? Batalkan supaya respons telatnya tidak
-    // menimpa cookie sesi yang baru dibuat oleh login.
     if (logoutRef.current === tertunda) {
       pembatalLogoutRef.current?.abort();
       logoutRef.current = null;
