@@ -268,9 +268,6 @@ export function DashboardAdminMobilePage() {
           <h2 className="font-headline-sm text-headline-sm font-semibold tracking-tight text-on-surface">
             Aktivitas Terbaru
           </h2>
-          <span className="rounded-full bg-status-full-bg px-2.5 py-0.5 font-label-sm text-label-sm font-semibold text-status-full">
-            {ringkas.tertunda} Tugas Tertunda
-          </span>
         </div>
 
         <div className="flex flex-wrap items-center gap-1 rounded-full bg-purple-50 p-1">

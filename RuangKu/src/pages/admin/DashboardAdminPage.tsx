@@ -291,9 +291,6 @@ export function DashboardAdminPage() {
               <h2 className="font-headline-sm text-headline-sm font-semibold tracking-tight text-on-surface">
                 Aktivitas Terbaru Membutuhkan Tindakan
               </h2>
-              <span className="rounded-full bg-status-full-bg px-3 py-1 font-label-sm text-label-sm font-semibold text-status-full">
-                {ringkas.tertunda} Tugas Tertunda
-              </span>
             </div>
 
             <div className="flex flex-wrap items-center gap-3">

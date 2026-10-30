@@ -201,7 +201,7 @@ export function useDashboardAdmin() {
   /** Baris yang benar-benar dirender (default 5 teratas, bisa dibuka semua). */
   const tampil = tampilSemua ? antrean : antrean.slice(0, UKURAN_TAMPIL)
 
-  /** Angka kartu metrik + chip "Tugas Tertunda" — ikut berubah saat tugas diselesaikan. */
+  /** Angka kartu metrik — ikut berubah saat tugas diselesaikan. */
   const ringkas = useMemo(() => {
     const hitung = (j: JenisAksi) => tugas.filter((t) => t.jenis === j).length
     return {
@@ -209,8 +209,6 @@ export function useDashboardAdmin() {
       banding: statistik?.bandingMenunggu ?? hitung('banding'),
       tinjauHariIni: tugas.filter((t) => t.jenis === 'verifikasi' && t.tinjauHariIni).length,
       tenggang: tugas.filter((t) => t.jenis === 'banding' && t.tenggang).length,
-      tertunda: (statistik?.verifikasiMenunggu ?? 0) + (statistik?.bandingMenunggu ?? 0),
-      total: (statistik?.verifikasiMenunggu ?? 0) + (statistik?.bandingMenunggu ?? 0),
     }
   }, [tugas, statistik])
 
