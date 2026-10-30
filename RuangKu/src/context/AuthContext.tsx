@@ -40,35 +40,20 @@ interface AuthValue {
 const KEY = "ruangku.auth";
 const AuthContext = createContext<AuthValue | null>(null);
 
-/** Batas tunggu logout sebelum request lama dibatalkan (jangan menahan login selamanya). */
 const BATAS_TUNGGU_LOGOUT_MS = 6000;
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  // AuthProvider dibungkus <BrowserRouter> (App.tsx), jadi logout boleh langsung
-  // mengantar ke beranda tanpa menunggu guard rute.
   const navigate = useNavigate();
   const lokasi = useLocation();
   const [user, setUser] = useState<Pengguna | null>(null);
-  // true selama sesi dari cookie belum dicek ke server; guard rute belum boleh memutuskan.
   const [memeriksa, setMemeriksa] = useState(true);
-  // Popup nonaktif bisa diabaikan satu kali (mis. user memilih "Ajukan Banding").
   const [abaikanPopup, setAbaikanPopup] = useState(false);
-  // Ditandai saat logout sukarela; guard rute mengarahkan ke beranda (bukan /masuk).
   const [baruKeluar, setBaruKeluar] = useState(false);
-  // Request logout yang masih berjalan (ditunggu halaman login sebelum login ulang).
   const logoutRef = useRef<Promise<void> | null>(null);
   const pembatalLogoutRef = useRef<AbortController | null>(null);
-  // Pemeriksaan ulang sesi (fokus tab) yang masih berjalan — dibatalkan saat login/logout
-  // supaya respons lamanya tidak menimpa status terbaru.
   const pembatalPeriksaRef = useRef<AbortController | null>(null);
-  // Naik setiap status sesi berubah; respons lama dengan versi berbeda diabaikan.
   const versiSesiRef = useRef(0);
 
-  // Selesai sudah "baruKeluar" begitu halaman berpindah (khususnya mendarat di
-  // beranda): kalau dibiarkan menyala, tamu yang membuka rute terlindungi
-  // berikutnya justru dilempar ke beranda lagi dan tidak pernah sampai ke /masuk.
-  // Pola penyesuaian state saat render (React): bandingkan dengan nilai
-  // sebelumnya, hanya mengubah state komponen ini sendiri.
   const [kunciLokasi, setKunciLokasi] = useState(lokasi.key);
   if (kunciLokasi !== lokasi.key) {
     setKunciLokasi(lokasi.key);
