@@ -125,11 +125,6 @@ export function useLaporanOkupansi() {
         : { periode };
     setMemuat(true);
     setGagal(false);
-    // Laporan utama dulu. Rentang periode sebelumnya baru dihitung SETELAH respons
-    // utama datang, memakai `periode.dari/sampai` milik server — pada periode
-    // minggu/bulan/kuartal `kueri` tidak punya `dari`, jadi menghitungnya dari
-    // `kueri` menghasilkan tanggal tak valid lalu melempar RangeError
-    // "Invalid time value" (CATATAN_BUG.md — bug #1).
     ambilLaporanMitra(kueri)
       .then(async (kini) => {
         if (batal) return;
@@ -141,7 +136,6 @@ export function useLaporanOkupansi() {
             sampai: kini.periode.sampai,
           }),
         };
-        // Periode sebelumnya boleh gagal tanpa membuat laporan utama gagal — delta punya nilai cadangan.
         const laluPembanding = await ambilLaporanMitra(pembanding).catch(
           () => null,
         );
