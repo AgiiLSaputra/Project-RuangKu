@@ -42,7 +42,7 @@ interface DeskState {
 
 const STATE: Record<StatusKey, DeskState> = {
   disetujui: {
-    pill: 'Status Akun: Disetujui (FR-A4)',
+    pill: 'Status Akun: Disetujui',
     pillDot: 'bg-status-available',
     icon: 'workspace_premium',
     blob: 'bg-status-available-bg',
@@ -99,7 +99,7 @@ const STATE: Record<StatusKey, DeskState> = {
     showKatalog: false,
   },
   verification: {
-    pill: 'Status Akun: Dalam Review Admin (FR-A4)',
+    pill: 'Status Akun: Dalam Review Admin',
     pillDot: 'bg-status-occupied',
     icon: 'admin_panel_settings',
     blob: 'bg-status-occupied-bg',
