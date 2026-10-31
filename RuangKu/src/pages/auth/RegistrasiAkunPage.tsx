@@ -251,8 +251,7 @@ export function RegistrasiAkunPage() {
                       className="mt-0.5 shrink-0 text-[18px] text-primary"
                     />
                     <p className="font-label-sm text-label-sm leading-tight text-purple-700">
-                      Perlu verifikasi Admin (FR-A4) &amp; upload bukti
-                      gedung
+                      Perlu verifikasi Admin &amp; upload bukti gedung
                     </p>
                   </div>
                 </div>

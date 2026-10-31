@@ -619,8 +619,8 @@ export function RegistrasiLanjutanPage() {
                     <p className="mt-0.5 text-body-md text-on-surface-variant">
                       Data Anda dienkripsi aman. Setelah dikirim, Admin
                       akan meninjau kelayakan berkas dalam 1x24 jam kerja
-                      (FR-A4). Gedung akan langsung aktif di katalog reservasi
-                      setelah disetujui.
+                      Gedung akan langsung aktif di katalog reservasi setelah
+                      disetujui.
                     </p>
                   </div>
                 </div>
