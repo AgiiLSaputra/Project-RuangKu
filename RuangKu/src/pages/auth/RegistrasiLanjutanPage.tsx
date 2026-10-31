@@ -311,9 +311,6 @@ export function RegistrasiLanjutanPage() {
                       Foto Gedung / Ruangan Utama
                       <span className="font-bold text-error">*</span>
                     </span>
-                    <span className="rounded-full bg-purple-100 px-2.5 py-0.5 font-label-sm text-label-sm font-bold text-purple-700">
-                      FR-A5 Wajib
-                    </span>
                   </div>
                   <p className="text-body-sm text-slate-500">
                     Foto tampak depan atau aula utama beresolusi jelas untuk
