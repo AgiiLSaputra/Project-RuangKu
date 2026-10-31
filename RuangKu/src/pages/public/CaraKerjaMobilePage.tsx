@@ -30,7 +30,7 @@ const LANGKAH_PENYEWA: LangkahMobile[] = [
     ikon: 'event_available',
     warnaNomor: 'text-primary',
     warnaIkon: 'text-primary',
-    badge: { teks: 'Otomatis Jeda Steril 2 Jam (SOP FR-C6)', kelas: 'bg-purple-100 text-primary' },
+    badge: { teks: 'Otomatis Jeda Steril 2 Jam', kelas: 'bg-purple-100 text-primary' },
   },
   {
     no: '03',
