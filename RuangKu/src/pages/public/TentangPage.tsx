@@ -63,7 +63,7 @@ const PILAR = [
   },
   {
     judul: 'Anti Bentrok Jadwal & Kuota Otomatis',
-    teks: 'Sistem penguncian transaksi atomik database dengan jeda pembersihan sanitasi 2 jam pasti (FR-C6).',
+    teks: 'Sistem penguncian transaksi atomik database dengan jeda pembersihan sanitasi 2 jam pasti.',
   },
   {
     judul: 'Registrasi Dua Peran dengan Verifikasi Admin',
