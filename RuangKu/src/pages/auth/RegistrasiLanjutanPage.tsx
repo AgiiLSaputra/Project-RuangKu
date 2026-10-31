@@ -182,7 +182,7 @@ export function RegistrasiLanjutanPage() {
               <div className="flex flex-col items-start gap-space-xs pb-space-sm">
                 <div className="inline-flex items-center gap-1.5 rounded-full bg-purple-100 px-space-md py-1 font-label-md text-label-md font-semibold text-primary">
                   <Icon name="verified" filled className="text-[16px]" />
-                  <span>Verifikasi Mitra Penyedia (FR-A4 &amp; FR-A5)</span>
+                  <span>Verifikasi Mitra Penyedia</span>
                 </div>
                 <h1 className="mt-space-xs font-display text-display font-extrabold tracking-tight text-on-surface">
                   Lengkapi Bukti &amp; Legalitas Gedung
