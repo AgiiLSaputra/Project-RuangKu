@@ -349,7 +349,7 @@ export function DetailRuanganMobilePage() {
               <span className="font-semibold text-on-surface">
                 Operasional: {ruangan.jamBuka} – {ruangan.jamTutup} WIB.
               </span>{' '}
-              Setiap pemesanan memiliki jeda sterilisasi 2 jam otomatis (FR-C6) sebelum slot berikutnya.
+              Setiap pemesanan memiliki jeda sterilisasi 2 jam otomatis sebelum slot berikutnya.
             </div>
           </div>
         </div>

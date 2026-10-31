@@ -319,7 +319,7 @@ export function DetailRuanganPage() {
                 />
                 <div className="flex flex-col gap-1">
                   <span className="font-title-md text-body-md font-semibold text-on-surface">
-                    Protokol Kebersihan RuangKu v1.0 (FR-C6)
+                    Protokol Kebersihan RuangKu v1.0
                   </span>
                   <p className="text-body-sm text-on-surface-variant">
                     Setiap reservasi otomatis diikuti oleh{" "}
