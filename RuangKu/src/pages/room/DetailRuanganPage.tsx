@@ -514,7 +514,6 @@ export function DetailRuanganPage() {
                   </h3>
                   <span className="inline-flex items-center gap-0.5 rounded-full bg-status-available-bg px-2 py-0.5 font-label-sm text-label-sm text-status-available">
                     <Icon name="verified" filled className="text-[12px]" />
-                    Mitra Resmi
                   </span>
                 </div>
                 <span className="text-body-sm text-slate-500">
