@@ -265,9 +265,6 @@ export function RegistrasiLanjutanPage() {
                       Nomor WhatsApp Pengelola / Gedung
                       <span className="font-bold text-error">*</span>
                     </label>
-                    <span className="rounded-full bg-purple-50 px-2.5 py-0.5 font-label-sm text-label-sm font-semibold text-primary">
-                      Wajib Sesuai FR-A6
-                    </span>
                   </div>
                   <p className="text-body-sm text-slate-500">
                     Nomor aktif untuk menerima notifikasi booking, validasi
