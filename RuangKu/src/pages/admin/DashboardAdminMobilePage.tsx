@@ -346,8 +346,6 @@ export function DashboardAdminMobilePage() {
         </span>
         <span className="flex items-center gap-3 font-label-sm text-label-sm">
           <span>Zona Waktu: WIB (UTC+7)</span>
-          <span>•</span>
-          <span className="font-medium text-primary">Platform ID: RKU-PRD-8821</span>
         </span>
       </footer>
 
