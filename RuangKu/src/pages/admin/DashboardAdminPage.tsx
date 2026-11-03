@@ -275,10 +275,6 @@ export function DashboardAdminPage() {
               </p>
             </div>
           </div>
-          <span className="flex shrink-0 items-center gap-1.5 font-label-sm text-label-sm text-slate-500">
-            <span className="h-2 w-2 rounded-full bg-status-available" />
-            Sinkron Real-time
-          </span>
         </section>
 
         {/* 4. Antrean tugas terbaru */}
