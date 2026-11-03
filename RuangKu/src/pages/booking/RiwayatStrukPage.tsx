@@ -40,7 +40,7 @@ export function RiwayatStrukPage() {
           <div className="flex flex-col gap-2">
             <span className="inline-flex items-center gap-2 self-start rounded-full bg-surface-container-lowest px-3.5 py-1 font-label-sm font-semibold tracking-wide text-primary shadow-[0_4px_20px_-2px_rgba(108,92,231,0.08)]">
               <span className="h-2 w-2 animate-pulse rounded-full bg-primary" />
-              Dokumen Digital Resmi (SOP FR-E1 s.d FR-E5)
+              Dokumen Digital Resmi
             </span>
             <h1 className="font-headline-lg text-headline-lg font-extrabold tracking-tight text-on-surface">
               Pusat Struk &amp; E-Tiket Reservasi
