@@ -52,7 +52,7 @@ export function RiwayatStrukMobilePage() {
           </h1>
           <p className="font-body-sm leading-relaxed text-body-sm text-on-surface-variant">
             Klik salah satu riwayat untuk membuka struk lengkapnya. Akses dan unduh arsip struk resmi pemesanan ruang
-            kapan pun — dokumen lama tetap tersimpan permanen dan valid sebagai bukti transaksi.
+            kapan pun. Dokumen lama tetap tersimpan permanen dan valid sebagai bukti transaksi.
           </p>
         </div>
 
