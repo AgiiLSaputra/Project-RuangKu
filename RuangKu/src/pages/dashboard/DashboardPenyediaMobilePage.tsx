@@ -242,9 +242,6 @@ export function DashboardPenyediaMobilePage() {
               {perluAksi.length} Menunggu
             </span>
           </div>
-          <span className="rounded-full bg-surface-container-high px-2 py-0.5 text-label-sm text-on-surface-variant">
-            FR-C16
-          </span>
         </div>
         <p className="-mt-1 text-body-sm text-on-surface-variant">
           Periksa bukti transfer dan konfirmasi dalam 24 jam sebelum slot dilepas kembali.

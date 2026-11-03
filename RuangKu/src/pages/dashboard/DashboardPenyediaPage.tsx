@@ -287,7 +287,7 @@ export function DashboardPenyediaPage() {
                   </span>
                 </div>
                 <p className="mt-1 text-body-sm text-slate-500">
-                  Periksa bukti transfer dan konfirmasi dalam 24 jam (FR-C16)
+                  Periksa bukti transfer dan konfirmasi dalam 24 jam
                 </p>
               </div>
               <Icon name="notifications_active" className="text-slate-300" />
