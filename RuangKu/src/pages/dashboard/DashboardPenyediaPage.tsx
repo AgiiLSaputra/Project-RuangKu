@@ -324,7 +324,7 @@ export function DashboardPenyediaPage() {
             </span>
             <div className="flex-1">
               <div className="flex flex-wrap items-center gap-2">
-                <h4 className="text-title-md font-bold text-on-surface">SOP Jeda Pembersihan Otomatis (FR-C6)</h4>
+                <h4 className="text-title-md font-bold text-on-surface">SOP Jeda Pembersihan Otomatis</h4>
                 <span className="rounded-full bg-primary/10 px-2 py-0.5 text-label-sm font-semibold text-primary">
                   Aktif Sistem
                 </span>

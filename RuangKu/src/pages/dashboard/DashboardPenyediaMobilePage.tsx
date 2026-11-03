@@ -284,7 +284,7 @@ export function DashboardPenyediaMobilePage() {
               Sistem RuangKu secara otomatis mengunci jeda 2 jam setelah setiap reservasi selesai untuk sterilisasi dan
               penataan ulang.
             </p>
-            <span className="text-label-sm font-medium text-primary">Standard Compliance FR-C6</span>
+            <span className="text-label-sm font-medium text-primary">Standard Compliance</span>
           </div>
         </div>
         <button
