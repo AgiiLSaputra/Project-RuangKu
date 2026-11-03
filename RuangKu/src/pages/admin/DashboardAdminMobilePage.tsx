@@ -342,7 +342,7 @@ export function DashboardAdminMobilePage() {
       <footer className="flex flex-col items-center justify-between gap-2 border-t border-purple-100 pt-4 text-slate-500">
         <span className="flex items-center gap-2 font-label-sm text-label-sm">
           <span className="h-2 w-2 rounded-full bg-status-available" />
-          RuangKu Admin v1.0 • Tersambung server (data real-time)
+          RuangKu Admin v1.0
         </span>
         <span className="flex items-center gap-3 font-label-sm text-label-sm">
           <span>Zona Waktu: WIB (UTC+7)</span>
