@@ -129,7 +129,7 @@ export function VerifikasiPenyediaMobilePage() {
         </div>
         <p className="text-body-sm leading-relaxed text-slate-500">
           Tinjau kelengkapan identitas fisik venue, keabsahan dokumen perizinan, dan titik
-          koordinat Google Maps sebelum penayangan etalase publik (SOP FR-G1).
+          koordinat Google Maps sebelum penayangan etalase publik.
         </p>
         <div className="flex items-center gap-space-sm rounded-2xl bg-purple-100 px-space-md py-2.5 shadow-sm">
           <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary text-white">

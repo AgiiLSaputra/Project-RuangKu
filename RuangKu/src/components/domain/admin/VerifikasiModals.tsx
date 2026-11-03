@@ -104,7 +104,7 @@ export function ModalPenolakan({ verif }: { verif: VerifikasiPenyedia }) {
                 Alasan Penolakan Verifikasi
               </span>
               <span className="text-body-sm text-slate-500">
-                Mitra menerima email otomatis untuk memperbaiki berkas (SOP FR-G1).
+                Mitra menerima email otomatis untuk memperbaiki berkas.
               </span>
             </span>
           </div>

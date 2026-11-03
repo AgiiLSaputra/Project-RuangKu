@@ -144,7 +144,7 @@ export function VerifikasiPenyediaPage() {
           </div>
           <p className="max-w-4xl text-body-md leading-relaxed text-slate-500">
             Tinjau kelengkapan identitas fisik venue, keabsahan dokumen perizinan, dan titik
-            koordinat Google Maps sebelum mengizinkan penayangan etalase publik (SOP FR-G1).
+            koordinat Google Maps sebelum mengizinkan penayangan etalase publik.
           </p>
         </div>
 
