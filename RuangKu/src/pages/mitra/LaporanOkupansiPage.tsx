@@ -488,7 +488,7 @@ export function LaporanOkupansiPage() {
               Data laporan disinkronkan secara realtime dengan audit log sistem. Penghitungan total
               jam terpesan dan tingkat okupansi murni berbasis durasi aktivitas sewa penyewa, serta secara
               otomatis mengecualikan jendela pembersihan &amp; penataan ruangan (buffer 2 jam) sesuai SOP
-              RuangKu (FR-C6).
+              RuangKu.
             </p>
           </div>
         </div>

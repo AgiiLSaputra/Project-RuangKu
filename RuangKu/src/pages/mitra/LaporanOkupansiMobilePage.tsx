@@ -465,7 +465,7 @@ export function LaporanOkupansiMobilePage() {
           </p>
           <p className="text-body-sm leading-relaxed text-slate-500">
             Data laporan disinkronkan realtime dengan audit log. Jam terpesan &amp; okupansi murni
-            berbasis durasi sewa penyewa dan mengecualikan buffer sterilisasi 2 jam sesuai SOP RuangKu (FR-C6).
+            berbasis durasi sewa penyewa dan mengecualikan buffer sterilisasi 2 jam sesuai SOP RuangKu.
           </p>
         </div>
       </div>
