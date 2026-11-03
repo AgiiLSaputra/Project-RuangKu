@@ -63,7 +63,7 @@ export function ModalFilterLaporan({ laporan }: { laporan: LaporanOkupansi }) {
           <Icon name="info" className="mt-0.5 shrink-0 text-[20px] text-primary" />
           <p className="text-body-sm leading-relaxed text-on-surface">
             Kartu metrik, grafik okupansi, tabel rincian, dan file ekspor hanya menampilkan ruangan
-            pada kategori terpilih (FR-I1).
+            pada kategori terpilih.
           </p>
         </div>
 
