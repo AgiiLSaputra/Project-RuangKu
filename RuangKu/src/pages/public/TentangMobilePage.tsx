@@ -89,7 +89,7 @@ export function TentangMobilePage() {
         </h1>
 
         <p className="mt-space-sm text-body-md leading-relaxed text-slate-500">
-          RuangKu adalah platform etalase dan reservasi ruangan/gedung berbasis kuota — menampilkan ketersediaan jadwal
+          RuangKu adalah platform etalase dan reservasi ruangan/gedung berbasis kuota, menampilkan ketersediaan jadwal
           secara real-time ke publik, dan mencatat reservasi tanpa risiko bentrok jadwal.
         </p>
 
