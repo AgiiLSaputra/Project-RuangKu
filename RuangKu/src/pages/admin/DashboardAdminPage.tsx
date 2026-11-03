@@ -269,7 +269,7 @@ export function DashboardAdminPage() {
                 </span>
               </div>
               <p className="text-body-sm text-slate-500">
-                Seluruh tindakan verifikasi penyedia (FR-G1), pemrosesan banding (FR-G3), dan
+                Seluruh tindakan verifikasi penyedia (FR-G1), pemrosesan banding, dan
                 penonaktifan akun (FR-G2) divalidasi server, sehingga status akun dan antrean selalu
                 tersinkron di seluruh halaman konsol admin.
               </p>
