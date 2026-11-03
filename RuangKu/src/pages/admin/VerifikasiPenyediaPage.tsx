@@ -321,7 +321,7 @@ export function VerifikasiPenyediaPage() {
                   </p>
                   <p className="mt-1 max-w-md text-body-sm text-slate-500">
                     Semua permohonan mitra sudah disetujui atau ditolak, dan setiap keputusan
-                    tercatat permanen di Audit Log.
+                    tercatat permanen di sistem.
                   </p>
                 </div>
                 <button

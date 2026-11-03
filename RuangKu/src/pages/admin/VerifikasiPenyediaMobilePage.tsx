@@ -295,7 +295,7 @@ export function VerifikasiPenyediaMobilePage() {
                 </p>
                 <p className="mt-1 text-body-sm leading-relaxed text-slate-500">
                   Semua permohonan mitra sudah disetujui atau ditolak, dan setiap keputusan tercatat
-                  permanen di Audit Log.
+                  permanen di sistem.
                 </p>
               </div>
               <button
