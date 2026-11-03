@@ -107,7 +107,7 @@ export function PengaturanPenyediaPage() {
                 <Icon name="draft" className="text-[28px] text-primary" />
                 <p className="mt-space-xs font-body-md text-body-md text-on-surface-variant">
                   Belum ada draf. Simpan lewat tombol <span className="font-semibold">Simpan sebagai Draft</span> di
-                  form Tambah Ruangan — maksimal {BATAS_DRAF} draf.
+                  form Tambah Ruangan, maksimal {BATAS_DRAF} draf.
                 </p>
               </div>
             ) : (
@@ -132,7 +132,7 @@ export function PengaturanPenyediaPage() {
                         </button>
                       </div>
                       <p className="mt-1 font-body-md text-body-md text-on-surface-variant">
-                        Langkah {d.langkah} dari 4 — {LABEL_LANGKAH[d.langkah - 1] ?? 'Informasi Ruangan'}
+                        Langkah {d.langkah} dari 4: {LABEL_LANGKAH[d.langkah - 1] ?? 'Informasi Ruangan'}
                       </p>
                       <div className="mt-space-xs h-2 w-full overflow-hidden rounded-full bg-purple-100">
                         <div
@@ -156,7 +156,7 @@ export function PengaturanPenyediaPage() {
                   ))}
                 </ul>
                 <p className="mt-space-sm font-label-sm leading-relaxed text-slate-500">
-                  Batas {BATAS_DRAF} draf — hapus salah satu kalau ingin menyimpan draf baru.
+                  Batas {BATAS_DRAF} draf, hapus salah satu kalau ingin menyimpan draf baru.
                 </p>
               </>
             )}

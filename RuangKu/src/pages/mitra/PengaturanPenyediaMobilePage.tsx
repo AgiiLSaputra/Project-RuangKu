@@ -93,7 +93,7 @@ export function PengaturanPenyediaMobilePage() {
             <Icon name="draft" className="text-[24px] text-primary" />
             <p className="mt-1 font-body-md text-body-md text-on-surface-variant">
               Belum ada draf. Simpan lewat tombol <span className="font-semibold">Simpan Draft</span> di form Tambah
-              Ruangan — maksimal {BATAS_DRAF} draf.
+              Ruangan, maksimal {BATAS_DRAF} draf.
             </p>
           </div>
         ) : (
@@ -115,7 +115,7 @@ export function PengaturanPenyediaMobilePage() {
                     </button>
                   </div>
                   <p className="mt-1 font-body-md text-body-md text-on-surface-variant">
-                    Langkah {d.langkah} dari 4 — {LABEL_LANGKAH[d.langkah - 1] ?? 'Informasi Ruangan'}
+                    Langkah {d.langkah} dari 4: {LABEL_LANGKAH[d.langkah - 1] ?? 'Informasi Ruangan'}
                   </p>
                   <div className="mt-1 h-2 w-full overflow-hidden rounded-full bg-purple-100">
                     <div className="h-full rounded-full bg-cta" style={{ width: `${(d.langkah / 4) * 100}%` }} />
@@ -136,7 +136,7 @@ export function PengaturanPenyediaMobilePage() {
               ))}
             </ul>
             <p className="mt-space-sm font-label-sm leading-relaxed text-slate-500">
-              Batas {BATAS_DRAF} draf — hapus salah satu kalau ingin menyimpan draf baru.
+              Batas {BATAS_DRAF} draf, hapus salah satu kalau ingin menyimpan draf baru.
             </p>
           </>
         )}
