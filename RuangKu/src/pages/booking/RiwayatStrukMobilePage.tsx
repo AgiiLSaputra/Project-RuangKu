@@ -82,11 +82,8 @@ export function RiwayatStrukMobilePage() {
               value={q}
               onChange={(e) => setQ(e.target.value)}
               placeholder="Cari kode booking / nama gedung..."
-              className="h-11 w-full rounded-full bg-surface-container-lowest pl-10 pr-16 font-body-sm text-body-sm text-on-surface shadow-[0_2px_10px_rgba(108,92,231,0.05)] transition-all placeholder:text-outline focus:shadow-[0_0_0_2px_rgba(108,92,231,0.3)] focus:outline-none"
+              className="h-11 w-full rounded-full bg-surface-container-lowest pl-10 pr-4 font-body-sm text-body-sm text-on-surface shadow-[0_2px_10px_rgba(108,92,231,0.05)] transition-all placeholder:text-outline focus:shadow-[0_0_0_2px_rgba(108,92,231,0.3)] focus:outline-none"
             />
-            <span className="absolute right-3 rounded-md bg-purple-50 px-2 py-0.5 font-label-sm font-mono text-label-sm text-slate-500">
-              {terlihat.length} Struk
-            </span>
           </div>
         </div>
 

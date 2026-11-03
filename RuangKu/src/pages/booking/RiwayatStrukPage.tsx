@@ -82,9 +82,6 @@ export function RiwayatStrukPage() {
                 className="w-full bg-transparent font-body-sm font-medium text-on-surface placeholder:text-slate-500 focus:outline-none"
               />
             </div>
-            <span className="rounded-md bg-purple-50 px-2 py-0.5 font-label-sm font-mono text-label-sm text-slate-500">
-              {terlihat.length} Struk
-            </span>
           </div>
 
           <div className="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3">
