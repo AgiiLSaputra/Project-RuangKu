@@ -254,7 +254,7 @@ export function DashboardAdminMobilePage() {
         </div>
         <p className="text-body-sm leading-relaxed text-slate-500">
           Seluruh tindakan verifikasi penyedia, pemrosesan banding, dan penonaktifan
-          akun (FR-G2) divalidasi server, sehingga status akun dan antrean selalu tersinkron di konsol admin.
+          akun divalidasi server, sehingga status akun dan antrean selalu tersinkron di konsol admin.
         </p>
         <span className="flex items-center gap-1.5 font-label-sm text-label-sm text-slate-500">
           <span className="h-2 w-2 rounded-full bg-status-available" />

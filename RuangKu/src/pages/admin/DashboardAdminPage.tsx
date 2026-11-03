@@ -270,7 +270,7 @@ export function DashboardAdminPage() {
               </div>
               <p className="text-body-sm text-slate-500">
                 Seluruh tindakan verifikasi penyedia, pemrosesan banding, dan
-                penonaktifan akun (FR-G2) divalidasi server, sehingga status akun dan antrean selalu
+                penonaktifan akun divalidasi server, sehingga status akun dan antrean selalu
                 tersinkron di seluruh halaman konsol admin.
               </p>
             </div>
