@@ -155,7 +155,7 @@ export function KelolaReservasiMobilePage() {
       nilai: `${kelola.jumlahStatus.approved} Booking`,
       nilaiKelas: 'text-on-surface',
       sub: 'Approved / Terjadwal',
-      kaki: 'Jeda sterilisasi otomatis 2 jam terkunci rapi (FR-C6).',
+      kaki: 'Jeda sterilisasi otomatis 2 jam terkunci rapi.',
     },
     {
       eyebrow: 'Kinerja Keuangan',
@@ -488,7 +488,7 @@ export function KelolaReservasiMobilePage() {
         <div>
           <p className="font-title-md text-title-md text-on-surface">Aturan Operasional Reservasi</p>
           <p className="mt-0.5 font-body-sm text-body-sm text-on-surface-variant">
-            Persetujuan mengunci slot &amp; menjadwalkan sterilisasi 2 jam (FR-C6). Pembatalan melepas slot kembali
+            Persetujuan mengunci slot &amp; menjadwalkan sterilisasi 2 jam. Pembatalan melepas slot kembali
             ke etalase publik.
           </p>
           <div className="mt-1.5 flex items-center gap-space-sm font-label-sm text-label-sm text-slate-500">

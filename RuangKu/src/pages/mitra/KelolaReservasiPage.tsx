@@ -154,7 +154,7 @@ export function KelolaReservasiPage() {
       kaki: (
         <span className="flex items-center gap-1.5 text-status-available">
           <Icon name="sanitizer" className="text-[16px]" />
-          <span>Jeda sterilisasi otomatis 2 jam terkunci (FR-C6).</span>
+          <span>Jeda sterilisasi otomatis 2 jam terkunci.</span>
         </span>
       ),
     },
@@ -547,7 +547,7 @@ export function KelolaReservasiPage() {
             <div>
               <p className="font-title-md text-title-md text-on-surface">Aturan Operasional Reservasi</p>
               <p className="mt-0.5 max-w-3xl font-body-sm text-body-sm text-on-surface-variant">
-                Setiap persetujuan otomatis mengunci slot, menjadwalkan jeda sterilisasi 2 jam (FR-C6), dan
+                Setiap persetujuan otomatis mengunci slot, menjadwalkan jeda sterilisasi 2 jam, dan
                 mengirim notifikasi WhatsApp ke penyewa. Pembatalan melepas slot kembali ke etalase publik.
               </p>
             </div>
