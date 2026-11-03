@@ -295,7 +295,7 @@ export function VerifikasiPenyediaMobilePage() {
                 </p>
                 <p className="mt-1 text-body-sm leading-relaxed text-slate-500">
                   Semua permohonan mitra sudah disetujui atau ditolak, dan setiap keputusan tercatat
-                  permanen di Audit Log (FR-I1).
+                  permanen di Audit Log.
                 </p>
               </div>
               <button
@@ -616,7 +616,7 @@ export function VerifikasiPenyediaMobilePage() {
                 </span>
                 <span className="flex flex-col gap-0.5">
                   <span className="font-title-md text-title-md font-semibold text-on-surface">
-                    Integritas Audit Log Terenkripsi (FR-I1)
+                    Integritas Audit Log Terenkripsi
                   </span>
                   <span className="text-body-sm leading-relaxed text-slate-500">
                     Seluruh persetujuan dan penolakan dicatat permanen di Audit Log terenkripsi

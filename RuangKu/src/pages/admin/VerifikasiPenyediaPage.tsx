@@ -321,7 +321,7 @@ export function VerifikasiPenyediaPage() {
                   </p>
                   <p className="mt-1 max-w-md text-body-sm text-slate-500">
                     Semua permohonan mitra sudah disetujui atau ditolak, dan setiap keputusan
-                    tercatat permanen di Audit Log (FR-I1).
+                    tercatat permanen di Audit Log.
                   </p>
                 </div>
                 <button
@@ -688,7 +688,7 @@ export function VerifikasiPenyediaPage() {
                   </span>
                   <span className="flex flex-col gap-0.5">
                     <span className="font-title-md text-title-md font-semibold text-on-surface">
-                      Integritas Audit Log Terenkripsi (FR-I1)
+                      Integritas Audit Log Terenkripsi
                     </span>
                     <span className="text-body-sm leading-relaxed text-slate-500">
                       Seluruh tindakan persetujuan dan penolakan dicatat permanen di Audit Log
