@@ -485,7 +485,7 @@ export function LaporanOkupansiPage() {
               Catatan Sinkronisasi Sistem &amp; Kebijakan Audit
             </p>
             <p className="text-body-sm leading-relaxed text-slate-500">
-              Data laporan disinkronkan secara realtime dengan audit log sistem (FR-I1). Penghitungan total
+              Data laporan disinkronkan secara realtime dengan audit log sistem. Penghitungan total
               jam terpesan dan tingkat okupansi murni berbasis durasi aktivitas sewa penyewa, serta secara
               otomatis mengecualikan jendela pembersihan &amp; penataan ruangan (buffer 2 jam) sesuai SOP
               RuangKu (FR-C6).
