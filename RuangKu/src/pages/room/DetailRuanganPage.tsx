@@ -471,27 +471,25 @@ export function DetailRuanganPage() {
                 </span>
               </div>
 
-              <div className="grid grid-cols-1 gap-space-sm pt-space-xs md:grid-cols-3">
+              <div className="flex flex-col gap-space-sm pt-space-xs">
                 {slots.map((s) => {
                   const kelas = KELAS_STATUS[s.status];
                   return (
                     <div
                       key={s.rentang}
-                      className={`flex flex-col gap-1 rounded p-space-sm ${kelas.panel}`}
+                      className={`flex flex-wrap items-center gap-x-3 gap-y-1 rounded p-space-sm ${kelas.panel}`}
                     >
-                      <div className="flex items-center justify-between gap-2">
-                        <span
-                          className={`font-label-md text-label-md font-semibold ${kelas.teks}`}
-                        >
-                          {s.rentang}
-                        </span>
-                        <span
-                          className={`rounded-full px-2 py-0.5 font-label-sm text-label-sm font-bold ${kelas.badge}`}
-                        >
-                          {s.label}
-                        </span>
-                      </div>
-                      <span className="text-body-sm text-slate-500">
+                      <span
+                        className={`shrink-0 whitespace-nowrap font-label-md text-label-md font-semibold ${kelas.teks}`}
+                      >
+                        {s.rentang}
+                      </span>
+                      <span
+                        className={`shrink-0 whitespace-nowrap rounded-full px-2 py-0.5 font-label-sm text-label-sm font-bold ${kelas.badge}`}
+                      >
+                        {s.label}
+                      </span>
+                      <span className="min-w-0 flex-1 text-body-sm text-slate-500">
                         {s.ket}
                       </span>
                     </div>
@@ -623,9 +621,9 @@ export function DetailRuanganPage() {
               <div className="flex items-center gap-2">
                 <Icon
                   name="verified"
-                  className="text-[18px] text-status-available"
+                  className="shrink-0 text-[18px] text-status-available"
                 />
-                <span>Jeda sterilisasi 2 jam otomatis dihitung</span>
+                <span className="whitespace-nowrap">Jeda sterilisasi 2 jam otomatis</span>
               </div>
             </div>
 

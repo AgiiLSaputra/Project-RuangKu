@@ -520,12 +520,12 @@ export function DetailRuanganMobilePage() {
                         className={`flex-shrink-0 text-[18px] ${kelas.teks}`}
                       />
                       <div className="min-w-0">
-                        <span className={`font-semibold ${kelas.teks}`}>{s.rentang}</span>
+                        <span className={`block whitespace-nowrap font-semibold ${kelas.teks}`}>{s.rentang}</span>
                         <p className="truncate text-xs text-on-surface-variant">{s.ket}</p>
                       </div>
                     </div>
                     <span
-                      className={`flex-shrink-0 rounded-full bg-white px-2 py-0.5 font-label-sm text-label-sm font-semibold ${kelas.teks}`}
+                      className={`flex-shrink-0 whitespace-nowrap rounded-full bg-white px-2 py-0.5 font-label-sm text-label-sm font-semibold ${kelas.teks}`}
                     >
                       {s.label}
                     </span>
