@@ -18,6 +18,7 @@ import {
 import { Button } from "../../components/ui/Button";
 import { Icon } from "../../components/ui/Icon";
 import { SortSelect } from "../../components/ui/SortSelect";
+import { SelectKustom } from "../../components/ui/SelectKustom";
 import {
   CITIES,
   KATEGORI_FILTER,
@@ -219,26 +220,15 @@ export function CariRuanganPage() {
             <label className="font-title-md text-title-md text-on-surface">
               Wilayah / Kota
             </label>
-            <div className="relative">
-              <select
-                value={draf.kota}
-                onChange={(e) =>
-                  setDraf((d) => ({ ...d, kota: e.target.value }))
-                }
-                className="h-11 w-full cursor-pointer appearance-none rounded-full bg-purple-50 px-space-md pr-10 text-body-md text-on-surface outline-none"
-              >
-                <option value="semua">Semua Kota ({CITIES.join(", ")})</option>
-                {CITIES.map((c) => (
-                  <option key={c} value={c}>
-                    {c}
-                  </option>
-                ))}
-              </select>
-              <Icon
-                name="expand_more"
-                className="pointer-events-none absolute right-3 top-2.5 text-[20px] text-slate-500"
-              />
-            </div>
+            <SelectKustom
+              label="Wilayah / Kota"
+              value={draf.kota}
+              onChange={(kota) => setDraf((d) => ({ ...d, kota }))}
+              ops={[
+                { nilai: "semua", label: `Semua Kota (${CITIES.join(", ")})` },
+                ...CITIES.map((c) => ({ nilai: c, label: c })),
+              ]}
+            />
           </div>
 
           {/* 2. Kapasitas Peserta */}
