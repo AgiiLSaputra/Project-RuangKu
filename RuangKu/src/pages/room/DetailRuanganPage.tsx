@@ -174,9 +174,6 @@ export function DetailRuanganPage() {
                   Foto Resmi Terverifikasi
                 </span>
               </div>
-              <div className="absolute bottom-space-md right-space-md rounded-full bg-inverse-surface/80 px-3 py-1 font-label-sm text-label-sm text-inverse-on-surface backdrop-blur-sm">
-                5 Foto Eksklusif
-              </div>
             </div>
 
             {/* Thumbnail — klik mengganti foto utama */}
