@@ -359,9 +359,6 @@ export function DetailRuanganMobilePage() {
       <div className="mt-space-lg px-margin">
         <div className="mb-space-sm flex items-center justify-between">
           <h2 className="font-headline-sm text-headline-sm text-on-surface">Fasilitas Termasuk</h2>
-          <span className="font-label-sm text-label-sm font-semibold text-primary">
-            {ruangan.fasilitas.length} Fasilitas Unggulan
-          </span>
         </div>
         <div className="grid grid-cols-2 gap-space-sm">
           {ruangan.fasilitas.map((f, i) => (

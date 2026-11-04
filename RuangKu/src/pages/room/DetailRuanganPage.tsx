@@ -281,9 +281,6 @@ export function DetailRuanganPage() {
               <h2 className="font-title-md text-title-md text-on-surface">
                 Fasilitas Standar Termasuk
               </h2>
-              <span className="text-body-sm text-slate-500">
-                {ruangan.fasilitas.length} Fasilitas Unggulan
-              </span>
             </div>
             <div className="flex flex-wrap gap-2.5 pt-space-xs">
               {ruangan.fasilitas.map((f) => (
