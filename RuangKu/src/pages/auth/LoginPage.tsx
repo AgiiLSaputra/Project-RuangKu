@@ -95,7 +95,7 @@ async function handleSubmit(event: FormEvent<HTMLFormElement>) {
       <header className="fixed inset-x-0 top-0 z-50 w-full bg-purple-50/75 shadow-card backdrop-blur-xl">
         <div className="mx-auto flex h-16 w-full max-w-7xl items-center justify-between px-margin lg:px-margin-desktop">
           <Link to="/" aria-label="RuangKu beranda">
-            <Logo withWordmark={false} />
+            <Logo />
           </Link>
           <nav className="hidden items-center gap-space-lg sm:flex">
             <Link
