@@ -534,7 +534,7 @@ export function VerifikasiPenyediaMobilePage() {
                       </span>
                     </div>
                     <p className="text-body-sm leading-relaxed text-on-surface-variant">
-                      {m.dokumen.jenis} terintegrasi OSS — berlaku hingga {m.dokumen.berlaku}.
+                      {m.dokumen.jenis} terintegrasi OSS, berlaku hingga {m.dokumen.berlaku}.
                     </p>
                     <div className="flex items-center gap-3 rounded-xl bg-surface-container-lowest p-3 shadow-sm">
                       <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-pink-100 text-secondary">

@@ -588,7 +588,7 @@ export function VerifikasiPenyediaPage() {
                           </span>
                         </div>
                         <p className="text-body-sm leading-relaxed text-on-surface-variant">
-                          {m.dokumen.jenis} terintegrasi OSS — terbit {m.dokumen.terbit}, berlaku
+                          {m.dokumen.jenis} terintegrasi OSS, terbit {m.dokumen.terbit}, berlaku
                           hingga {m.dokumen.berlaku}.
                         </p>
                         <div className="flex items-center gap-3 rounded-xl bg-surface-container-lowest p-3 shadow-sm">
