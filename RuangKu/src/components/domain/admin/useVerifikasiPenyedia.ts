@@ -142,7 +142,7 @@ function dariBarisApi(b: BarisVerifikasiApi): MitraVerifikasi {
     email: b.pemohon.email,
     wa: { tampil: '—', nomor: '—' },
     foto: [],
-    maps: { alamat: '—', koordinat: '—', placeId: '—', tempat: b.venue },
+    maps: { alamat: '', koordinat: '', placeId: '', tempat: b.venue },
     dokumen: {
       nama: '—',
       ukuran: '—',
@@ -198,9 +198,9 @@ function gabungDetail(before: MitraVerifikasi, d: DetailVerifikasiApi): MitraVer
       meta: f.meta ?? undefined,
     })),
     maps: {
-      alamat: d.alamat || '—',
-      koordinat: d.koordinat || '—',
-      placeId: d.placeId || '—',
+      alamat: d.alamat || '',
+      koordinat: d.koordinat || '',
+      placeId: d.placeId || '',
       tempat: d.tempat || d.venue,
     },
     dokumen: dok,
