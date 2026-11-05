@@ -687,7 +687,7 @@ export function VerifikasiPenyediaPage() {
               <div className="sticky bottom-0 z-20 flex flex-col justify-between gap-space-md border-t border-purple-100 bg-surface-container-lowest/95 px-space-lg py-space-md shadow-lg backdrop-blur-md sm:flex-row sm:items-center">
                 <span className="flex flex-col">
                   <span className="font-title-md text-title-md font-semibold text-on-surface">
-                    Keputusan Verifikasi Akun Mitra (FR-G1)
+                    Keputusan Verifikasi Akun Mitra
                   </span>
                   <span className="text-body-sm text-slate-500">
                     Pastikan seluruh bukti fisik gedung dan koordinat telah terkonfirmasi.

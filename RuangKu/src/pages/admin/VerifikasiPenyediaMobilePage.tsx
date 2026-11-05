@@ -613,7 +613,7 @@ export function VerifikasiPenyediaMobilePage() {
             {/* Bar aksi keputusan (sticky) */}
             <div className="sticky bottom-0 z-20 flex flex-col gap-space-sm border-t border-purple-100 bg-surface-container-lowest/95 px-space-md py-space-md shadow-lg backdrop-blur-md">
               <span className="font-title-md text-title-md font-semibold text-on-surface">
-                Keputusan Verifikasi (FR-G1)
+                Keputusan Verifikasi
               </span>
               <div className="flex flex-col gap-space-sm sm:flex-row">
                 <button
