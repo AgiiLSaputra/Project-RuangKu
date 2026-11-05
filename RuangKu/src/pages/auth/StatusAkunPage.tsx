@@ -629,10 +629,6 @@ export function StatusAkunPage() {
                   </span>
                 </span>
                 <span className="flex items-center gap-4">
-                  <Link to="/syarat-ketentuan" className="transition-colors hover:text-primary">
-                    Pedoman Komunitas
-                  </Link>
-                  <span>•</span>
                   <span>SLA Peninjauan Banding (1x24 Jam)</span>
                 </span>
               </div>
