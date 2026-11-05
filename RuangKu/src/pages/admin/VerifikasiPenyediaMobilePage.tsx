@@ -471,17 +471,6 @@ export function VerifikasiPenyediaMobilePage() {
                         </span>
                       </span>
                     </div>
-                    <p className="text-body-sm leading-relaxed text-on-surface-variant">
-                      {m.maps.alamat}
-                    </p>
-                    <div className="flex flex-col gap-1 rounded-xl bg-surface-container-lowest p-2.5 font-label-sm text-slate-500">
-                      <span className="flex items-center justify-between gap-2">
-                        Titik Koordinat GPS:
-                        <span className="font-label-md font-semibold text-on-surface">
-                          {m.maps.koordinat}
-                        </span>
-                      </span>
-                    </div>
                   </div>
                   <div className="relative flex h-28 items-center justify-center overflow-hidden rounded-xl bg-surface-container-high shadow-sm">
                     <span className="absolute inset-0 bg-primary/5" aria-hidden />
@@ -518,7 +507,7 @@ export function VerifikasiPenyediaMobilePage() {
                       </span>
                     </div>
                     <p className="text-body-sm leading-relaxed text-on-surface-variant">
-                      {m.dokumen.jenis} terintegrasi OSS, berlaku hingga {m.dokumen.berlaku}.
+                      {`${m.dokumen.jenis} terintegrasi OSS${m.dokumen.berlaku ? `, berlaku hingga ${m.dokumen.berlaku}` : ''}.`}
                     </p>
                     <div className="flex items-center gap-3 rounded-xl bg-surface-container-lowest p-3 shadow-sm">
                       <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-pink-100 text-secondary">

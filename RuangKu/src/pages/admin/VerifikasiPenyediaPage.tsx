@@ -523,17 +523,6 @@ export function VerifikasiPenyediaPage() {
                             </span>
                           </span>
                         </div>
-                        <p className="text-body-sm leading-relaxed text-on-surface-variant">
-                          {m.maps.alamat}
-                        </p>
-                        <div className="flex flex-col gap-1 rounded-xl bg-surface-container-lowest p-2.5 font-label-sm text-label-sm text-slate-500">
-                          <div className="flex items-center justify-between gap-2">
-                            <span>Titik Koordinat GPS:</span>
-                            <span className="font-label-md font-semibold text-on-surface">
-                              {m.maps.koordinat}
-                            </span>
-                          </div>
-                        </div>
                       </div>
                       {/* Pratinjau peta statis */}
                       <div className="relative flex h-32 items-center justify-center overflow-hidden rounded-xl bg-surface-container-high shadow-sm">
@@ -572,8 +561,7 @@ export function VerifikasiPenyediaPage() {
                           </span>
                         </div>
                         <p className="text-body-sm leading-relaxed text-on-surface-variant">
-                          {m.dokumen.jenis} terintegrasi OSS, terbit {m.dokumen.terbit}, berlaku
-                          hingga {m.dokumen.berlaku}.
+                          {`${m.dokumen.jenis} terintegrasi OSS${m.dokumen.terbit ? `, terbit ${m.dokumen.terbit}` : ''}${m.dokumen.berlaku ? `, berlaku hingga ${m.dokumen.berlaku}` : ''}.`}
                         </p>
                         <div className="flex items-center gap-3 rounded-xl bg-surface-container-lowest p-3 shadow-sm">
                           <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-pink-100 text-secondary">
