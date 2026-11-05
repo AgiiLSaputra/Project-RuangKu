@@ -199,7 +199,7 @@ export function StatusAkunMobilePage() {
       <header className="fixed inset-x-0 top-0 z-50 w-full bg-surface/80 shadow-card backdrop-blur-xl [padding-top:env(safe-area-inset-top)]">
         <div className="flex h-16 items-center justify-between gap-space-sm px-margin">
           <Link to="/" aria-label="RuangKu beranda">
-            <Logo withWordmark={false} />
+            <Logo size="sm" />
           </Link>
           <button
             type="button"

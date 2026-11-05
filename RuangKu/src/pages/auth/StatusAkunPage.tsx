@@ -248,7 +248,7 @@ export function StatusAkunPage() {
         <div className="mx-auto flex h-16 w-full max-w-[1280px] items-center justify-between px-gutter lg:px-gutter-desktop">
           <div className="flex items-center gap-4">
             <Link to="/" aria-label="RuangKu beranda">
-              <Logo withWordmark={false} />
+              <Logo />
             </Link>
             <span className="flex items-center gap-2 rounded-full bg-purple-100 px-3 py-1.5 font-label-md text-label-md text-slate-500">
               <span className="h-2 w-2 rounded-full bg-slate-300" />
