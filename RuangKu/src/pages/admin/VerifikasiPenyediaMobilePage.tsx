@@ -363,7 +363,7 @@ export function VerifikasiPenyediaMobilePage() {
                   {
                     label: 'WhatsApp Operasional',
                     nilai: m.wa.tampil,
-                    kaki: 'Aktif • Terhubung API',
+                    kaki: 'Aktif',
                     mono: true,
                   },
                 ].map((kartu) => (
@@ -473,9 +473,6 @@ export function VerifikasiPenyediaMobilePage() {
                         <span className="font-title-md text-title-md font-semibold text-on-surface">
                           Tautan Maps Terverifikasi
                         </span>
-                      </span>
-                      <span className="shrink-0 rounded-full bg-status-available-bg px-2 py-0.5 font-label-sm font-semibold text-status-available">
-                        Terhubung API
                       </span>
                     </div>
                     <p className="text-body-sm leading-relaxed text-on-surface-variant">
