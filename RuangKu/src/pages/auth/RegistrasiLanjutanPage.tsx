@@ -76,7 +76,7 @@ export function RegistrasiLanjutanPage() {
       errs.wa = "Nomor WhatsApp belum lengkap.";
     if (!file) errs.file = "Foto gedung wajib diunggah.";
     else if (file.size > 2 * 1024 * 1024)
-      errs.file = "Ukuran foto maksimal 2 MB (FR-A9).";
+      errs.file = "Ukuran foto maksimal 2 MB.";
     if (metode === "maps") {
       if (!mapsUrl.trim()) errs.maps = "Tautan Google Maps wajib diisi.";
       else if (!ujiTautan())
@@ -85,7 +85,7 @@ export function RegistrasiLanjutanPage() {
       errs.dokumen =
         "Gedung belum terdaftar Maps — unggah dokumen pendukung (FR-A5).";
     } else if (dokumen.size > 2 * 1024 * 1024) {
-      errs.dokumen = "Ukuran dokumen maksimal 2 MB (FR-A9).";
+      errs.dokumen = "Ukuran dokumen maksimal 2 MB.";
     }
     setErrors(errs);
     if (Object.keys(errs).length > 0 || loading) return;
@@ -346,8 +346,7 @@ export function RegistrasiLanjutanPage() {
                       </span>
                     </p>
                     <span className="mt-space-xs font-label-sm text-label-sm text-slate-500">
-                      Format: JPG, PNG, atau PDF. Ukuran maksimal 2 MB (otomatis
-                      dikompresi sesuai FR-A9).
+                      Format: JPG, PNG, atau PDF. Ukuran maksimal 2 MB.
                     </span>
                   </div>
 
