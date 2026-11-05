@@ -526,9 +526,6 @@ export function VerifikasiPenyediaMobilePage() {
                           Sertifikat &amp; Izin Usaha
                         </span>
                       </span>
-                      <span className="shrink-0 rounded-full bg-purple-100 px-2 py-0.5 font-label-sm font-semibold text-primary">
-                        Dokumen Sah
-                      </span>
                     </div>
                     <p className="text-body-sm leading-relaxed text-on-surface-variant">
                       {m.dokumen.jenis} terintegrasi OSS, berlaku hingga {m.dokumen.berlaku}.
