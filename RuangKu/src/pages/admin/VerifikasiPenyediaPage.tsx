@@ -348,7 +348,7 @@ export function VerifikasiPenyediaPage() {
                         {m.nama}
                       </h2>
                       <span className="rounded-full bg-status-occupied-bg px-2.5 py-0.5 font-label-sm text-label-sm font-semibold text-status-occupied">
-                        Menunggu Verifikasi (FR-A4)
+                        Menunggu Verifikasi
                       </span>
                     </div>
                     <div className="flex flex-wrap items-center gap-2 text-body-sm text-slate-500">

@@ -321,7 +321,7 @@ export function VerifikasiPenyediaMobilePage() {
                 </h2>
                 <div className="flex flex-wrap gap-1.5">
                   <span className="rounded-full bg-status-occupied-bg px-2.5 py-0.5 font-label-sm font-semibold text-status-occupied">
-                    Menunggu Verifikasi (FR-A4)
+                    Menunggu Verifikasi
                   </span>
                 </div>
                 <div className="flex flex-wrap items-center gap-1.5 text-body-sm text-slate-500">
