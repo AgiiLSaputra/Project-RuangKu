@@ -440,7 +440,7 @@ export function VerifikasiPenyediaPage() {
                     <JudulSeksi
                       nomor="1"
                       judul="Bukti Fisik Bangunan & Gedung"
-                      deskripsi="Verifikasi visual keaslian fasilitas, tata ruang, dan pencahayaan (FR-A5, FR-A9)"
+                      deskripsi="Verifikasi visual keaslian fasilitas, tata ruang, dan pencahayaan"
                     />
                     <span className="shrink-0 rounded-full bg-purple-100 px-2.5 py-1 font-label-sm font-semibold text-primary">
                       {m.foto.length} Foto Berkas Diajukan
@@ -511,7 +511,7 @@ export function VerifikasiPenyediaPage() {
                   <JudulSeksi
                     nomor="2"
                     judul="Validasi Kelayakan Lokasi & Dokumen Perizinan"
-                    deskripsi="Tautan Google Maps terverifikasi wajib ada jika tanpa berkas dokumen fisik perizinan (FR-A5)"
+                    deskripsi="Tautan Google Maps terverifikasi wajib ada jika tanpa berkas dokumen fisik perizinan"
                   />
                   <div className="grid grid-cols-1 gap-space-md md:grid-cols-2">
                     {/* Kartu Google Maps */}
