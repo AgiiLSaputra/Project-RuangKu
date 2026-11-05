@@ -320,10 +320,6 @@ export function VerifikasiPenyediaMobilePage() {
                   {m.nama}
                 </h2>
                 <div className="flex flex-wrap gap-1.5">
-                  <span className="inline-flex items-center gap-1 rounded-full bg-status-available-bg px-2.5 py-0.5 font-label-sm font-semibold text-status-available">
-                    <Icon name="verified" className="text-[14px]" />
-                    Email Terverifikasi
-                  </span>
                   <span className="rounded-full bg-status-occupied-bg px-2.5 py-0.5 font-label-sm font-semibold text-status-occupied">
                     Menunggu Verifikasi (FR-A4)
                   </span>
