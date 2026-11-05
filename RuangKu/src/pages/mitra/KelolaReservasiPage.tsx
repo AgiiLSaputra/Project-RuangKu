@@ -212,7 +212,7 @@ export function KelolaReservasiPage() {
               </div>
               <p className="mt-1 max-w-3xl font-body-md text-body-md text-slate-500">
                 Tinjau bukti pembayaran di luar sistem, konfirmasi jadwal, atau perbarui status pemesanan sesuai
-                aturan SOP RuangKu (FR-F3 &amp; FR-C13).
+                aturan SOP RuangKu.
               </p>
             </div>
 

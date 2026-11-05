@@ -185,7 +185,7 @@ export function KelolaReservasiMobilePage() {
         </div>
         <p className="font-body-sm leading-relaxed text-body-sm text-on-surface-variant">
           Tinjau bukti pembayaran transfer di luar sistem, konfirmasi jadwal, atau perbarui status pemesanan sesuai
-          SOP RuangKu (FR-F3 &amp; FR-C13).
+          SOP RuangKu.
         </p>
         <div className="flex items-center gap-space-sm pt-1">
           <button
