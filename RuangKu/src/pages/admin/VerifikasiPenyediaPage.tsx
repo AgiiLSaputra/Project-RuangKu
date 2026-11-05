@@ -533,12 +533,6 @@ export function VerifikasiPenyediaPage() {
                               {m.maps.koordinat}
                             </span>
                           </div>
-                          <div className="flex items-center justify-between gap-2">
-                            <span>Place ID Verified:</span>
-                            <span className="truncate font-label-md font-semibold text-primary">
-                              {m.maps.placeId}
-                            </span>
-                          </div>
                         </div>
                       </div>
                       {/* Pratinjau peta statis */}

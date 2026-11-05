@@ -481,12 +481,6 @@ export function VerifikasiPenyediaMobilePage() {
                           {m.maps.koordinat}
                         </span>
                       </span>
-                      <span className="flex items-center justify-between gap-2">
-                        Place ID Verified:
-                        <span className="truncate font-label-md font-semibold text-primary">
-                          {m.maps.placeId}
-                        </span>
-                      </span>
                     </div>
                   </div>
                   <div className="relative flex h-28 items-center justify-center overflow-hidden rounded-xl bg-surface-container-high shadow-sm">
