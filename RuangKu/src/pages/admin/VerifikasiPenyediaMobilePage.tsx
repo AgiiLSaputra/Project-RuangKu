@@ -565,7 +565,7 @@ export function VerifikasiPenyediaMobilePage() {
                     },
                     { label: 'Jam Operasional', nilai: m.rangkuman.jam, kaki: m.rangkuman.jamSub },
                     {
-                      label: 'Jeda Sterilisasi (FR-C6)',
+                      label: 'Jeda Sterilisasi',
                       nilai: m.rangkuman.jeda,
                       kaki: 'Otomatis terkunci',
                       hijau: true,

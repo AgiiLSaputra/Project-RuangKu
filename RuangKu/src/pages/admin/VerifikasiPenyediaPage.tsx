@@ -635,7 +635,7 @@ export function VerifikasiPenyediaPage() {
                         nilaiKelas: 'text-on-surface',
                       },
                       {
-                        label: 'Jeda Sterilisasi (FR-C6)',
+                        label: 'Jeda Sterilisasi',
                         nilai: m.rangkuman.jeda,
                         kaki: 'Otomatis terkunci sistem',
                         nilaiKelas: 'text-status-available',
