@@ -395,7 +395,7 @@ export function VerifikasiPenyediaPage() {
                       ikonKaki: 'check_circle',
                     },
                     {
-                      label: 'WhatsApp Operasional (FR-A6)',
+                      label: 'WhatsApp Operasional',
                       nilai: m.wa.tampil,
                       kaki: 'Aktif • Terhubung API',
                       kakiKelas: 'text-slate-500',

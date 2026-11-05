@@ -361,7 +361,7 @@ export function VerifikasiPenyediaMobilePage() {
                     mono: false,
                   },
                   {
-                    label: 'WhatsApp Operasional (FR-A6)',
+                    label: 'WhatsApp Operasional',
                     nilai: m.wa.tampil,
                     kaki: 'Aktif • Terhubung API',
                     mono: true,
