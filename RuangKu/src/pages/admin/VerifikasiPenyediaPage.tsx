@@ -584,7 +584,7 @@ export function VerifikasiPenyediaPage() {
                               {m.dokumen.nama}
                             </span>
                             <span className="font-label-sm text-slate-500">
-                              {m.dokumen.ukuran} • {m.dokumen.meta}
+                              {m.dokumen.ukuran} {m.dokumen.meta}
                             </span>
                           </span>
                         </div>
