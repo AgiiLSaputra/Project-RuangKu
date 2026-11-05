@@ -80,10 +80,10 @@ export function RegistrasiLanjutanPage() {
     if (metode === "maps") {
       if (!mapsUrl.trim()) errs.maps = "Tautan Google Maps wajib diisi.";
       else if (!ujiTautan())
-        errs.maps = "Tautan tidak valid — periksa kembali URL Google Maps.";
+        errs.maps = "Tautan tidak valid, periksa kembali URL Google Maps.";
     } else if (!dokumen) {
       errs.dokumen =
-        "Gedung belum terdaftar Maps — unggah dokumen pendukung (FR-A5).";
+        "Gedung belum terdaftar Maps, unggah dokumen pendukung (FR-A5).";
     } else if (dokumen.size > 2 * 1024 * 1024) {
       errs.dokumen = "Ukuran dokumen maksimal 2 MB.";
     }
@@ -531,8 +531,8 @@ export function RegistrasiLanjutanPage() {
                         />
                         <span className="flex flex-col">
                           <span className="font-title-md text-title-md text-on-surface">
-                            Gedung belum terdaftar di Google Maps — Unggah
-                            Dokumen Pendukung
+                            Gedung belum terdaftar di Google Maps, unggah
+                            dokumen pendukung
                           </span>
                           <span className="mt-0.5 text-body-sm text-slate-500">
                             Gunakan opsi ini jika gedung baru beroperasi atau

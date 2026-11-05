@@ -58,7 +58,7 @@ export function RegistrasiLanjutanMobilePage() {
     if (!file) errs.file = 'Foto gedung wajib diunggah.'
     if (metode === 'maps') {
       if (!mapsUrl.trim()) errs.maps = 'Tautan Google Maps wajib diisi.'
-      else if (!ujiTautan()) errs.maps = 'Tautan tidak valid — periksa kembali URL Google Maps.'
+      else if (!ujiTautan()) errs.maps = 'Tautan tidak valid, periksa kembali URL Google Maps.'
     }
     setErrors(errs)
     if (Object.keys(errs).length > 0 || loading) return
