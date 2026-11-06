@@ -395,21 +395,6 @@ export function PanelAkun({ admin, onTutup }: { admin: ManajemenAkun; onTutup?: 
           <Icon name="delete_forever" className="text-[18px]" />
           Konfirmasi Penonaktifan Permanen
         </button>
-
-        {/* Kaki: jejak audit */}
-        <div className="flex items-center justify-end gap-space-sm border-t border-purple-50 pt-space-md">
-          <button
-            type="button"
-            onClick={() => admin.setAuditBuka(true)}
-            className="group inline-flex items-center gap-1 font-title-md text-body-sm font-semibold text-primary transition-colors hover:text-purple-700"
-          >
-            Lihat Audit Trail
-            <Icon
-              name="arrow_forward"
-              className="text-[16px] transition-transform group-hover:translate-x-0.5"
-            />
-          </button>
-        </div>
       </div>
     </div>
   )
