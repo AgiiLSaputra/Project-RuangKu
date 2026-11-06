@@ -376,7 +376,7 @@ export function PanelAkun({ admin, onTutup }: { admin: ManajemenAkun; onTutup?: 
                 Tidak ada banding aktif
               </span>
               <span className="text-body-sm text-slate-500">
-                Akun ini tidak sedang mengajukan banding (FR-G3).
+                Akun ini tidak sedang mengajukan banding.
               </span>
             </span>
           </div>
