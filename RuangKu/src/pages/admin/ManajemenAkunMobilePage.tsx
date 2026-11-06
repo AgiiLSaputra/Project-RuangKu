@@ -442,7 +442,7 @@ export function ManajemenAkunMobilePage() {
           <span className="h-2 w-2 rounded-full bg-status-available" />
           RuangKu Admin v1.0 • Tersambung server (data real-time)
         </span>
-        <span className="font-label-sm text-label-sm">FR-G2 &amp; FR-G3 Aktif • WIB (UTC+7)</span>
+        <span className="font-label-sm text-label-sm">WIB (UTC+7)</span>
       </footer>
 
       <ModalOpsiAkun admin={admin} />
