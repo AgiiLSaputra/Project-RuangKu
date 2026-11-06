@@ -490,8 +490,7 @@ export function ManajemenAkunPage() {
                 Tidak ada banding aktif
               </p>
               <p className="max-w-md text-body-sm text-slate-500">
-                Seluruh pengajuan banding sudah diputus dan tercatat di Audit
-                Log (FR-G3).
+                Seluruh pengajuan banding sudah diputus.
               </p>
               {admin.berubah && (
                 <button

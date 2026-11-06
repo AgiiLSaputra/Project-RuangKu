@@ -345,7 +345,7 @@ export function ManajemenAkunMobilePage() {
               Tidak ada banding aktif
             </p>
             <p className="text-body-sm text-slate-500">
-              Seluruh pengajuan banding sudah diputus dan tercatat di Audit Log (FR-G3).
+              Seluruh pengajuan banding sudah diputus.
             </p>
             {admin.berubah && (
               <button
