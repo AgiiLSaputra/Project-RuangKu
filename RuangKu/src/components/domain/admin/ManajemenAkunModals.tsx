@@ -109,7 +109,7 @@ export function ModalOpsiAkun({ admin }: { admin: ManajemenAkun }) {
             <span className={cn('font-semibold', NADA_STATUS[a.status].chip.split(' ')[1])}>
               {NADA_STATUS[a.status].label}
             </span>
-            . Seluruh perubahan status tercatat permanen di Audit Log (FR-I1).
+            .
           </p>
         )}
 
