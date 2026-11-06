@@ -72,7 +72,7 @@ function BarisTugas({ t, onTinjau }: { t: TugasAdmin; onTinjau: (t: TugasAdmin) 
       <td className="px-6 py-4 align-middle">
         <span
           className={cn(
-            'inline-flex items-center gap-1.5 rounded-full px-3 py-1 font-label-sm text-label-sm font-semibold tracking-wide',
+            'inline-flex items-center gap-1.5 whitespace-nowrap rounded-full px-3 py-1 font-label-sm text-label-sm font-semibold tracking-wide',
             jenis.kelas,
           )}
         >
