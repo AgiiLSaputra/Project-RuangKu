@@ -459,26 +459,12 @@ export function ManajemenAkunPage() {
                 </span>
               </span>
             </div>
-            <span
-              className={cn(
-                "inline-flex items-center gap-1.5 self-start rounded-full px-4 py-1.5 font-title-md text-body-sm font-semibold shadow-sm sm:self-auto",
-                admin.bandingAktif.length > 0
-                  ? "bg-status-full-bg text-status-full"
-                  : "bg-status-available-bg text-status-available",
-              )}
-            >
-              <span
-                className={cn(
-                  "h-2 w-2 rounded-full",
-                  admin.bandingAktif.length > 0
-                    ? "animate-ping bg-status-full"
-                    : "bg-status-available",
-                )}
-              />
-              {admin.bandingAktif.length > 0
-                ? `${admin.bandingAktif.length} Pengajuan Perlu Tindakan Segera`
-                : "Semua Pengajuan Sudah Diputus"}
-            </span>
+            {admin.bandingAktif.length > 0 && (
+              <span className="inline-flex items-center gap-1.5 self-start rounded-full bg-status-full-bg px-4 py-1.5 font-title-md text-body-sm font-semibold text-status-full shadow-sm sm:self-auto">
+                <span className="h-2 w-2 animate-ping rounded-full bg-status-full" />
+                {admin.bandingAktif.length} Pengajuan Perlu Tindakan Segera
+              </span>
+            )}
           </div>
 
           {admin.bandingAktif.length === 0 ? (

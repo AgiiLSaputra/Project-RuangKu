@@ -317,24 +317,12 @@ export function ManajemenAkunMobilePage() {
             </span>
           </span>
         </div>
-        <span
-          className={cn(
-            'inline-flex w-fit items-center gap-1.5 rounded-full px-4 py-1.5 font-title-md text-body-sm font-semibold shadow-sm',
-            admin.bandingAktif.length > 0
-              ? 'bg-status-full-bg text-status-full'
-              : 'bg-status-available-bg text-status-available',
-          )}
-        >
-          <span
-            className={cn(
-              'h-2 w-2 rounded-full',
-              admin.bandingAktif.length > 0 ? 'animate-ping bg-status-full' : 'bg-status-available',
-            )}
-          />
-          {admin.bandingAktif.length > 0
-            ? `${admin.bandingAktif.length} Pengajuan Perlu Tindakan Segera`
-            : 'Semua Pengajuan Sudah Diputus'}
-        </span>
+        {admin.bandingAktif.length > 0 && (
+          <span className="inline-flex w-fit items-center gap-1.5 rounded-full bg-status-full-bg px-4 py-1.5 font-title-md text-body-sm font-semibold text-status-full shadow-sm">
+            <span className="h-2 w-2 animate-ping rounded-full bg-status-full" />
+            {admin.bandingAktif.length} Pengajuan Perlu Tindakan Segera
+          </span>
+        )}
 
         {admin.bandingAktif.length === 0 ? (
           <div className="flex flex-col items-center gap-space-sm rounded-2xl bg-surface-container-lowest p-space-lg text-center shadow-card">
