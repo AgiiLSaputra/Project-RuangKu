@@ -89,18 +89,6 @@ export function ModalOpsiAkun({ admin }: { admin: ManajemenAkun }) {
               Nonaktifkan Akun
             </button>
           )}
-
-          <button
-            type="button"
-            onClick={() => {
-              admin.setAuditBuka(true)
-              admin.setOpsiId(null)
-            }}
-            className={cn(KELAS_OPSI, 'text-on-surface hover:bg-purple-50')}
-          >
-            <Icon name="history" className="text-[20px] text-slate-500" />
-            Lihat Jejak Audit Admin
-          </button>
         </div>
 
         {a && (
