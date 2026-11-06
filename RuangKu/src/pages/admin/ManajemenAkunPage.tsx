@@ -300,9 +300,6 @@ export function ManajemenAkunPage() {
               <h1 className="font-headline-lg text-headline-lg tracking-tight text-on-surface">
                 Manajemen Akun Pengguna
               </h1>
-              <span className="rounded-full bg-purple-100 px-3 py-1 font-label-sm text-label-sm font-semibold uppercase tracking-wider text-primary">
-                Admin Control
-              </span>
             </div>
             <p className="text-body-md text-slate-500">
               Kelola akun penyewa dan penyedia yang terdaftar di ekosistem

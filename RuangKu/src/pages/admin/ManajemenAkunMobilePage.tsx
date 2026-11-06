@@ -190,9 +190,6 @@ export function ManajemenAkunMobilePage() {
           <h1 className="font-headline-lg-mobile text-headline-lg-mobile tracking-tight text-on-surface">
             Manajemen Akun Pengguna
           </h1>
-          <span className="rounded-full bg-purple-100 px-2.5 py-0.5 font-label-sm text-label-sm font-semibold uppercase tracking-wider text-primary">
-            Admin Control
-          </span>
         </div>
         <p className="text-body-sm leading-relaxed text-slate-500">
           Kelola akun penyewa dan penyedia yang terdaftar di ekosistem RuangKu.
