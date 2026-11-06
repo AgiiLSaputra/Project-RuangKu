@@ -382,6 +382,31 @@ export function PanelAkun({ admin, onTutup }: { admin: ManajemenAkun; onTutup?: 
           </div>
         )}
 
+        {/* Konfirmasi akun menunggu verifikasi */}
+        {a.status === 'menunggu' && (
+          <button
+            type="button"
+            onClick={() => void admin.setujui(a.id)}
+            disabled={Boolean(admin.proses)}
+            className={cn(
+              KELAS_TOMBOL,
+              'h-11 w-full bg-cta px-4 text-white shadow-cta hover:opacity-90 disabled:opacity-60',
+            )}
+          >
+            {admin.proses === `akun-${a.id}` ? (
+              <>
+                <Icon name="sync" className="animate-spin text-[18px]" />
+                Memproses...
+              </>
+            ) : (
+              <>
+                <Icon name="check_circle" className="text-[18px]" />
+                Konfirmasi Akun
+              </>
+            )}
+          </button>
+        )}
+
         {/* Aksi berat: penonaktifan permanen */}
         <button
           type="button"
