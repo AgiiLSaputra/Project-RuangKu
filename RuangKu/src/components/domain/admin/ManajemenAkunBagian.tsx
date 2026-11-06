@@ -397,15 +397,7 @@ export function PanelAkun({ admin, onTutup }: { admin: ManajemenAkun; onTutup?: 
         </button>
 
         {/* Kaki: jejak audit */}
-        <div className="flex items-center justify-between gap-space-sm border-t border-purple-50 pt-space-md">
-          <span className="flex min-w-0 items-center gap-3">
-            <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-purple-100 text-primary">
-              <Icon name="history" className="text-[18px]" />
-            </span>
-            <span className="text-body-sm text-slate-500">
-              Tercatat {a.audit.length} aktivitas admin
-            </span>
-          </span>
+        <div className="flex items-center justify-end gap-space-sm border-t border-purple-50 pt-space-md">
           <button
             type="button"
             onClick={() => admin.setAuditBuka(true)}
