@@ -376,7 +376,7 @@ export function ProsesBandingPage() {
         <footer className="flex flex-col items-center justify-between gap-2 pt-2 text-slate-500 sm:flex-row">
           <span className="flex items-center gap-2 font-label-sm text-label-sm">
             <span className="h-2 w-2 rounded-full bg-status-available" />
-            RuangKu Admin v1.0 • Tersambung server (data real-time)
+            RuangKu Admin v1.0
           </span>
         </footer>
       </div>
