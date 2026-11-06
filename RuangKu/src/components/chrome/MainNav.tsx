@@ -76,34 +76,36 @@ export function MainNav() {
           </button>
 
           {buka && (
-            <div
-              role="menu"
-              className="absolute left-1/2 top-full z-50 mt-2 w-60 -translate-x-1/2 rounded-2xl border border-purple-100 bg-white p-2 shadow-card"
-            >
-              {seksi.map((s) => (
-                <Link
-                  key={s.to}
-                  role="menuitem"
-                  to={s.to}
-                  onClick={() => setBuka(false)}
-                  className={cn(
-                    'flex items-center justify-between gap-2 rounded-xl px-3 py-2.5 text-[14px] font-semibold transition-colors',
-                    halamanAktif?.to === s.to
-                      ? 'bg-purple-100 text-primary'
-                      : 'text-on-surface-variant hover:bg-purple-50',
-                  )}
-                >
-                  <span className="truncate">{s.label}</span>
-                  <span className="flex shrink-0 items-center gap-2">
-                    {s.badge && (
-                      <span className="rounded-full bg-status-occupied px-1.5 py-0.5 text-[11px] font-bold leading-none text-surface-container-lowest">
-                        {s.badge}
-                      </span>
+            <div className="absolute left-1/2 top-full z-50 mt-2 w-60 -translate-x-1/2">
+              <div
+                role="menu"
+                className="origin-top rounded-2xl border border-purple-100 bg-white p-2 shadow-card motion-safe:animate-dropdown-masuk"
+              >
+                {seksi.map((s) => (
+                  <Link
+                    key={s.to}
+                    role="menuitem"
+                    to={s.to}
+                    onClick={() => setBuka(false)}
+                    className={cn(
+                      'flex items-center justify-between gap-2 rounded-xl px-3 py-2.5 text-[14px] font-semibold transition-colors',
+                      halamanAktif?.to === s.to
+                        ? 'bg-purple-100 text-primary'
+                        : 'text-on-surface-variant hover:bg-purple-50',
                     )}
-                    {halamanAktif?.to === s.to && <Icon name="check" className="text-[18px]" />}
-                  </span>
-                </Link>
-              ))}
+                  >
+                    <span className="truncate">{s.label}</span>
+                    <span className="flex shrink-0 items-center gap-2">
+                      {s.badge && (
+                        <span className="rounded-full bg-status-occupied px-1.5 py-0.5 text-[11px] font-bold leading-none text-surface-container-lowest">
+                          {s.badge}
+                        </span>
+                      )}
+                      {halamanAktif?.to === s.to && <Icon name="check" className="text-[18px]" />}
+                    </span>
+                  </Link>
+                ))}
+              </div>
             </div>
           )}
         </div>

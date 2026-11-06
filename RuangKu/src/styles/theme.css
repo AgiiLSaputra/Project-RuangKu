@@ -175,6 +175,8 @@
 
   /* ---------- ANIMASI ---------- */
   --animate-fadein: fadein 0.2s ease-out;
+  /* Dropdown navbar (MainNav) — muncul dari atas dengan sedikit skala. */
+  --animate-dropdown-masuk: dropdown-masuk 0.18s cubic-bezier(0.22, 1, 0.36, 1) both;
   /* Masuk halaman tiap ganti rute (komponen IsiHalaman) — diisi `both`
      supaya konten mulai dari transparan saat pertama mount. */
   --animate-masuk-halaman: masuk-halaman 0.42s cubic-bezier(0.22, 1, 0.36, 1) both;
@@ -184,6 +186,17 @@
   from {
     opacity: 0;
     transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes dropdown-masuk {
+  from {
+    opacity: 0;
+    transform: translateY(-6px) scale(0.96);
   }
   to {
     opacity: 1;
