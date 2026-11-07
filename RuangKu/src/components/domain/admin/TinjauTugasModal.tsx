@@ -80,8 +80,8 @@ export function TinjauTugasModal({ admin }: { admin: DashboardAdmin }) {
         <div className="mt-space-md flex items-start gap-space-sm rounded-xl bg-status-occupied-bg p-space-md">
           <Icon name="verified_user" className="mt-0.5 shrink-0 text-[20px] text-status-occupied" />
           <p className="text-body-sm leading-relaxed text-on-surface">
-            Setiap tindakan di konsol admin tercatat permanen di Audit Log. Menandai selesai
-            mengeluarkan tugas dari antrean dan memperbarui seluruh statistik.
+            Menandai selesai akan mengeluarkan tugas dari antrean dan langsung memperbarui seluruh
+            statistik dashboard.
           </p>
         </div>
 
