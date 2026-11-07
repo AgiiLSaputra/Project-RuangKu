@@ -204,9 +204,6 @@ async function handleSubmit(event: FormEvent<HTMLFormElement>) {
                     <span className="inline-flex items-center gap-1.5 text-on-surface">
                       <span className="h-2 w-2 rounded-full bg-status-available" /> Tersedia
                     </span>
-                    <span className="inline-flex items-center gap-1.5 text-on-surface">
-                      <span className="h-2 w-2 rounded-full bg-status-occupied" /> Pending
-                    </span>
                   </div>
                 </div>
 
