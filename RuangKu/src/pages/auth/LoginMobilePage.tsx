@@ -125,17 +125,6 @@ export function LoginMobilePage() {
                 </p>
               )}
 
-              <div className="flex items-center justify-start pt-1">
-                <button
-                  type="button"
-                  disabled
-                  title="Belum tersedia di versi pertama"
-                  className="font-title-md text-body-sm text-primary disabled:pointer-events-none disabled:opacity-60"
-                >
-                  Lupa Kata Sandi?
-                </button>
-              </div>
-
               <Button type="submit" block size="lg" className="mt-2" disabled={state !== 'idle'}>
                 {state === 'idle' && (
                   <>

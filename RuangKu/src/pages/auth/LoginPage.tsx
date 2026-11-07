@@ -287,17 +287,6 @@ async function handleSubmit(event: FormEvent<HTMLFormElement>) {
                     </p>
                   )}
 
-                  <div className="flex items-center justify-start pt-1">
-                    <button
-                      type="button"
-                      disabled
-                      title="Belum tersedia di versi pertama"
-                      className="font-title-md text-label-md text-primary disabled:pointer-events-none disabled:opacity-60"
-                    >
-                      Lupa Kata Sandi?
-                    </button>
-                  </div>
-
                   <div className="pt-2">
                     <Button type="submit" block size="lg" disabled={state !== 'idle'}>
                       {state === 'idle' && (
