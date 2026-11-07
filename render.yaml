@@ -1,0 +1,52 @@
+# Blueprint Render — deploy satu klik dari repo GitHub (backend + database).
+# Daftar jasa: "New +" → "Blueprint" → pilih repo ini.
+# Frontend disarankan di-deploy terpisah di Vercel (lihat server/README.md).
+#
+# Variabel bertanda `sync: false` WAJIB diisi di dashboard Render
+# sebelum deploy pertama (atau setelahnya lewat tab Environment).
+
+services:
+  # ---------- Backend (API Fastify) ----------
+  - type: web
+    name: ruangku-api
+    runtime: node
+    plan: free # instance tidur setelah ±15 menit tanpa trafik (cold start ±1 menit)
+    region: singapore
+    rootDir: server
+    buildCommand: npm ci && npm run build
+    preDeployCommand: npm run migrate # migrasi database berjalan otomatis tiap deploy
+    startCommand: npm start
+    healthCheckPath: /healthz
+    envVars:
+      - key: NODE_ENV
+        value: production
+      # Auto-wire ke database ruangku-db dari blueprint ini (koneksi internal, lebih cepat).
+      # Kalau mau pakai database sendiri, ganti jadi: sync: false + isi manual.
+      - key: DATABASE_URL
+        fromDatabase:
+          name: ruangku-db
+          property: connectionString
+      - key: JWT_SECRET
+        generateValue: true # dibuat acak otomatis oleh Render
+      - key: CORS_ORIGIN
+        sync: false # URL frontend, mis. https://ruangku-web.onrender.com
+      - key: PUBLIC_URL
+        sync: false # URL dari API ini sendiri, mis. https://ruangku-api.onrender.com
+      # Opsional: isi data demo (3 akun + katalog) saat production. Seed idempoten —
+      # dibiarkan terpasang pun aman, akun yang sudah ada dilewati saja.
+      - key: DEMO_SEED
+        value: "1"
+      # Foto unggahan disimpan di disk sementara instance: hilang saat redeploy/restart.
+      # Untuk demo tidak masalah; untuk permanen gunakan Cloudinary/S3 atau paket berbayar.
+      - key: UPLOAD_DIR
+        value: uploads
+
+databases:
+  # Database Postgres terkelola Render (PERINGATAN: paket free kedaluwarsa setelah 30 hari;
+  # cukup untuk demo). Kalau sudah punya database sendiri, hapus blok ini dan
+  # ubah DATABASE_URL di service ruangku-api jadi sync: false + isi manual.
+  - name: ruangku-db
+    plan: free
+    region: singapore
+    databaseName: ruangku
+    user: ruangku

@@ -3,7 +3,7 @@
 > Dokumen ini mencatat **bug yang pernah ditemukan dan sudah diperbaiki**, plus
 > aturan supaya tidak terulang. Perbarui tabel ini setiap kali ada bug di-fix.
 >
-> **Terakhir diperbarui: 29 Oktober 2026**
+> **Terakhir diperbarui: 30 Oktober 2026**
 
 ---
 
@@ -16,6 +16,10 @@
 | 3 | **Tanpa ErrorBoundary** — galat render → layar putih polos tanpa pesan | 26 Okt 2026 | ✅ **Sudah fix** | baru `RuangKu/src/components/ui/ErrorBoundary.tsx`, `RuangKu/src/App.tsx` |
 | 4 | **Foto/dokumen verifikasi tidak tampil di panel admin** (register penyedia & detail admin error 500) | 25 Okt 2026 | ✅ **Sudah fix** | `server/src/db/schema.ts`, `server/src/db/migrations/0005_verifikasi_bkas_di_db.sql`, `auth.controller.ts`, `auth.service.ts`, `admin.service.ts`, `errorHandler.ts`, `RuangKu/src/components/domain/admin/VerifikasiModals.tsx` |
 | 5 | **Foto ruangan tidak bisa dipilih** di wizard Tambah Ruangan (pratinjau kosong, tanpa pesan) | 29 Okt 2026 | ✅ **Sudah fix** | `RuangKu/src/components/domain/mitra/useTambahRuangan.ts`, `RuangKu/src/pages/mitra/TambahRuanganPage.tsx`, `RuangKu/src/pages/mitra/TambahRuanganMobilePage.tsx` |
+| 6 | **Ruangan baru tidak muncul di Ruangan Saya** (hanya tampil di katalog publik) | 29 Okt 2026 | ✅ **Sudah fix** | baru `RuangKu/src/components/domain/mitra/useRuanganSaya.ts`, `RuangKu/src/pages/mitra/RuanganSayaPage.tsx`, `RuangKu/src/pages/mitra/RuanganSayaMobilePage.tsx`, `RuangKu/src/services/mitra.ts`, `RuangKu/src/data/ruanganSaya.ts` |
+| 7 | **Tombol Edit ruangan tidak berfungsi**; Nonaktifkan/Aktifkan dipindah ke halaman Edit + tombol Hapus Ruangan | 29 Okt 2026 | ✅ **Sudah fix** | baru `server/src/modules/mitra/mitra.service.ts` (`detailRuangan`, `hapusRuangan`), `mitra.controller.ts`, `mitra.routes.ts`, `server/test/mitra-ruangan.test.ts`, baru `RuangKu/src/components/domain/mitra/useEditRuangan.ts`, baru `RuangKu/src/pages/mitra/EditRuanganPage.tsx`, `RuangKu/src/routes/index.tsx`, `RuangKu/src/services/mitra.ts`, `RuangKu/src/pages/mitra/RuanganSayaPage.tsx`, `RuangKu/src/pages/mitra/RuanganSayaMobilePage.tsx` |
+| 8 | **Header masih menampilkan "Super Admin" setelah logout/sesi mati**; login ulang bisa langsung ter-logout lagi. Cookie login diubah jadi session cookie (tutup browser = keluar) | 30 Okt 2026 | ✅ **Sudah fix** | `RuangKu/src/lib/api.ts`, `RuangKu/src/context/AuthContext.tsx`, `RuangKu/src/pages/auth/LoginPage.tsx`, `RuangKu/src/pages/auth/LoginMobilePage.tsx`, `server/src/modules/auth/auth.controller.ts` |
+| 9 | **Klik "Keluar" mendarat di `/masuk`, bukan beranda** — guard rute mendahuli perpindahan halaman karena `BrowserRouter` membungkus navigasi dalam `startTransition` | 30 Okt 2026 | ✅ **Sudah fix** | `RuangKu/src/context/AuthContext.tsx`, `RuangKu/src/routes/guards/RequireAdmin.tsx`, `RequireAuth.tsx`, `RequirePenyedia.tsx`, `RequirePenyewa.tsx`, header admin/penyedia/penyewa, `StatusAkunPage.tsx`, `StatusAkunMobilePage.tsx`, `AkunDinonaktifkanPage.tsx`, `AkunDinonaktifkanMobilePage.tsx`, `ModalAkunNonaktif.tsx` |
 
 ---
 
@@ -98,6 +102,100 @@
   - API lokal: `POST /api/mitra/ruangan/:id/foto` → **201**, `GET` URL foto →
     **200 image/png**, `DELETE` foto → **200**, `GET` lagi → **404** (bersih).
 
+### Bug 6 — Ruangan baru tidak muncul di Ruangan Saya
+- **Gejala:** selesai wizard Tambah Ruangan, ruangan tampil di katalog publik,
+  tetapi halaman `/ruangan-saya` tetap menampilkan daftar lama (tidak berubah).
+- **Penyebab:** halaman Ruangan Saya (desktop & mobile) masih membaca **data mock**
+  `LISTING` dari `data/ruanganSaya.ts`, bukan `GET /api/mitra/listing`. Backend sendiri
+  sudah benar (`POST /api/mitra/ruangan` menyimpan `penyediaId` + `statusListing='aktif'`).
+- **Perbaikan:** halaman disambungkan ke server lewat hook baru `useRuanganSaya`
+  (daftar, ringkasan metrik, filter, cari, urut). Data mock dihapus; tipe kartu tetap.
+  Tambahan: status memuat/galat + tombol *Coba Lagi*, fallback ikon bila ruangan belum
+  punya foto, dan label tenggang tidak lagi menampilkan angka yang tak tersedia.
+- **Verifikasi (29 Okt 2026):** `npx vitest run test/mitra-laporan.test.ts -t listing` →
+  3/3 lulus (ruangan baru langsung masuk `listing` + `ringkasan`); `tsc -b`, `npm run build`,
+  `npm run lint` (0 error).
+
+### Bug 7 — Tombol Edit ruangan tidak berfungsi
+- **Gejala:** tombol *Edit* di kartu Ruangan Saya tidak melakukan apa pun; tombol
+  *Nonaktifkan* / *Aktifkan* juga diam saja (belum ada handler).
+- **Penyebab:** tombol hanya mockup — tidak ada halaman edit, tidak ada pemanggilan
+  `PATCH /api/mitra/ruangan/:id`, dan belum ada endpoint hapus ruangan.
+- **Perbaikan:**
+  1. Backend: `GET /api/mitra/ruangan/:id` (detail milik mitra) dan
+     `DELETE /api/mitra/ruangan/:id`. Hapus ditolak **409** bila ruangan sudah punya
+     riwayat reservasi (FK `reservasi.ruangan_id` tanpa cascade) — arahkan nonaktifkan.
+  2. Frontend: halaman `/ruangan-saya/:id/edit` — form data ruangan, tombol
+     *Nonaktifkan Ruangan* (status `tenggang` → hilang dari katalog) / *Aktifkan Ruangan*,
+     dan *Hapus Ruangan* dengan modal konfirmasi.
+  3. Kartu Ruangan Saya: tombol *Edit* sekarang membuka halaman edit; tombol
+     Nonaktifkan/Aktifkan dihapus dari kartu (pindah ke halaman edit).
+- **Verifikasi (29 Okt 2026):** `cd server && npm test` → **158/158 lulus** (termasuk 5 tes
+  baru: detail milik sendiri/tenggang, 401/403/404, hapus beserta foto & paket,
+  dan penolakan 409 saat ada reservasi); `tsc -b` frontend & `tsc --noEmit` server → 0 error;
+  `npm run build` sukses; `npm run lint` → 0 error.
+
+### Bug 8 — Header masih "Super Admin" setelah logout / sesi mati
+- **Gejala:** setelah logout dari konsol admin lalu login ulang, sesi baru langsung mati
+  ("otomatis ke log out"), tetapi header tetap menampilkan **Super Admin** + tombol
+  *Keluar* — bukan tombol *Masuk*. Kadang header juga masih *Super Admin* di tab yang
+  sesinya sudah dicabut (mis. logout dari tab lain).
+- **Penyebab (dua lapis):**
+  1. `logout()` mengirim `POST /auth/logout` **tanpa ditunggu**. Kalau responsnya telat
+     (backend Render baru bangun dari tidur), respons itu menghapus cookie sesi yang
+     **baru** dibuat oleh login berikutnya → sesi baru langsung mati.
+  2. Tidak ada penanganan **401** global. Sesi yang dicabut/di-logout dari tab lain hanya
+     membuat request berikutnya gagal, tetapi `user` di React tetap terisi → header tetap
+     menampilkan nama akun lama seolah masih login.
+- **Perbaikan:**
+  1. `AuthContext` menyimpan promise logout; `LoginPage` & `LoginMobilePage` menunggu
+     `tungguLogout()` **sebelum** `POST /auth/login` (maks. 6 detik, lalu request logout
+     lama dibatalkan supaya tidak menimpa cookie sesi baru).
+  2. `lib/api.ts` menyiarkan acara `ruangku:sesi-berakhir` pada 401
+     `TIDAK_TERAUTENTIKASI`/`SESI_TIDAK_VALID`; `AuthContext` membuang `user` sehingga
+     header kembali ke tombol *Masuk* dan guard rute mengarahkan ke `/masuk`.
+  3. Saat tab/window kembali aktif, `AuthContext` mengecek ulang `/auth/me`; GET tidak
+     memakai cache browser (`cache: 'no-store'`).
+  4. Cookie login diubah jadi **session cookie** (tanpa `Expires`/`Max-Age`) di
+     `server/src/modules/auth/auth.controller.ts` — menutup browser = keluar otomatis,
+     buka lagi langsung seperti tamu. Batas "ingat 7 hari" tetap dijaga kolom
+     `sesi.kadaluarsa` di database.
+- **Verifikasi (30 Okt 2026, Chrome headless + CDP):**
+  - logout normal → cookie hilang, beranda menampilkan *Masuk*/*Daftar*;
+  - request `POST /auth/logout` sengaja ditahan lalu login ulang → cookie sesi baru tetap
+    ada dan reload tetap login (tidak "otomatis logout" lagi);
+  - cookie dihapus saat tab masih di `/admin` → fokus tab memicu `/auth/me` 401 → langsung
+    diarahkan ke `/masuk`, header *Sign In* (tanpa nama *Super Admin*);
+  - login sebagai Super Admin → `Set-Cookie` kini **tanpa `Expires`** (`session: true`);
+    tutup Chrome total lalu buka lagi → `ruangku_token` hilang, `/auth/me` **401**,
+    halaman beranda menampilkan *Masuk* (tanpa *Super Admin*);
+  - `npx tsc -b`, `npm run build`, `npm run lint` → lolos (warning lama tidak bertambah).
+
+### Bug 9 — Klik "Keluar" mendarat di `/masuk`, bukan beranda
+- **Gejala:** menekan *Keluar* dari konsol admin / dashboard mitra / halaman akun
+  justru berakhir di halaman **masuk**, bukan beranda.
+- **Penyebab:** guard rute (`Require*`) me-render `<Navigate to="/masuk">` pada render
+  yang sama saat `user` dibuang, sementara `navigate()` dari tombol *Keluar* dibungkus
+  `startTransition` oleh React Router (pioritas lebih rendah) → guard menang.
+- **Perbaikan:**
+  1. `AuthContext` menandai `baruKeluar = true` saat logout; guard memilih `/` bila
+     flag nyala, `/masuk` hanya bila sesi mati/kedaluwarsa (401).
+  2. `logout()` kini juga menjalankan `navigate('/', { replace: true })` → **semua**
+     tombol *Keluar* berakhir di beranda, termasuk yang ada di halaman publik yang
+     tidak dilewati guard.
+  3. Flag `baruKeluar` di-reset begitu halaman berpindah ke beranda (pola
+     *render-adjust*: bandingkan `lokasi.key` saat render, bukan `setState` di efek
+     agar tidak menambah warning `set-state-in-effect`). Tanpa ini tamu yang lalu
+     membuka rute terlindungi selamanya dilempar ke beranda, tidak pernah ke `/masuk`.
+  4. Tombol *Keluar dari Akun* / *Log Out* yang masih `navigate('/masuk')`
+     (`StatusAkunPage`, `StatusAkunMobilePage`, `AkunDinonaktifkanPage`,
+     `AkunDinonaktifkanMobilePage`, `ModalAkunNonaktif`) diarahkan ke `/`.
+- **Verifikasi (30 Okt 2026):** `npx tsc -b`, `npm run build`, `npm run lint` → lolos,
+  **0 error / 15 warning** (jumlah warning tidak bertambah).
+  Manual: (a) login → buka `/admin` → *Keluar* → mendarat di `/` dengan header
+  *Masuk*; (b) dari `/` buka `/pesanan` sebagai tamu → tetap diarahkan ke `/masuk`
+  (bukan beranda); (c) *Keluar* di `/status-akun` → `/`; (d) F12 Console **0 error**.
+
 ---
 
 ## ⚠️ JANGAN DIULANG
@@ -117,6 +215,30 @@
 7. **Jangan iterasi `FileList` di dalam updater `setState`** — `FileList` hidup dan
    langsung kosong ketika `input.value = ''`; salin dulu ke array (`Array.from`)
    di event handler (pelajaran bug #5).
+8. **Jangan mengklik tombol aksi nyata saat uji UI** (`Batalkan`, `Tandai Completed`,
+   `Setujui`, `Tolak`) — tombol baris tabel **langsung memanggil API**, tanpa modal
+   konfirmasi, dan DB yang dipakai dev lokal adalah **DB produksi**.
+   *Insiden 29 Okt 2026:* uji "hapus Booking Manual" ikut mengklik `Batalkan` →
+   `RK-10001-RUANGKU` berubah `approved` → `cancelled` (struk ditandai batal, kuota
+   promo dikembalikan, audit log `RESERVASI_DIBATALKAN_PENYEDIA` tertulis).
+   Data sudah dipulihkan manual (`status='approved'`, `struk.dibatalkan_pada=NULL`).
+   Untuk uji, cukup baca `innerText`/DOM atau `document.querySelector(...).click()`
+   pada elemen **non-aksi** (tab, chip filter, tombol buka modal).
+9. **`audit_log` bersifat append-only** (trigger `trg_audit_append` menolak `UPDATE`/`DELETE`). Kesalahan tulis tidak bisa dihapus — kalau perlu koreksi, pulihkan tabel terkait lalu **catat koreksinya**, jangan coba hapus baris audit.
+10. **Jangan hapus baris `ruangan` yang sudah punya reservasi** — FK `reservasi.ruangan_id`
+    tanpa `ON DELETE CASCADE`; struk & audit lama harus utuh. Sembunyikan lewat
+    `status_listing='tenggang'` (tombol *Nonaktifkan* di halaman Edit).
+11. **Jangan biarkan `user` di React hidup saat server membalas 401 sesi habis.**
+    Setiap 401 `TIDAK_TERAUTENTIKASI`/`SESI_TIDAK_VALID` wajib memicu
+    `ruangku:sesi-berakhir` (sudah dipusatkan di `src/lib/api.ts`) supaya header
+    kembali ke tombol *Masuk* (pelajaran bug #8).
+12. **Jangan mengirim login baru sebelum request logout lama selesai.** Cookie
+    `ruangku_token` hanya satu; respons logout yang telat bisa menghapus cookie
+    sesi baru. Pakai `tungguLogout()` dari `AuthContext` (pelajaran bug #8).
+13. **Cookie login `ruangku_token` wajib tetap SESI BROWSER** (tanpa `expires`/
+    `maxAge`) di `auth.controller.ts` — itu yang membuat menutup browser = keluar
+    otomatis. Jangan kembalikan `expires: kadaluarsa`; batas 7 hari sudah dijaga
+    kolom `sesi.kadaluarsa` (pelajaran bug #8).
 
 ---
 
