@@ -432,16 +432,11 @@ export function VerifikasiPenyediaPage() {
               <div className="flex flex-col gap-space-xl p-space-lg">
                 {/* Seksi 1: bukti fisik */}
                 <section className="flex flex-col gap-space-md">
-                  <div className="flex items-center justify-between gap-2">
-                    <JudulSeksi
-                      nomor="1"
-                      judul="Bukti Fisik Bangunan & Gedung"
-                      deskripsi="Verifikasi visual keaslian fasilitas, tata ruang, dan pencahayaan"
-                    />
-                    <span className="shrink-0 rounded-full bg-purple-100 px-2.5 py-1 font-label-sm font-semibold text-primary">
-                      {m.foto.length} Foto Berkas Diajukan
-                    </span>
-                  </div>
+                  <JudulSeksi
+                    nomor="1"
+                    judul="Bukti Fisik Bangunan & Gedung"
+                    deskripsi="Verifikasi visual keaslian fasilitas, tata ruang, dan pencahayaan"
+                  />
                   <div className="grid grid-cols-1 items-stretch gap-space-md md:grid-cols-3">
                     {/* Foto utama — bisa kosong bila pemohon belum mengunggah foto */}
                     {m.foto.length === 0 ? (

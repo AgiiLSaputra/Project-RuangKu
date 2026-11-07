@@ -397,12 +397,7 @@ export function VerifikasiPenyediaMobilePage() {
             <div className="flex flex-col gap-space-xl p-space-md">
               {/* Seksi 1: bukti fisik */}
               <section className="flex flex-col gap-space-md">
-                <div className="flex items-center justify-between gap-2">
-                  <JudulSeksiM nomor="1" judul="Bukti Fisik Bangunan" />
-                  <span className="shrink-0 rounded-full bg-purple-100 px-2.5 py-1 font-label-sm font-semibold text-primary">
-                    {m.foto.length} Foto
-                  </span>
-                </div>
+                <JudulSeksiM nomor="1" judul="Bukti Fisik Bangunan" />
                 {m.foto.length === 0 ? (
                   <div className="flex items-center justify-center rounded-2xl bg-surface-container p-space-md text-body-sm text-slate-500 shadow-sm">
                     Belum ada foto pada pengajuan ini
