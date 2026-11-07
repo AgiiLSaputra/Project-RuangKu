@@ -35,7 +35,7 @@ const RIWAYAT = [
  */
 export function AkunDinonaktifkanMobilePage() {
   const navigate = useNavigate()
-  const { user, logout } = useAuth()
+  const { user, logoutPaksa } = useAuth()
 
   const [alasan, setAlasan] = useState('')
   const [file, setFile] = useState<File | null>(null)
@@ -84,7 +84,7 @@ export function AkunDinonaktifkanMobilePage() {
   }
 
   function keluar() {
-    logout() // langsung mengantar ke beranda
+    logoutPaksa() // langsung mengantar ke beranda
     navigate('/', { replace: true })
   }
 

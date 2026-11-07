@@ -1,4 +1,4 @@
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
 import { Icon } from '../../components/ui/Icon'
 import { LABEL_LANGKAH } from '../../components/domain/mitra/useTambahRuangan'
@@ -9,15 +9,13 @@ import { BATAS_DRAF, hapusDrafRuangan, tampilWaktu, useDaftarDraf } from '../../
  * Tambah Ruangan (maksimal 3, bisa dilanjutkan/dihapus), dan tombol Keluar.
  */
 export function PengaturanPenyediaPage() {
-  const navigate = useNavigate()
   const { user, logout } = useAuth()
   const draf = useDaftarDraf()
 
   function keluar() {
-    // logout() menandai `baruKeluar`, jadi guard rute mengarahkan ke beranda
-    // (bukan /masuk) walau navigasi ini sempat kalah cepat.
+    // logout() membuka konfirmasi; sesi baru diakhiri (dan diarahkan ke
+    // beranda) setelah pengguna menekan "Ya, Keluar".
     logout()
-    navigate('/')
   }
 
   return (

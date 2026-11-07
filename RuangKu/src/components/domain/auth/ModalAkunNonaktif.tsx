@@ -11,7 +11,7 @@ import { useAuth } from '../../../context/AuthContext'
  * Tidak tampil di halaman banding itu sendiri (formulirnya sudah di sana).
  */
 export function ModalAkunNonaktif() {
-  const { user, popupNonaktif, tutupPopupNonaktif, logout } = useAuth()
+  const { user, popupNonaktif, tutupPopupNonaktif, logoutPaksa } = useAuth()
   const navigate = useNavigate()
   const location = useLocation()
 
@@ -39,7 +39,7 @@ export function ModalAkunNonaktif() {
             className="w-full"
             onClick={() => {
               tutupPopupNonaktif()
-              logout() // langsung mengantar ke beranda
+              logoutPaksa() // langsung mengantar ke beranda
               navigate('/', { replace: true })
             }}
           >

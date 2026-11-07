@@ -143,7 +143,7 @@ function buatKodeBanding(): string {
 
 export function StatusAkunMobilePage() {
   const navigate = useNavigate()
-  const { logout } = useAuth()
+  const { logoutPaksa } = useAuth()
   const [params, setParams] = useSearchParams()
   const tab = normalizeTab(params.get('tab'))
   const state = STATE[tab]
@@ -182,7 +182,7 @@ export function StatusAkunMobilePage() {
   }
 
   function keluar() {
-    logout() // langsung mengantar ke beranda
+    logoutPaksa() // langsung mengantar ke beranda
     navigate('/', { replace: true })
   }
 

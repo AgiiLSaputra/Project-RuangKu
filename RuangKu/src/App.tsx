@@ -2,6 +2,7 @@ import { BrowserRouter } from 'react-router-dom'
 import { AuthProvider } from './context/AuthContext'
 import { BookingProvider } from './context/BookingContext'
 import { ModalAkunNonaktif } from './components/domain/auth/ModalAkunNonaktif'
+import { ModalKonfirmasiKeluar } from './components/domain/auth/ModalKonfirmasiKeluar'
 import { ErrorBoundary } from './components/ui/ErrorBoundary'
 import { AppRoutes } from './routes'
 
@@ -16,6 +17,8 @@ export default function App() {
             <AppRoutes />
             {/* Popup "Log Out / Ajukan Banding" saat akun dinonaktifkan di tengah sesi (FR-H1). */}
             <ModalAkunNonaktif />
+            {/* Konfirmasi sebelum keluar dari akun. */}
+            <ModalKonfirmasiKeluar />
           </BookingProvider>
         </AuthProvider>
       </ErrorBoundary>

@@ -1,4 +1,4 @@
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
 import { Icon } from '../ui/Icon'
 import { Logo } from './Logo'
@@ -11,13 +11,10 @@ import { MainNav } from './MainNav'
  */
 export function DashboardPenyediaHeader() {
   const { user, logout } = useAuth()
-  const navigate = useNavigate()
 
   function keluar() {
-    // logout() menandai `baruKeluar`, jadi guard rute mengarahkan ke beranda
-    // (bukan /masuk) walau navigasi ini sempat kalah cepat.
+    // logout() membuka konfirmasi; sesi baru diakhiri setelah disetujui.
     logout()
-    navigate('/')
   }
 
   return (

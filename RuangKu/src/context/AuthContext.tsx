@@ -30,7 +30,12 @@ interface AuthValue {
   user: Pengguna | null;
   isAuthenticated: boolean;
   login: (user: Pengguna) => void;
+  /** Minta konfirmasi keluar — sesi baru diakhiri setelah pengguna setuju. */
   logout: () => void;
+  /** Langsung akhiri sesi tanpa konfirmasi (mis. akun dinonaktifkan). */
+  logoutPaksa: () => void;
+  konfirmasiKeluar: boolean;
+  batalKeluar: () => void;
   tungguLogout: () => Promise<void>;
   popupNonaktif: boolean;
   tutupPopupNonaktif: () => void;
@@ -49,6 +54,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [memeriksa, setMemeriksa] = useState(true);
   const [abaikanPopup, setAbaikanPopup] = useState(false);
   const [baruKeluar, setBaruKeluar] = useState(false);
+  const [konfirmasiKeluar, setKonfirmasiKeluar] = useState(false);
   const logoutRef = useRef<Promise<void> | null>(null);
   const pembatalLogoutRef = useRef<AbortController | null>(null);
   const pembatalPeriksaRef = useRef<AbortController | null>(null);
@@ -134,10 +140,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     versiSesiRef.current += 1;
     pembatalPeriksaRef.current?.abort();
     setBaruKeluar(false);
+    setKonfirmasiKeluar(false);
     setUser(next);
   }, []);
 
-  const logout = useCallback(() => {
+  const logoutPaksa = useCallback(() => {
+    setKonfirmasiKeluar(false);
     versiSesiRef.current += 1;
     pembatalPeriksaRef.current?.abort();
     setBaruKeluar(true);
@@ -160,6 +168,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     logoutRef.current = permintaan;
     navigate("/", { replace: true });
   }, [navigate]);
+
+  const logout = useCallback(() => {
+    if (!user) return;
+    setKonfirmasiKeluar(true);
+  }, [user]);
+
+  const batalKeluar = useCallback(() => setKonfirmasiKeluar(false), []);
 
   const tungguLogout = useCallback(async () => {
     const tertunda = logoutRef.current;
@@ -185,6 +200,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       isAuthenticated: user !== null,
       login,
       logout,
+      logoutPaksa,
+      konfirmasiKeluar,
+      batalKeluar,
       tungguLogout,
       popupNonaktif: user?.status === "nonaktif" && !abaikanPopup,
       tutupPopupNonaktif,
@@ -194,6 +212,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       user,
       login,
       logout,
+      logoutPaksa,
+      konfirmasiKeluar,
+      batalKeluar,
       tungguLogout,
       abaikanPopup,
       tutupPopupNonaktif,

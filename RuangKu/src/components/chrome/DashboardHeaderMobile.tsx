@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { cn } from '../../lib/cn'
 import { useAuth } from '../../context/AuthContext'
 import { Icon } from '../ui/Icon'
@@ -19,15 +19,12 @@ const SUBTITLE: Record<string, string> = {
  */
 export function DashboardHeaderMobile() {
   const [open, setOpen] = useState(false)
-  const navigate = useNavigate()
   const { pathname } = useLocation()
   const { user, logout } = useAuth()
 
   function keluar() {
-    // logout() menandai `baruKeluar`, jadi guard rute mengarahkan ke beranda
-    // (bukan /masuk) walau navigasi ini sempat kalah cepat.
+    // logout() membuka konfirmasi; sesi baru diakhiri setelah disetujui.
     logout()
-    navigate('/')
   }
 
   return (
