@@ -232,12 +232,7 @@ export function DashboardAdminPage() {
             ikon="verified"
             gayaIkon="bg-status-available-bg text-status-available"
             titik="bg-status-available"
-            kaki={
-              <>
-                <strong className="font-semibold text-status-available">Tersambung server</strong> •{' '}
-                {stat ? stat.terverifikasiCatatan : 'memuat statistik…'}
-              </>
-            }
+            kaki={<>{stat ? stat.terverifikasiCatatan : 'memuat statistik…'}</>}
           />
           <KartuStat
             label="Total Penyewa Aktif"
