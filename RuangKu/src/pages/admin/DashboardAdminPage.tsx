@@ -324,7 +324,7 @@ export function DashboardAdminPage() {
               <thead>
                 <tr className="bg-purple-50/70 font-label-sm text-label-sm uppercase tracking-wider text-slate-500">
                   <th className="px-6 py-3.5 font-semibold">Jenis Aksi</th>
-                  <th className="px-6 py-3.5 font-semibold">Nama Akun / Entitas</th>
+                  <th className="px-6 py-3.5 font-semibold">Nama Akun</th>
                   <th className="px-6 py-3.5 font-semibold">Detail Informasi &amp; Berkas</th>
                   <th className="px-6 py-3.5 font-semibold">Waktu Pengajuan</th>
                   <th className="px-6 py-3.5 font-semibold">Status SLA</th>
