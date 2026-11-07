@@ -14,7 +14,7 @@ import {
 import { cn } from '../../lib/cn'
 
 const KELAS_TOMBOL =
-  'inline-flex items-center justify-center gap-1.5 rounded-full font-title-md text-title-md font-semibold transition-all active:scale-[0.98]'
+  'inline-flex items-center justify-center gap-1.5 whitespace-nowrap rounded-full font-title-md text-title-md font-semibold transition-all active:scale-[0.98]'
 
 /** Kartu statistik ringkas varian mobile — dua kolom, angka 32px. */
 function KartuStatM({

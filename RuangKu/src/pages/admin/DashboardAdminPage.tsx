@@ -16,7 +16,7 @@ import { cn } from '../../lib/cn'
 const KELAS_KARTU =
   'overflow-hidden rounded-2xl bg-surface-container-lowest shadow-card transition-all hover:shadow-card-highlight'
 const KELAS_TOMBOL =
-  'inline-flex items-center gap-2 rounded-full font-title-md text-body-md font-semibold transition-all active:scale-[0.95]'
+  'inline-flex items-center gap-2 whitespace-nowrap rounded-full font-title-md text-body-md font-semibold transition-all active:scale-[0.95]'
 
 /** Kartu statistik ringkas — angka besar + strip kaki berketerangan. */
 function KartuStat({

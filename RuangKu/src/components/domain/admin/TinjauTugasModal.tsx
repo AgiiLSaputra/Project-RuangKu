@@ -6,7 +6,7 @@ import { Overlay } from '../../ui/Overlay'
 import type { DashboardAdmin } from './useDashboardAdmin'
 
 const KELAS_TOMBOL =
-  'inline-flex h-11 items-center justify-center gap-2 rounded-full px-space-md font-title-md text-title-md font-semibold transition-all active:scale-[0.98]'
+  'inline-flex h-11 items-center justify-center gap-2 whitespace-nowrap rounded-full px-space-md font-title-md text-title-md font-semibold transition-all active:scale-[0.98]'
 
 /**
  * Modal tinjauan tugas admin — menampilkan rincian satu baris antrean
