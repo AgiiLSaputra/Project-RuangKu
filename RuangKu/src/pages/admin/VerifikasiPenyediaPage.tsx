@@ -80,7 +80,7 @@ function KartuAntrean({
           </span>
           <span
             className={cn(
-              'shrink-0 rounded-full px-2 py-0.5 font-label-sm text-label-sm font-semibold',
+              'shrink-0 whitespace-nowrap rounded-full px-2 py-0.5 font-label-sm text-label-sm font-semibold',
               sla.chip,
             )}
           >

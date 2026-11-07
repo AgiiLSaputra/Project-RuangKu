@@ -103,7 +103,7 @@ function KartuTugas({ t, onTinjau }: { t: TugasAdmin; onTinjau: (t: TugasAdmin) 
 
       <span
         className={cn(
-          'inline-flex items-center gap-1 rounded-full px-2.5 py-1 font-label-sm text-label-sm font-semibold',
+          'inline-flex items-center gap-1 whitespace-nowrap rounded-full px-2.5 py-1 font-label-sm text-label-sm font-semibold',
           sla.chip,
           t.slaNada === 'kritis' && 'animate-pulse',
         )}

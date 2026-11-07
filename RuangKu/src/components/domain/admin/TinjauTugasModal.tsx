@@ -51,7 +51,7 @@ export function TinjauTugasModal({ admin }: { admin: DashboardAdmin }) {
               <span className="text-body-sm text-slate-500">Status SLA</span>
               <span
                 className={cn(
-                  'rounded-full px-2.5 py-0.5 font-label-sm text-label-sm font-semibold',
+                  'whitespace-nowrap rounded-full px-2.5 py-0.5 font-label-sm text-label-sm font-semibold',
                   sla?.chip,
                 )}
               >
