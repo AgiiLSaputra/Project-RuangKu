@@ -1,11 +1,20 @@
 import { Link } from 'react-router-dom'
+import { Icon } from '../ui/Icon'
 import { Logo } from './Logo'
 
-const COLUMNS: { title: string; links: { label: string; to: string }[] }[] = [
+const COLUMNS: {
+  title: string
+  links: { label: string; to: string; deskripsi?: string }[]
+}[] = [
   {
     title: 'Perusahaan',
     links: [
-      { label: 'Tentang Kami', to: '/tentang' },
+      {
+        label: 'Tentang Kami',
+        to: '/tentang',
+        deskripsi:
+          'RuangKu adalah platform etalase dan reservasi gedung/ruangan berbasis kuota. Kami membantu penyewa menemukan ruang yang tepat dan mitra mengelola ketersediaan secara real-time.',
+      },
       { label: 'Karir', to: '/karir' },
       { label: 'Mitra Gedung', to: '/partner-gedung' },
     ],
@@ -46,13 +55,37 @@ export function PublicFooter() {
             <div key={c.title}>
               <h4 className="font-title-md text-[13px] font-bold uppercase tracking-wider text-on-surface">{c.title}</h4>
               <ul className="mt-4 space-y-2.5">
-                {c.links.map((l) => (
-                  <li key={l.to}>
-                    <Link to={l.to} className="text-body-md text-on-surface-variant transition-colors hover:text-primary">
-                      {l.label}
-                    </Link>
-                  </li>
-                ))}
+                {c.links.map((l) =>
+                  l.deskripsi ? (
+                    <li key={l.to}>
+                      <details className="group">
+                        <summary className="flex w-fit cursor-pointer list-none items-center gap-1 text-body-md text-on-surface-variant transition-colors hover:text-primary [&::-webkit-details-marker]:hidden">
+                          {l.label}
+                          <Icon
+                            name="expand_more"
+                            className="text-[16px] transition-transform group-open:rotate-180"
+                          />
+                        </summary>
+                        <p className="mt-2 max-w-xs text-body-sm leading-relaxed text-slate-500">
+                          {l.deskripsi}
+                        </p>
+                        <Link
+                          to={l.to}
+                          className="mt-1 inline-flex items-center gap-1 text-body-sm font-semibold text-primary transition-colors hover:text-purple-700"
+                        >
+                          Selengkapnya
+                          <Icon name="arrow_forward" className="text-[14px]" />
+                        </Link>
+                      </details>
+                    </li>
+                  ) : (
+                    <li key={l.to}>
+                      <Link to={l.to} className="text-body-md text-on-surface-variant transition-colors hover:text-primary">
+                        {l.label}
+                      </Link>
+                    </li>
+                  ),
+                )}
               </ul>
             </div>
           ))}
