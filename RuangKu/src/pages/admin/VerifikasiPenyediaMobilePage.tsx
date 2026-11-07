@@ -582,18 +582,18 @@ export function VerifikasiPenyediaMobilePage() {
                 </div>
               </section>
 
-              {/* Seksi 4: audit */}
+              {/* Seksi 4: catatan keputusan mengikat */}
               <section className="flex items-start gap-space-sm rounded-2xl bg-purple-100/60 p-space-md">
                 <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
-                  <Icon name="verified" className="text-[18px]" />
+                  <Icon name="gavel" className="text-[18px]" />
                 </span>
                 <span className="flex flex-col gap-0.5">
                   <span className="font-title-md text-title-md font-semibold text-on-surface">
-                    Integritas Audit Log Terenkripsi
+                    Keputusan Bersifat Mengikat
                   </span>
                   <span className="text-body-sm leading-relaxed text-slate-500">
-                    Seluruh persetujuan dan penolakan dicatat permanen di Audit Log terenkripsi
-                    beserta nama akun Admin, alamat IP, dan stempel waktu UTC+7.
+                    Persetujuan dan penolakan langsung tersimpan di sistem dan berlaku permanen.
+                    Pastikan seluruh data telah ditinjau dengan saksama sebelum memberi keputusan.
                   </span>
                 </span>
               </section>
