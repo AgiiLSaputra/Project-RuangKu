@@ -151,10 +151,6 @@ async function handleSubmit(event: FormEvent<HTMLFormElement>) {
                       </span>
                       <span className="font-headline-sm text-headline-sm text-on-surface">Ketersediaan Ruang</span>
                     </div>
-                    <span className="inline-flex items-center gap-1.5 rounded-full bg-status-available-bg px-3 py-1 font-label-sm text-label-sm font-semibold text-status-available">
-                      <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-status-available" />
-                      Live System
-                    </span>
                   </div>
 
                   <div className="mb-space-sm flex items-center justify-between">
