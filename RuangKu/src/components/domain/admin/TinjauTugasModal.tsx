@@ -86,13 +86,6 @@ export function TinjauTugasModal({ admin }: { admin: DashboardAdmin }) {
         </div>
 
         <div className="mt-space-lg flex flex-col-reverse gap-space-sm sm:flex-row sm:justify-end">
-          <button
-            type="button"
-            onClick={() => admin.setDitinjau(null)}
-            className={cn(KELAS_TOMBOL, 'bg-white text-slate-500 shadow-sm hover:text-on-surface')}
-          >
-            Nanti Saja
-          </button>
           {t?.mitraId && (
             <Link
               to={`/admin/verifikasi-penyedia?mitra=${t.mitraId}`}
