@@ -45,7 +45,7 @@ export function TinjauTugasModal({ admin }: { admin: DashboardAdmin }) {
           <div className="mt-2 space-y-1.5 border-t border-purple-100 pt-2">
             <div className="flex items-baseline justify-between gap-space-sm">
               <span className="text-body-sm text-slate-500">Waktu Pengajuan</span>
-              <span className="font-label-md text-label-md text-on-surface">{t?.waktu} WIB</span>
+              <span className="whitespace-nowrap font-label-md text-label-md text-on-surface">{t?.waktu} WIB</span>
             </div>
             <div className="flex items-baseline justify-between gap-space-sm">
               <span className="text-body-sm text-slate-500">Status SLA</span>

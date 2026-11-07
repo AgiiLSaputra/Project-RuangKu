@@ -105,9 +105,9 @@ function BarisTugas({ t, onTinjau }: { t: TugasAdmin; onTinjau: (t: TugasAdmin) 
           </p>
         )}
       </td>
-      <td className="px-6 py-4 align-middle">
+      <td className="whitespace-nowrap px-6 py-4 align-middle">
         <span className="font-label-md text-label-md text-on-surface">{t.waktu}</span>
-        <span className="block text-body-sm text-slate-500">WIB</span>
+        <span className="ml-1 text-body-sm text-slate-500">WIB</span>
       </td>
       <td className="px-6 py-4 align-middle">
         <span

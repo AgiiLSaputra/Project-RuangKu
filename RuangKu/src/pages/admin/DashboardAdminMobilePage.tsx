@@ -75,9 +75,9 @@ function KartuTugas({ t, onTinjau }: { t: TugasAdmin; onTinjau: (t: TugasAdmin) 
           <Icon name={jenis.ikon} className="text-[14px]" />
           {jenis.label}
         </span>
-        <span className="shrink-0 pt-0.5 text-right font-label-md text-label-md text-on-surface">
+        <span className="shrink-0 whitespace-nowrap pt-0.5 text-right font-label-md text-label-md text-on-surface">
           {t.waktu}
-          <span className="block text-body-sm text-slate-500">WIB</span>
+          <span className="ml-1 text-body-sm text-slate-500">WIB</span>
         </span>
       </div>
 
