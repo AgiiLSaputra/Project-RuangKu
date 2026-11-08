@@ -33,7 +33,6 @@ const LANGKAH_PENYEWA: Langkah[] = [
     teks: 'Slot langsung di-hold sementara. Reservasi pending tercatat dengan Kode Booking resmi dan e-tiket PDF siap unduh. Kirim struk ke kontak WA pengelola untuk transfer aman.',
     ikon: 'receipt_long',
     panel: 'bg-pink-100 text-secondary',
-    badge: { teks: 'Struk PDF Resmi + Tombol WA', kelas: 'bg-pink-100 text-secondary', ikon: 'chat' },
   },
   {
     no: '04',

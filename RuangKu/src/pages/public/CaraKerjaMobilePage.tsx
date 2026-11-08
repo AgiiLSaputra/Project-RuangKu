@@ -37,7 +37,6 @@ const LANGKAH_PENYEWA: LangkahMobile[] = [
     ikon: 'receipt_long',
     warnaNomor: 'text-secondary',
     warnaIkon: 'text-secondary',
-    badge: { teks: 'Struk PDF Resmi + Tombol WA', kelas: 'bg-pink-100 text-secondary' },
   },
   {
     no: '04',
