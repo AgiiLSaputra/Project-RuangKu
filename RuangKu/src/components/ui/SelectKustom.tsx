@@ -140,6 +140,7 @@ export function SelectKustom({
           role="listbox"
           aria-label={label}
           className={cn(
+            'origin-top motion-safe:animate-dropdown-masuk',
             'z-40 max-h-64 overflow-auto rounded-2xl border border-purple-100 bg-white p-1.5 shadow-card',
             inline ? 'mt-2 w-full' : 'absolute top-full right-0 left-0 mt-2',
             menuClassName,
