@@ -21,7 +21,12 @@ const COLUMNS: {
         deskripsi:
           'Kami membuka peluang bagi talenta produk, engineering, desain, dan operasional mitra yang ingin membangun pengalaman reservasi ruang yang lebih baik. Lihat posisi yang tersedia, budaya kerja kami, dan cara melamar lewat halaman Karir.',
       },
-      { label: 'Mitra Gedung', to: '/partner-gedung' },
+      {
+        label: 'Mitra Gedung',
+        to: '/partner-gedung',
+        deskripsi:
+          'Punya gedung atau ruangan yang sering kosong? Gabung sebagai mitra untuk menampilkan ruangan, mengatur harga dan kuota per jam/hari, menerima reservasi, serta memantau okupansi lewat dashboard mitra.',
+      },
     ],
   },
   {
