@@ -9,7 +9,7 @@ interface Langkah {
   teks: string
   ikon: string
   panel: string
-  badge: { teks: string; kelas: string; ikon?: string; titik?: boolean }
+  badge?: { teks: string; kelas: string; ikon?: string; titik?: boolean }
 }
 
 const LANGKAH_PENYEWA: Langkah[] = [
@@ -19,7 +19,6 @@ const LANGKAH_PENYEWA: Langkah[] = [
     teks: 'Buka katalog etalase, cek foto venue 4:3, kapasitas peserta, dan cek ketersediaan jadwal pada kalender real-time tanpa perlu login terlebih dahulu.',
     ikon: 'search',
     panel: 'bg-purple-50 text-primary',
-    badge: { teks: 'Akses Publik • 100% Real-Time', kelas: 'bg-purple-50 text-primary', titik: true },
   },
   {
     no: '02',
@@ -217,18 +216,20 @@ export function CaraKerjaPage() {
                   <h3 className="mb-space-xs font-title-md text-title-md text-on-surface">{l.judul}</h3>
                   <p className="mb-space-md flex-1 text-body-md leading-relaxed text-slate-500">{l.teks}</p>
 
-                  <div className="mt-auto pt-space-sm">
-                    <span
-                      className={cn(
-                        'inline-flex items-center gap-1.5 rounded-full px-space-sm py-1 font-label-sm text-label-sm shadow-sm',
-                        l.badge.kelas,
-                      )}
-                    >
-                      {l.badge.titik && <span className="h-1.5 w-1.5 rounded-full bg-status-available" />}
-                      {l.badge.ikon && <Icon name={l.badge.ikon} className="text-[13px]" />}
-                      <span>{l.badge.teks}</span>
-                    </span>
-                  </div>
+                  {l.badge && (
+                    <div className="mt-auto pt-space-sm">
+                      <span
+                        className={cn(
+                          'inline-flex items-center gap-1.5 whitespace-nowrap rounded-full px-space-sm py-1 font-label-sm text-label-sm shadow-sm',
+                          l.badge.kelas,
+                        )}
+                      >
+                        {l.badge.titik && <span className="h-1.5 w-1.5 rounded-full bg-status-available" />}
+                        {l.badge.ikon && <Icon name={l.badge.ikon} className="text-[13px]" />}
+                        <span>{l.badge.teks}</span>
+                      </span>
+                    </div>
+                  )}
                 </div>
               ))}
             </div>

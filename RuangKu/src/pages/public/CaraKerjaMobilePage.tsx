@@ -10,7 +10,7 @@ interface LangkahMobile {
   ikon?: string
   warnaNomor: string
   warnaIkon: string
-  badge: { teks: string; kelas: string }
+  badge?: { teks: string; kelas: string }
 }
 
 const LANGKAH_PENYEWA: LangkahMobile[] = [
@@ -21,7 +21,6 @@ const LANGKAH_PENYEWA: LangkahMobile[] = [
     ikon: 'search',
     warnaNomor: 'text-primary',
     warnaIkon: 'text-primary',
-    badge: { teks: 'Akses Publik • 100% Real-Time', kelas: 'bg-status-available-bg text-status-available' },
   },
   {
     no: '02',
@@ -170,16 +169,18 @@ export function CaraKerjaMobilePage() {
                   {l.ikon && <Icon name={l.ikon} className={cn('text-[20px]', l.warnaIkon)} />}
                 </div>
                 <p className="mt-1 text-body-sm leading-relaxed text-slate-500">{l.teks}</p>
-                <div className="mt-2.5">
-                  <span
-                    className={cn(
-                      'inline-flex items-center rounded-full px-2.5 py-0.5 text-[11px] font-medium',
-                      l.badge.kelas,
-                    )}
-                  >
-                    {l.badge.teks}
-                  </span>
-                </div>
+                {l.badge && (
+                  <div className="mt-2.5">
+                    <span
+                      className={cn(
+                        'inline-flex items-center whitespace-nowrap rounded-full px-2.5 py-0.5 text-[11px] font-medium',
+                        l.badge.kelas,
+                      )}
+                    >
+                      {l.badge.teks}
+                    </span>
+                  </div>
+                )}
               </div>
             </div>
           ))}
