@@ -142,7 +142,7 @@ export function CaraKerjaPage() {
           </h1>
 
           <p className="mt-space-sm max-w-2xl text-body-lg leading-relaxed text-slate-500">
-            Reservasi ruangan jadi lebih mudah, transparan, dan bebas ribet — dalam beberapa langkah terarah yang
+            Reservasi ruangan jadi lebih mudah, transparan, dan bebas ribet dalam beberapa langkah terarah yang
             terintegrasi langsung dengan pengelola gedung.
           </p>
 

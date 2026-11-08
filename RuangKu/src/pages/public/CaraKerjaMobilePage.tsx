@@ -192,7 +192,7 @@ export function CaraKerjaMobilePage() {
           <Icon name="lock_clock" className="text-[20px]" />
         </div>
         <p className="min-w-0 flex-1 text-[11.5px] font-medium leading-tight text-on-surface">
-          <span className="font-semibold text-primary">Slot Tersimpan Aman 2 Jam</span> — Setelah diajukan, slot
+          <span className="font-semibold text-primary">Slot Tersimpan Aman 2 Jam</span>. Setelah diajukan, slot
           otomatis dikunci sehingga pihak lain tidak dapat memesan jam yang sama.
         </p>
         <Link
