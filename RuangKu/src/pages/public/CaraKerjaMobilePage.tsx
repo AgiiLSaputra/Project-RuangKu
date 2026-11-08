@@ -55,7 +55,6 @@ const LANGKAH_PENYEDIA: LangkahMobile[] = [
     teks: 'Unggah profil ruangan, spesifikasi daya tampung, sarana AV/proyektor, tarif per jam atau paket hari kerja.',
     warnaNomor: 'text-primary',
     warnaIkon: 'text-primary',
-    badge: { teks: 'Verifikasi Kilat < 24 Jam', kelas: 'bg-purple-100 text-primary' },
   },
   {
     no: '02',
