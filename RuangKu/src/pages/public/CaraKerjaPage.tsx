@@ -42,7 +42,6 @@ const LANGKAH_PENYEWA: Langkah[] = [
     teks: 'Pantau status verifikasi pembayaran di dashboard riwayat penyewa hingga approved. Buka kembali struk digital kapan pun dan nikmati kelancaran acara tanpa cemas bentrok.',
     ikon: 'verified',
     panel: 'bg-status-available-bg text-status-available',
-    badge: { teks: 'Notifikasi • Anti Double Booking', kelas: 'bg-status-available-bg text-status-available', ikon: 'format_image_left' },
   },
 ]
 

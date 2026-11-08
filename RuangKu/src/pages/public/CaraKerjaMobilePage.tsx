@@ -47,7 +47,6 @@ const LANGKAH_PENYEWA: LangkahMobile[] = [
     ikon: 'verified',
     warnaNomor: 'text-status-available',
     warnaIkon: 'text-status-available',
-    badge: { teks: 'Notifikasi • Anti Double Booking', kelas: 'bg-status-available-bg text-status-available' },
   },
 ]
 
