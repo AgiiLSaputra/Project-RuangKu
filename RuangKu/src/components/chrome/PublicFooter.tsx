@@ -29,22 +29,6 @@ const COLUMNS: {
       },
     ],
   },
-  {
-    title: 'Bantuan',
-    links: [
-      { label: 'Pusat Bantuan', to: '/pusat-bantuan' },
-      { label: 'FAQ', to: '/faq' },
-      { label: 'Kontak Dukungan', to: '/kontak' },
-    ],
-  },
-  {
-    title: 'Legal',
-    links: [
-      { label: 'Kebijakan Privasi', to: '/kebijakan-privasi' },
-      { label: 'Syarat & Ketentuan', to: '/syarat-ketentuan' },
-      { label: 'Keamanan Data', to: '/keamanan' },
-    ],
-  },
 ]
 
 /** Footer publik — satu komponen untuk semua halaman (RENCANA §4B2). */
@@ -52,7 +36,7 @@ export function PublicFooter() {
   return (
     <footer className="border-t border-purple-100 bg-surface-container-lowest print:hidden">
       <div className="mx-auto max-w-[1200px] px-4 py-12 sm:px-6 lg:py-16">
-        <div className="grid gap-10 md:grid-cols-[1.4fr_repeat(3,1fr)]">
+        <div className="grid gap-10 md:grid-cols-[1.4fr_1fr]">
           <div>
             <Logo />
             <p className="mt-4 max-w-xs text-body-md text-on-surface-variant">
