@@ -74,13 +74,6 @@ export function PublicFooter() {
                         <p className="mt-2 max-w-xs text-body-sm leading-relaxed text-slate-500">
                           {l.deskripsi}
                         </p>
-                        <Link
-                          to={l.to}
-                          className="mt-2 inline-flex items-center gap-1 text-body-sm font-semibold text-primary transition-colors hover:text-primary-container"
-                        >
-                          Buka halaman {l.label}
-                          <Icon name="arrow_forward" className="text-[14px]" />
-                        </Link>
                       </details>
                     </li>
                   ) : (
