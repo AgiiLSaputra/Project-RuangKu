@@ -68,7 +68,7 @@ export function SortSelect({ opsi, nilai, onPilih, label, ikonKiri, className }:
         <div
           role="menu"
           aria-label={label}
-          className="absolute top-full right-0 z-50 mt-2 w-56 rounded-2xl border border-purple-100 bg-white p-2 shadow-card"
+          className="absolute top-full right-0 z-50 mt-2 w-56 origin-top rounded-2xl border border-purple-100 bg-white p-2 shadow-card motion-safe:animate-dropdown-masuk"
         >
           {opsi.map((o) => (
             <button
