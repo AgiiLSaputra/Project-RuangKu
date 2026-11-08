@@ -26,7 +26,6 @@ const LANGKAH_PENYEWA: Langkah[] = [
     teks: 'Login akun penyewa, tentukan jam mulai & durasi sewa bebas atau paket harian. Sistem langsung otomatis mengecek bentrok jadwal, jeda steril 2 jam, dan batas kuota.',
     ikon: 'event_available',
     panel: 'bg-purple-50 text-primary',
-    badge: { teks: 'Otomatis Jeda Steril 2 Jam', kelas: 'bg-purple-100 text-purple-700', ikon: 'sanitizer' },
   },
   {
     no: '03',
