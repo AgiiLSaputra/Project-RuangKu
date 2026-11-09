@@ -269,7 +269,7 @@ export function EditRuanganPage() {
             <h2 className="font-title-md text-title-md font-semibold text-status-full">Hapus Ruangan</h2>
             <p className="mt-1 font-body-sm text-body-sm text-on-surface-variant">
               Menghapus ruangan beserta foto, fasilitas, dan paketnya dari database secara permanen. Ruangan yang
-              sudah memiliki riwayat reservasi tidak bisa dihapus — nonaktifkan saja agar struk lama tetap utuh.
+              sudah memiliki riwayat reservasi tidak bisa dihapus, nonaktifkan saja agar struk lama tetap utuh.
             </p>
             <button
               type="button"
