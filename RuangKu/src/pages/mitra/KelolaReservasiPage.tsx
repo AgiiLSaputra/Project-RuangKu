@@ -18,7 +18,8 @@ import {
 import { cn } from '../../lib/cn'
 import { rp } from '../../lib/format'
 
-const KELAS_TOMBOL = 'inline-flex items-center gap-1 rounded-full px-3.5 py-1.5 text-body-sm font-semibold transition-all'
+const KELAS_TOMBOL =
+  'inline-flex items-center gap-1 rounded-full px-3.5 py-1.5 text-body-sm font-semibold whitespace-nowrap transition-all'
 
 /** Baris aksi mengikuti status reservasi (FR-F3 & FR-C16). */
 function AksiBaris({ r, kelola }: { r: ReservasiMasuk; kelola: KelolaReservasi }) {
@@ -471,7 +472,7 @@ export function KelolaReservasiPage() {
                       </td>
 
                       {/* Aksi */}
-                      <td className="px-space-lg py-space-md">
+                      <td className="px-space-lg py-space-md whitespace-nowrap">
                         <AksiBaris r={r} kelola={kelola} />
                       </td>
                     </tr>
