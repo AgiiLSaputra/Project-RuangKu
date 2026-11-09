@@ -553,15 +553,6 @@ export function KelolaReservasiPage() {
               </p>
             </div>
           </div>
-          <div className="flex shrink-0 items-center gap-space-sm font-label-sm text-label-sm text-slate-500">
-            <Link to="/cara-kerja" className="transition-colors hover:text-primary">
-              Panduan Mitra
-            </Link>
-            <span aria-hidden="true">•</span>
-            <Link to="/pusat-bantuan" className="transition-colors hover:text-primary">
-              Pusat Bantuan
-            </Link>
-          </div>
         </section>
       </div>
 
