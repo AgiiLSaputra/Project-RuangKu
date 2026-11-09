@@ -223,7 +223,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   );
 
   if (memeriksa) {
-    // Layar loading awal — visualnya sama dengan splash di index.html.
     return <LayarMulai pesan="Memuat sesi..." />;
   }
 
