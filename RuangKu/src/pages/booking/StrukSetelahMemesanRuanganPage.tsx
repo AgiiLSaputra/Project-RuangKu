@@ -425,7 +425,7 @@ export function StrukSetelahMemesanRuanganPage() {
                   Pembayaran dilakukan di luar sistem via transfer/instruksi WhatsApp pengelola gedung. Simpan
                   tangkapan layar atau unduh struk PDF ini, lalu kirimkan ke kontak WhatsApp pengelola resmi di atas
                   untuk konfirmasi pelunasan sebelum batas hold berakhir (
-                  <span className="font-semibold text-error">1×24 Jam</span> sebelum auto-expired sesuai FR-C16).
+                  <span className="font-semibold text-error">1×24 Jam</span> sebelum auto-expired).
                 </p>
               </div>
             </div>

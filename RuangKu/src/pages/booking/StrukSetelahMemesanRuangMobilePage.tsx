@@ -412,7 +412,7 @@ export function StrukSetelahMemesanRuangMobilePage() {
             <p className="font-body-sm leading-relaxed text-body-sm text-on-surface-variant">
               Pembayaran dilakukan di luar sistem via transfer sesuai instruksi resmi pengelola gedung. Simpan struk
               PDF ini, lalu kirimkan ke kontak WhatsApp pengelola untuk verifikasi pelunasan sebelum batas hold
-              berakhir (1×24 Jam sebelum auto-expired sesuai FR-C16).
+              berakhir (1×24 Jam sebelum auto-expired).
             </p>
           </div>
 
