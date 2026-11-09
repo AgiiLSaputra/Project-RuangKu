@@ -41,7 +41,7 @@ export function PublicFooter() {
             <Logo />
             <p className="mt-4 max-w-xs text-body-md text-on-surface-variant">
               Etalase & reservasi gedung/ruangan berbasis kuota. Lihat jadwal real-time, pesan per jam atau paket
-              harian, terima struk PDF.
+              harian.
             </p>
           </div>
 
