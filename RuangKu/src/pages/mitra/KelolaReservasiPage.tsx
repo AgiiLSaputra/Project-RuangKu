@@ -374,7 +374,7 @@ export function KelolaReservasiPage() {
                       </td>
 
                       {/* Ruangan */}
-                      <td className="px-space-md py-space-md">
+                      <td className="px-space-md py-space-md whitespace-nowrap">
                         <p className="font-title-md text-title-md text-on-surface">{info?.nama ?? r.ruanganNama ?? '-'}</p>
                         <span className="inline-flex items-center gap-1 font-body-sm text-body-sm text-slate-500">
                           <Icon name={ikonKategori(info?.kategori)} className="text-[14px]" />
