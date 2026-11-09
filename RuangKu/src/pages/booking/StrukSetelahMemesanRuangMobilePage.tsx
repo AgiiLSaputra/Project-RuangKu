@@ -236,7 +236,7 @@ export function StrukSetelahMemesanRuangMobilePage() {
                   <div className="flex flex-col">
                     <span className="font-body-sm font-semibold">Jeda Sterilisasi Terkunci: {struk.steril}</span>
                     <span className="font-label-sm text-[10px] text-slate-500">
-                      SOP FR-C6 • Buffer proteksi otomatis pra-penyewa berikutnya
+                      Buffer proteksi otomatis pra-penyewa berikutnya
                     </span>
                   </div>
                 </div>

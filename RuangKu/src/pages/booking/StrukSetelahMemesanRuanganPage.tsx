@@ -221,7 +221,7 @@ export function StrukSetelahMemesanRuanganPage() {
                       <div className="flex items-center gap-2 rounded-lg bg-purple-100 px-3 py-2 text-purple-700">
                         <Icon name="cleaning_services" className="text-[18px]" />
                         <span className="font-label-sm font-semibold leading-tight">
-                          Jeda Sterilisasi Terkunci: {struk.steril} (FR-C6)
+                          Jeda Sterilisasi Terkunci: {struk.steril}
                         </span>
                       </div>
                       <div className="flex items-center justify-between px-1 text-body-sm">
