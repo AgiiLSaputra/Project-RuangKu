@@ -57,7 +57,6 @@ const LANGKAH_PENYEDIA: Langkah[] = [
     teks: 'Kelola listing gedung, tetapkan kapasitas kuota peserta, tarif per jam, paket harian khusus, jam buka/tutup operasional, dan jeda pembersihan otomatis secara fleksibel.',
     ikon: 'tune',
     panel: 'bg-purple-50 text-primary',
-    badge: { teks: 'Kustomisasi Tarif & Aturan', kelas: 'bg-pink-100 text-secondary', ikon: 'price_change' },
   },
   {
     no: '03',
