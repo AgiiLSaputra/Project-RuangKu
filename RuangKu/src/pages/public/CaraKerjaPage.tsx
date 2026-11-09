@@ -9,7 +9,6 @@ interface Langkah {
   teks: string
   ikon: string
   panel: string
-  badge?: { teks: string; kelas: string; ikon?: string; titik?: boolean }
 }
 
 const LANGKAH_PENYEWA: Langkah[] = [
@@ -64,7 +63,6 @@ const LANGKAH_PENYEDIA: Langkah[] = [
     teks: 'Terima reservasi booking baru, verifikasi bukti transfer yang dikirim penyewa lewat WhatsApp, lalu klik Setujui atau Tolak dengan alasan transparan langsung dari dashboard.',
     ikon: 'task_alt',
     panel: 'bg-status-available-bg text-status-available',
-    badge: { teks: 'Approval Instan 1-Klik', kelas: 'bg-status-available-bg text-status-available', ikon: 'approval' },
   },
 ]
 
@@ -209,22 +207,7 @@ export function CaraKerjaPage() {
                   </div>
 
                   <h3 className="mb-space-xs font-title-md text-title-md text-on-surface">{l.judul}</h3>
-                  <p className="mb-space-md flex-1 text-body-md leading-relaxed text-slate-500">{l.teks}</p>
-
-                  {l.badge && (
-                    <div className="mt-auto pt-space-sm">
-                      <span
-                        className={cn(
-                          'inline-flex items-center gap-1.5 whitespace-nowrap rounded-full px-space-sm py-1 font-label-sm text-label-sm shadow-sm',
-                          l.badge.kelas,
-                        )}
-                      >
-                        {l.badge.titik && <span className="h-1.5 w-1.5 rounded-full bg-status-available" />}
-                        {l.badge.ikon && <Icon name={l.badge.ikon} className="text-[13px]" />}
-                        <span>{l.badge.teks}</span>
-                      </span>
-                    </div>
-                  )}
+                  <p className="mt-auto pt-space-sm text-body-md leading-relaxed text-slate-500">{l.teks}</p>
                 </div>
               ))}
             </div>
