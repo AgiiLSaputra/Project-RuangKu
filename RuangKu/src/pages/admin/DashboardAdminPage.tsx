@@ -381,9 +381,6 @@ export function DashboardAdminPage() {
             <span className="h-2 w-2 rounded-full bg-status-available" />
             RuangKu Admin v1.0
           </span>
-          <span className="flex items-center gap-3 font-label-sm text-label-sm">
-            <span>Zona Waktu Server: WIB (UTC+7)</span>
-          </span>
         </footer>
       </div>
 

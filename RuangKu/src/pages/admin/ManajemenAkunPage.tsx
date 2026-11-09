@@ -609,9 +609,6 @@ export function ManajemenAkunPage() {
             <span className="h-2 w-2 rounded-full bg-status-available" />
             RuangKu Admin v1.0 
           </span>
-          <span className="font-label-sm text-label-sm">
-            Zona Waktu Server: WIB (UTC+7)
-          </span>
         </footer>
       </div>
 
