@@ -170,7 +170,7 @@ export function TambahRuanganPage() {
               <KepalaLangkah
                 nomor={1}
                 judul="Info Dasar"
-                sub="Foto utama tampil di pencarian — isi identitas, deskripsi, dan fasilitas ruangan."
+                sub="Foto utama tampil di pencarian. Isi identitas, deskripsi, dan fasilitas ruangan."
               />
               <div className="flex flex-col gap-space-xl px-space-lg py-space-lg sm:px-space-xl">
                 {/* Foto */}
