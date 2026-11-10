@@ -18,7 +18,6 @@ const LANGKAH = [
 ]
 
 const TAUTAN_KAKI: Array<{ label: string; to: string }> = [
-  { label: 'Panduan Mitra', to: '/cara-kerja' },
   { label: 'Kebijakan Layanan', to: '/kebijakan-privasi' },
 ]
 
