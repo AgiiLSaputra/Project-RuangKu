@@ -177,7 +177,7 @@ export function RiwayatPesananPage() {
   return (
     <div className="w-full bg-purple-50 pt-4">
       <div className="mx-auto flex w-full max-w-7xl flex-col gap-8 px-6 py-8 lg:px-10">
-        {/* Breadcrumb & Periode */}
+        {/* Breadcrumb */}
         <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <div className="flex items-center gap-2 font-body-sm text-body-sm text-on-surface-variant">
             <button
@@ -189,12 +189,6 @@ export function RiwayatPesananPage() {
             </button>
             <Icon name="chevron_right" className="text-[16px] text-slate-300" />
             <span className="font-semibold text-primary">Riwayat Pemesanan</span>
-          </div>
-          <div className="flex items-center gap-2 font-body-sm text-body-sm text-slate-500">
-            <Icon name="calendar_today" className="text-[16px] text-primary" />
-            <span>
-              Periode: <strong>Okt - Nov 2026</strong>
-            </span>
           </div>
         </div>
 

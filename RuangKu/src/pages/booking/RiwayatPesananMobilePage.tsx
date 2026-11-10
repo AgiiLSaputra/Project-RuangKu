@@ -180,10 +180,6 @@ export function RiwayatPesananMobilePage() {
               <Icon name="receipt_long" className="text-[14px]" />
               Manajemen Reservasi &amp; Billing
             </span>
-            <div className="inline-flex items-center gap-1 font-label-sm text-label-sm text-slate-500">
-              <Icon name="date_range" className="text-[15px]" />
-              Okt - Nov 2026
-            </div>
           </div>
           <div className="flex items-center justify-between gap-3">
             <div className="flex flex-col">
