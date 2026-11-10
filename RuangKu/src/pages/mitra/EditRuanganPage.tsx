@@ -20,13 +20,17 @@ export function EditRuanganPage() {
   const e = useEditRuangan(id)
   /** Nonaktifkan etalase harus dikonfirmasi dulu lewat pop-up. */
   const [konfirmasiNonaktif, setKonfirmasiNonaktif] = useState(false)
+  /** Simpan perubahan juga dikonfirmasi lewat pop-up. */
+  const [konfirmasiSimpan, setKonfirmasiSimpan] = useState(false)
 
   const nonaktifkan = async () => {
     if (await e.ubahStatus()) setKonfirmasiNonaktif(false)
   }
 
   const simpan = async () => {
-    if (await e.simpan()) window.setTimeout(() => navigate('/ruangan-saya'), 900)
+    if (!(await e.simpan())) return
+    setKonfirmasiSimpan(false)
+    window.setTimeout(() => navigate('/ruangan-saya'), 900)
   }
 
   const hapus = async () => {
@@ -122,7 +126,7 @@ export function EditRuanganPage() {
               className="mt-space-md grid grid-cols-1 gap-space-md md:grid-cols-2"
               onSubmit={(ev) => {
                 ev.preventDefault()
-                void simpan()
+                setKonfirmasiSimpan(true)
               }}
             >
               <Field
@@ -335,6 +339,53 @@ export function EditRuanganPage() {
             >
               <Icon name="delete" className="text-[18px]" />
               {e.menghapus ? 'Menghapus...' : 'Ya, Hapus Permanen'}
+            </button>
+          </div>
+        </div>
+      </Overlay>
+
+      <Overlay
+        open={konfirmasiSimpan}
+        onClose={() => setKonfirmasiSimpan(false)}
+        labelledBy="judul-simpan-ruangan"
+      >
+        <div className="px-6 pb-8 pt-5 md:px-0 md:pb-0 md:pt-6">
+          <div className="flex items-center gap-space-md pr-10">
+            <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-status-available-bg text-status-available">
+              <Icon name="save" className="text-[22px]" />
+            </span>
+            <span className="flex min-w-0 flex-col">
+              <span
+                id="judul-simpan-ruangan"
+                className="font-headline-sm text-headline-sm font-semibold text-on-surface"
+              >
+                Simpan perubahan?
+              </span>
+              <span className="text-body-sm text-slate-500">
+                Perubahan data ruangan langsung berlaku di etalase publik setelah disimpan.
+              </span>
+            </span>
+          </div>
+
+          {e.galat && <p className="mt-space-md font-body-sm font-medium text-status-full">{e.galat}</p>}
+
+          <div className="mt-space-lg flex flex-col-reverse gap-space-sm sm:flex-row sm:justify-end">
+            <button
+              type="button"
+              onClick={() => setKonfirmasiSimpan(false)}
+              disabled={e.menyimpan}
+              className={cn(KELAS_TOMBOL, 'bg-white py-2.5 text-slate-500 shadow-sm hover:text-on-surface')}
+            >
+              Batal
+            </button>
+            <button
+              type="button"
+              onClick={() => void simpan()}
+              disabled={e.menyimpan}
+              className={cn(KELAS_TOMBOL, 'bg-cta py-2.5 text-white shadow-cta hover:opacity-90')}
+            >
+              <Icon name="save" className="text-[18px]" />
+              {e.menyimpan ? 'Menyimpan...' : 'Ya, Simpan'}
             </button>
           </div>
         </div>
