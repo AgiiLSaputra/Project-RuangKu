@@ -360,7 +360,7 @@ export function TambahRuanganPage() {
                     />
                   </div>
                   <p className="text-body-sm text-slate-500">
-                    Gunakan nama populer yang sering dicari penyewa — mis. &ldquo;Ballroom Lantai 2&rdquo; atau
+                    Gunakan nama populer yang sering dicari penyewa, mis. &ldquo;Ballroom Lantai 2&rdquo; atau
                     &ldquo;Boardroom Orion&rdquo;.
                   </p>
                 </div>
