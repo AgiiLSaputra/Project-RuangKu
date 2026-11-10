@@ -2,6 +2,7 @@ import { rp } from '../../../lib/format'
 import { Button } from '../../ui/Button'
 import { Card, CardBody } from '../../ui/Card'
 import { Field, Select } from '../../ui/Field'
+import { Dropdown } from '../../ui/Dropdown'
 import { Icon } from '../../ui/Icon'
 import type { ReservasiForm } from './useReservasiForm'
 
@@ -36,18 +37,19 @@ export function JadwalReservasiCard({ f }: { f: ReservasiForm }) {
             onChange={(e) => f.setTanggal(e.target.value)}
           />
 
-          <Select
+          <Dropdown
             label="Skema / Paket Sewa"
             required
             value={f.paketTerpilih?.id ?? ''}
-            onChange={(e) => f.setPaketId(e.target.value)}
-          >
-            {f.ruangan.paket.map((p) => (
-              <option key={p.id} value={p.id}>
-                {p.jam === 0 ? `${p.nama} — ${rp(f.ruangan.tarifPerJam)} / jam` : `${p.nama} (${p.jam} Jam) — ${rp(p.harga)}`}
-              </option>
-            ))}
-          </Select>
+            onChange={f.setPaketId}
+            ops={f.ruangan.paket.map((p) => ({
+              nilai: p.id,
+              label:
+                p.jam === 0
+                  ? `${p.nama} — ${rp(f.ruangan.tarifPerJam)} / jam`
+                  : `${p.nama} (${p.jam} Jam) — ${rp(p.harga)}`,
+            }))}
+          />
 
           <Select label="Jam Mulai" required value={f.jamMulai} onChange={(e) => f.setJamMulai(e.target.value)}>
             {f.opsiJam.map((j) => (
