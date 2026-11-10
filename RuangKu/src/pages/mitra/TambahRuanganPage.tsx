@@ -856,7 +856,7 @@ export function TambahRuanganPage() {
         <div className="flex flex-col items-center justify-between gap-space-md rounded-2xl bg-surface-container-lowest p-space-md shadow-[0_4px_20px_-2px_rgba(108,92,231,0.04)] sm:flex-row">
           <div className="flex items-center gap-space-sm text-body-sm text-slate-500">
             <span className="font-title-md text-primary">RuangKu Mitra</span>
-            <span>© 2025 Portal Mitra Penyedia. Seluruh hak cipta dilindungi.</span>
+            <span>© 2026 Portal Mitra Penyedia. Seluruh hak cipta dilindungi.</span>
           </div>
         </div>
       </div>
