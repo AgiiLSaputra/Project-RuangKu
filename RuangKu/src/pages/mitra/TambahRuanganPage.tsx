@@ -17,10 +17,6 @@ const LANGKAH = [
   { label: 'Pratinjau & Rilis', sub: 'Verifikasi publikasi' },
 ]
 
-const TAUTAN_KAKI: Array<{ label: string; to: string }> = [
-  { label: 'Kebijakan Layanan', to: '/kebijakan-privasi' },
-]
-
 function KepalaLangkah({ nomor, judul, sub }: { nomor: number; judul: string; sub: string }) {
   return (
     <div className="flex items-center justify-between gap-space-md border-b border-purple-100 px-space-lg py-space-md sm:px-space-xl">
@@ -861,16 +857,6 @@ export function TambahRuanganPage() {
           <div className="flex items-center gap-space-sm text-body-sm text-slate-500">
             <span className="font-title-md text-primary">RuangKu Mitra</span>
             <span>© 2025 Portal Mitra Penyedia. Seluruh hak cipta dilindungi.</span>
-          </div>
-          <div className="flex items-center gap-space-md font-label-sm text-label-sm text-slate-500">
-            {TAUTAN_KAKI.map((t, i) => (
-              <span key={t.to} className="flex items-center gap-space-md">
-                {i > 0 && <span aria-hidden="true">•</span>}
-                <Link to={t.to} className="transition-colors hover:text-primary">
-                  {t.label}
-                </Link>
-              </span>
-            ))}
           </div>
         </div>
       </div>
