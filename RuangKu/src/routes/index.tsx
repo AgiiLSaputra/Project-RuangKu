@@ -178,10 +178,10 @@ function Page({ children }: { children: ReactNode }) {
 }
 
 /** Halaman yang selalu dibuka dari atas layar, bukan mengikuti posisi gulir sebelumnya. */
-const MULAI_DARI_ATAS = new Set(['/cari-ruangan', '/cara-kerja'])
+const MULAI_DARI_ATAS = new Set(['/cari-ruangan', '/cara-kerja', '/tentang'])
 
 /**
- * Katalog dan Cara Kerja selalu dibuka dari atas layar. Tanpa ini, posisi
+ * Katalog, Cara Kerja, dan Tentang selalu dibuka dari atas layar. Tanpa ini, posisi
  * gulir halaman sebelumnya ikut terbawa (mis. dari footer beranda) sehingga
  * pengguna mendarat di tengah halaman.
  */
