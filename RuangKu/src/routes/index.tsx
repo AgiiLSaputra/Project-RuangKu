@@ -1,5 +1,5 @@
-import { lazy, Suspense, type ReactNode } from 'react'
-import { Route, Routes } from 'react-router-dom'
+import { lazy, Suspense, useLayoutEffect, type ReactNode } from 'react'
+import { Route, Routes, useLocation } from 'react-router-dom'
 import { PublicLayout, DashboardLayout, DashboardPenyediaLayout, DashboardAdminLayout } from '../layouts/PublicLayout'
 import { ResponsivePage } from '../components/ui/ResponsivePage'
 import { IsiHalaman } from '../components/ui/IsiHalaman'
@@ -177,6 +177,19 @@ function Page({ children }: { children: ReactNode }) {
   return <Suspense fallback={<Loading />}>{children}</Suspense>
 }
 
+/**
+ * Katalog selalu dibuka dari atas layar. Tanpa ini, posisi gulir halaman
+ * sebelumnya ikut terbawa (mis. dari footer beranda) sehingga pengguna
+ * mendarat di tengah daftar ruangan.
+ */
+function GulirKeAtas() {
+  const { pathname } = useLocation()
+  useLayoutEffect(() => {
+    if (pathname === '/cari-ruangan') window.scrollTo(0, 0)
+  }, [pathname])
+  return null
+}
+
 /** Halaman ditahan — RENCANA-IMPLEMENTASI.md §6. */
 const Ditahan = ({ judul }: { judul: string }) => (
   <PublicLayout>
@@ -194,7 +207,9 @@ const BelumAdaDesain = ({ judul }: { judul: string }) => (
 
 export function AppRoutes() {
   return (
-    <Routes>
+    <>
+      <GulirKeAtas />
+      <Routes>
       {/* ---------- PUBLIK ---------- */}
       <Route
         path="/"
@@ -567,6 +582,7 @@ export function AppRoutes() {
       <Route path="/profil-akun" element={<BelumAdaDesain judul="Profil Akun" />} />
 
       <Route path="*" element={<BelumAdaDesain judul="Halaman Tidak Ditemukan" />} />
-    </Routes>
+      </Routes>
+    </>
   )
 }
