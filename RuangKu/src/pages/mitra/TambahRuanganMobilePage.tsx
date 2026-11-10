@@ -788,7 +788,12 @@ export function TambahRuanganMobilePage() {
       {/* Toast */}
       {f.pesan && (
         <div className="pointer-events-none fixed inset-x-0 top-20 z-50 flex justify-center px-gutter">
-          <span className="flex items-center gap-space-sm rounded-full bg-inverse-surface px-4 py-2.5 text-body-sm text-inverse-on-surface shadow-card motion-safe:animate-notif-turun">
+          <span
+            className={cn(
+              'flex items-center gap-space-sm rounded-full bg-inverse-surface px-4 py-2.5 text-body-sm text-inverse-on-surface shadow-card',
+              f.pesanMenutup ? 'motion-safe:animate-notif-naik' : 'motion-safe:animate-notif-turun',
+            )}
+          >
             <Icon name="check_circle" className="text-[18px] text-status-available" />
             {f.pesan}
           </span>

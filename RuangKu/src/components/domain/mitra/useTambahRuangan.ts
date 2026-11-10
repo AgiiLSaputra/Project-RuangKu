@@ -155,17 +155,34 @@ export function useTambahRuangan() {
   );
 
   const [pesan, setPesan] = useState<string | null>(null);
+  /** Toast sedang animasi keluar (naik ke atas) sebelum benar-benar dilepas dari layar. */
+  const [pesanMenutup, setPesanMenutup] = useState(false);
   /** Alasan berkas foto ditolak — ditampilkan menetap di bawah kolom foto (bukan toast 3 detik). */
   const [galatFoto, setGalatFoto] = useState<string[]>([]);
   const [menerbitkan, setMenerbitkan] = useState(false);
   const timer = useRef<number | undefined>(undefined);
+  const timerTutup = useRef<number | undefined>(undefined);
 
-  useEffect(() => () => window.clearTimeout(timer.current), []);
+  useEffect(
+    () => () => {
+      window.clearTimeout(timer.current);
+      window.clearTimeout(timerTutup.current);
+    },
+    [],
+  );
 
   const tampilkanPesan = useCallback((teks: string) => {
     setPesan(teks);
+    setPesanMenutup(false);
     window.clearTimeout(timer.current);
-    timer.current = window.setTimeout(() => setPesan(null), 3000);
+    window.clearTimeout(timerTutup.current);
+    timer.current = window.setTimeout(() => {
+      setPesanMenutup(true);
+      timerTutup.current = window.setTimeout(() => {
+        setPesan(null);
+        setPesanMenutup(false);
+      }, 220);
+    }, 3000);
   }, []);
 
   const tarifAngka = useMemo(
@@ -603,6 +620,7 @@ export function useTambahRuangan() {
     kembali,
     simpanDraf,
     pesan,
+    pesanMenutup,
     menerbitkan,
     nama,
     setNama,

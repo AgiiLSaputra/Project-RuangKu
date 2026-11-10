@@ -180,8 +180,9 @@
   /* Masuk halaman tiap ganti rute (komponen IsiHalaman) — diisi `both`
      supaya konten mulai dari transparan saat pertama mount. */
   --animate-masuk-halaman: masuk-halaman 0.42s cubic-bezier(0.22, 1, 0.36, 1) both;
-  /* Notifikasi simpan draf — meluncur turun dari atas layar. */
+  /* Notifikasi simpan draf — meluncur turun dari atas layar, lalu naik lagi saat menutup. */
   --animate-notif-turun: notif-turun 0.32s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-notif-naik: notif-naik 0.22s ease-in both;
 }
 
 @keyframes fadein {
@@ -225,6 +226,17 @@
   to {
     opacity: 1;
     transform: none;
+  }
+}
+
+@keyframes notif-naik {
+  from {
+    opacity: 1;
+    transform: none;
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-140%);
   }
 }
 
