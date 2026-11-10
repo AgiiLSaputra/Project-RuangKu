@@ -177,15 +177,18 @@ function Page({ children }: { children: ReactNode }) {
   return <Suspense fallback={<Loading />}>{children}</Suspense>
 }
 
+/** Halaman yang selalu dibuka dari atas layar, bukan mengikuti posisi gulir sebelumnya. */
+const MULAI_DARI_ATAS = new Set(['/cari-ruangan', '/cara-kerja'])
+
 /**
- * Katalog selalu dibuka dari atas layar. Tanpa ini, posisi gulir halaman
- * sebelumnya ikut terbawa (mis. dari footer beranda) sehingga pengguna
- * mendarat di tengah daftar ruangan.
+ * Katalog dan Cara Kerja selalu dibuka dari atas layar. Tanpa ini, posisi
+ * gulir halaman sebelumnya ikut terbawa (mis. dari footer beranda) sehingga
+ * pengguna mendarat di tengah halaman.
  */
 function GulirKeAtas() {
   const { pathname } = useLocation()
   useLayoutEffect(() => {
-    if (pathname === '/cari-ruangan') window.scrollTo(0, 0)
+    if (MULAI_DARI_ATAS.has(pathname)) window.scrollTo(0, 0)
   }, [pathname])
   return null
 }
