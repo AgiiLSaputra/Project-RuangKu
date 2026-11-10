@@ -43,10 +43,6 @@ export function RiwayatStrukMobilePage() {
 
         {/* Intro */}
         <div className="flex flex-col gap-2">
-          <span className="inline-flex items-center gap-1.5 self-start rounded-full bg-purple-100 px-3 py-1 font-label-sm text-label-sm font-semibold tracking-wide text-primary shadow-sm">
-            <span className="h-2 w-2 animate-pulse rounded-full bg-primary" />
-            Dokumen Digital Resmi
-          </span>
           <h1 className="font-headline-lg text-headline-lg-mobile tracking-tight text-on-surface">
             Pusat Struk &amp; E-Tiket Reservasi
           </h1>
