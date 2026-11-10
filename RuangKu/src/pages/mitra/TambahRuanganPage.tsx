@@ -223,7 +223,7 @@ export function TambahRuanganPage() {
                         Tarik &amp; lepas atau klik untuk unggah foto Anda
                       </span>
                       <span className="text-body-sm text-slate-500">
-                        JPG/PNG/WebP, maksimal 5 MB per berkas — diunggah saat ruangan diterbitkan
+                        JPG/PNG/WebP, maksimal 5 MB per berkas. Diunggah saat ruangan diterbitkan
                       </span>
                     </button>
                   </div>

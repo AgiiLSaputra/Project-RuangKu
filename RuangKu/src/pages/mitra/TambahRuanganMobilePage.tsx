@@ -170,7 +170,7 @@ export function TambahRuanganMobilePage() {
               <Icon name="cloud_upload" className="text-[24px] text-primary" />
               <span className="font-title-md text-body-sm text-primary">Ketuk untuk unggah foto Anda</span>
               <span className="text-label-sm text-slate-500">
-                JPG/PNG/WebP, maks. {MAKS_UKURAN_FOTO_MB} MB — diunggah saat diterbitkan
+                JPG/PNG/WebP, maks. {MAKS_UKURAN_FOTO_MB} MB. Diunggah saat diterbitkan
               </span>
             </button>
             <div className="grid grid-cols-3 gap-space-sm">
