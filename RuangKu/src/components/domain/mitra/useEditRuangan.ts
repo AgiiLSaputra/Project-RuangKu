@@ -158,8 +158,8 @@ export function useEditRuangan(id: string) {
     }
   }, [id, form])
 
-  /** Nonaktifkan (hilang dari katalog) atau tampilkan lagi ruangan di etalase. */
-  const ubahStatus = useCallback(async () => {
+  /** Nonaktifkan (hilang dari katalog) atau tampilkan lagi ruangan di etalase. `false` bila server menolak. */
+  const ubahStatus = useCallback(async (): Promise<boolean> => {
     const baru = status === 'aktif' ? 'tenggang' : 'aktif'
     setMengubahStatus(true)
     setGalat('')
@@ -172,8 +172,10 @@ export function useEditRuangan(id: string) {
           ? 'Ruangan ditampilkan lagi di katalog publik.'
           : 'Ruangan dinonaktifkan dan disembunyikan dari katalog publik.',
       )
+      return true
     } catch (err) {
       setGalat(pesanGalat(err))
+      return false
     } finally {
       setMengubahStatus(false)
     }

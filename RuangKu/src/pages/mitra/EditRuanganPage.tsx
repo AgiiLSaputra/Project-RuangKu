@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useEditRuangan } from '../../components/domain/mitra/useEditRuangan'
 import { Field, Select, TextArea } from '../../components/ui/Field'
@@ -17,6 +18,12 @@ export function EditRuanganPage() {
   const { id = '' } = useParams()
   const navigate = useNavigate()
   const e = useEditRuangan(id)
+  /** Nonaktifkan etalase harus dikonfirmasi dulu lewat pop-up. */
+  const [konfirmasiNonaktif, setKonfirmasiNonaktif] = useState(false)
+
+  const nonaktifkan = async () => {
+    if (await e.ubahStatus()) setKonfirmasiNonaktif(false)
+  }
 
   const simpan = async () => {
     if (await e.simpan()) window.setTimeout(() => navigate('/ruangan-saya'), 900)
@@ -245,7 +252,10 @@ export function EditRuanganPage() {
             </p>
             <button
               type="button"
-              onClick={() => void e.ubahStatus()}
+              onClick={() => {
+                if (e.status === 'aktif') setKonfirmasiNonaktif(true)
+                else void e.ubahStatus()
+              }}
               disabled={e.mengubahStatus || e.menyimpan}
               className={cn(
                 KELAS_TOMBOL,
@@ -325,6 +335,53 @@ export function EditRuanganPage() {
             >
               <Icon name="delete" className="text-[18px]" />
               {e.menghapus ? 'Menghapus...' : 'Ya, Hapus Permanen'}
+            </button>
+          </div>
+        </div>
+      </Overlay>
+
+      <Overlay
+        open={konfirmasiNonaktif}
+        onClose={() => setKonfirmasiNonaktif(false)}
+        labelledBy="judul-nonaktif-ruangan"
+      >
+        <div className="px-6 pb-8 pt-5 md:px-0 md:pb-0 md:pt-6">
+          <div className="flex items-center gap-space-md pr-10">
+            <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-status-full-bg text-status-full">
+              <Icon name="pause_circle" className="text-[22px]" />
+            </span>
+            <span className="flex min-w-0 flex-col">
+              <span
+                id="judul-nonaktif-ruangan"
+                className="font-headline-sm text-headline-sm font-semibold text-on-surface"
+              >
+                Nonaktifkan ruangan ini?
+              </span>
+              <span className="text-body-sm text-slate-500">
+                Ruangan akan disembunyikan dari katalog publik. Data, foto, dan paketnya tetap tersimpan dan bisa
+                diaktifkan lagi kapan saja.
+              </span>
+            </span>
+          </div>
+
+          {e.galat && <p className="mt-space-md font-body-sm font-medium text-status-full">{e.galat}</p>}
+
+          <div className="mt-space-lg flex flex-col-reverse gap-space-sm sm:flex-row sm:justify-end">
+            <button
+              type="button"
+              onClick={() => setKonfirmasiNonaktif(false)}
+              className={cn(KELAS_TOMBOL, 'bg-white py-2.5 text-slate-500 shadow-sm hover:text-on-surface')}
+            >
+              Batal
+            </button>
+            <button
+              type="button"
+              onClick={() => void nonaktifkan()}
+              disabled={e.mengubahStatus}
+              className={cn(KELAS_TOMBOL, 'bg-status-full py-2.5 text-white hover:opacity-90')}
+            >
+              <Icon name="pause_circle" className="text-[18px]" />
+              {e.mengubahStatus ? 'Menonaktifkan...' : 'Ya, Nonaktifkan'}
             </button>
           </div>
         </div>
